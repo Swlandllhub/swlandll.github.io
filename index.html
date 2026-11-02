@@ -1,0 +1,2814 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="ulV3fRuKHYLYMRQH4GjjOU">
+<head data-page-node-id="oNVyRf50X6J4VaQ4nHsy9n">
+<meta charset="UTF-8" data-page-node-id="fR9Wqv5T7EnRismTyPyNv7">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="fTZcqN9d5SY2myujLRkII1">
+<meta name="theme-color" content="#FDF6F1" data-page-node-id="AYWVIgwwRD3BG8siklJLsB">
+<meta name="apple-mobile-web-app-capable" content="yes" data-page-node-id="3BIwYWsdXhm0xq0od7qHzG">
+<meta name="apple-mobile-web-app-status-bar-style" content="default" data-page-node-id="yPeX00VV167l7UhvqtY65n">
+<meta name="apple-mobile-web-app-title" content="Swlandll" data-page-node-id="rqR6ZaAJRtcPJMM31wYzgv">
+<link rel="manifest" href="manifest.json" data-page-node-id="oGNMr2D7pw0ikR9CR1zLVt">
+<link rel="icon" href="icon.svg" type="image/svg+xml" data-page-node-id="Juf5zutrlmFeeBkKZNlx0K">
+<title>Swlandll · 生活工作台</title>
+<style>
+:root{
+  --bg:#FDF6F1; --side:#FFF9F5; --card:#FFFFFF;
+  --pink:#F5B8C8; --pink-soft:#FBE3EA; --mint:#BFE3D6; --mint-soft:#E7F5EF;
+  --lav:#D9CCF2; --lav-soft:#F0EAFB; --butter:#F9E4B5; --butter-soft:#FDF4DE;
+  --sky:#C7E3F4; --sky-soft:#E9F4FB; --peach:#F8CFB8; --peach-soft:#FBEAE0;
+  --text:#6B5B5E; --sub:#A49196; --line:#F2E4E4;
+  --danger:#E89A9A; --shadow:0 6px 18px rgba(200,160,170,.12);
+  --radius:20px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;background:var(--bg);color:var(--text);font-size:14px}
+button{font-family:inherit;border:none;background:none;cursor:pointer;color:inherit}
+input,textarea,select{font-family:inherit;font-size:14px;color:var(--text);border:1.5px solid var(--line);border-radius:12px;padding:8px 12px;background:#fff;outline:none}
+input:focus,textarea:focus,select:focus{border-color:var(--pink)}
+.app{display:flex;min-height:100vh}
+/* ---------- sidebar ---------- */
+.sidebar{width:190px;background:var(--side);border-right:2px solid var(--line);padding:22px 12px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh}
+.logo{text-align:center;font-weight:700;font-size:19px;color:#E58BA0;letter-spacing:1px;padding:6px 0 16px}
+.logo small{display:block;font-size:10px;color:var(--sub);font-weight:400;letter-spacing:2px;margin-top:2px}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;border-radius:14px;width:100%;transition:.2s;color:var(--sub)}
+.nav-item .ic{font-size:21px;filter:grayscale(.45);transition:.2s}
+.nav-item span.tx{font-size:12px}
+.nav-item:hover{background:var(--pink-soft)}
+.nav-item.active{background:linear-gradient(135deg,var(--pink-soft),var(--lav-soft));color:var(--text)}
+.nav-item.active .ic{filter:none;transform:scale(1.12)}
+.side-foot{margin-top:auto;text-align:center;font-size:10px;color:#D9C4CB}
+/* ---------- main ---------- */
+main{flex:1;padding:26px 30px 90px;max-width:1080px}
+.page-title{font-size:22px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.page-sub{color:var(--sub);font-size:12px;margin-bottom:18px}
+.mode-toggle{display:inline-flex;background:var(--pink-soft);border-radius:999px;padding:3px;font-size:11px;margin-left:auto}
+.mode-toggle button{padding:4px 12px;border-radius:999px;color:var(--sub)}
+.mode-toggle button.on{background:#fff;color:#E58BA0;font-weight:600;box-shadow:var(--shadow)}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px;margin-bottom:16px}
+.card h3{font-size:14px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:900px){.grid2,.grid3{grid-template-columns:1fr}}
+.btn{background:linear-gradient(135deg,var(--pink),#F3C4D4);color:#fff;border-radius:999px;padding:8px 20px;font-size:13px;font-weight:600;box-shadow:0 4px 10px rgba(240,170,190,.4);transition:.15s}
+.btn:hover{transform:translateY(-1px)}
+.btn.mini{padding:4px 12px;font-size:11px;box-shadow:none}
+.btn.ghost{background:#fff;color:var(--sub);box-shadow:none;border:1.5px solid var(--line)}
+.btn.ghost.on{border-color:var(--pink);color:#E58BA0;font-weight:600}
+.tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:999px;background:var(--pink-soft);color:#D97E97}
+/* tabs */
+.tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.tabs button{padding:6px 16px;border-radius:999px;background:#fff;border:1.5px solid var(--line);font-size:12px;color:var(--sub)}
+.tabs button.on{background:var(--pink-soft);border-color:var(--pink);color:#D97E97;font-weight:600}
+/* list items */
+.item{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:14px;background:#FFFDFC;border:1px solid var(--line);margin-bottom:8px}
+.item .grow{flex:1;min-width:0}
+.item .tt{font-weight:600;font-size:13.5px}
+.item .meta{font-size:11px;color:var(--sub);margin-top:2px}
+.item.done .tt{text-decoration:line-through;color:#C9B6BC}
+.cicon{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.op{display:flex;gap:4px}
+.op button{font-size:12px;color:#CBB6BE;padding:3px 5px;border-radius:8px}
+.op button:hover{background:var(--pink-soft);color:#D97E97}
+.chk{width:20px;height:20px;border-radius:7px;border:2px solid var(--pink);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:12px;cursor:pointer}
+.chk.on{background:var(--pink)}
+/* timeline */
+.tl{position:relative;padding-left:18px}
+.tl::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:var(--line);border-radius:2px}
+.tl .item{position:relative}
+.tl .item::before{content:"";position:absolute;left:-17px;top:18px;width:8px;height:8px;border-radius:50%;background:var(--pink)}
+.day-head{font-size:12px;font-weight:700;color:#D97E97;margin:14px 0 8px;display:flex;gap:8px;align-items:center}
+.day-head .sum{font-weight:400;color:var(--sub);font-size:11px}
+/* calendar */
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.cal .wd{font-size:10px;color:var(--sub);padding:4px 0}
+.cal .d{padding:6px 0;border-radius:10px;font-size:12px;cursor:pointer}
+.cal .d:hover{background:var(--pink-soft)}
+.cal .d.sel{background:var(--pink);color:#fff;font-weight:700}
+.cal .d.today{border:1.5px dashed var(--pink)}
+.cal .d.has{position:relative}
+.cal .d.has::after{content:"";position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:#F2A9BE}
+/* category grid */
+.cats{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.cat{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 2px;border-radius:14px;cursor:pointer;font-size:10.5px;color:var(--sub)}
+.cat:hover{background:var(--pink-soft)}
+.cat.on{background:var(--pink-soft);outline:1.5px solid var(--pink);color:#D97E97;font-weight:600}
+/* stars */
+.stars{cursor:pointer;font-size:18px;letter-spacing:2px;color:#F0C77E}
+.stars span{filter:grayscale(1);opacity:.35}
+.stars span.on{filter:none;opacity:1}
+/* media card —— 收藏卡片样式 */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:16px}
+.mcard{background:#FFFDFB;border:1px solid #F3E9E4;border-radius:18px;box-shadow:0 4px 14px rgba(205,175,175,.10);overflow:hidden;display:flex;flex-direction:column;padding:0;transition:.18s}
+.mcard:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(205,175,175,.18)}
+.mcover{height:116px;position:relative;display:flex;align-items:center;justify-content:center}
+.mcover .badge{position:absolute;left:9px;top:9px;font-size:10px;background:rgba(255,255,255,.82);color:#A49196;border-radius:8px;padding:2px 7px;line-height:1.5}
+.mcover .ic{font-size:34px;opacity:.78}
+.mbody{padding:12px 14px 14px;display:flex;flex-direction:column;gap:7px;flex:1}
+.mtitle{font-weight:700;font-size:14px;line-height:1.45}
+.mstar{font-size:14px;letter-spacing:1.5px;color:#E9BC6A}
+.mstar .off{color:#E7DED8}
+.mrow{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#A49196}
+.mnote{font-size:12px;color:#8E7F84;line-height:1.65}
+.mbtns{display:flex;gap:8px;margin-top:auto;padding-top:8px}
+.mbtns button{flex:1;border:1.5px solid #F0E2DD;border-radius:12px;padding:7px 0;font-size:12px;color:#8E7F84;background:#fff;transition:.15s}
+.mbtns button:hover{background:var(--pink-soft);border-color:var(--pink);color:#D97E97}
+.excerpt{background:var(--butter-soft);border-radius:12px;padding:8px 10px;font-size:11.5px;line-height:1.6;margin-top:6px;color:#7C6C6F}
+.excerpt .t{font-size:10px;color:#C0A98A;text-align:right;margin-top:4px}
+/* diary grid paper */
+.paper{width:100%;min-height:180px;resize:vertical;line-height:28px;
+ background-image:repeating-linear-gradient(transparent,transparent 27px,#F4E3E8 27px,#F4E3E8 28px);
+ background-attachment:local;border-radius:14px;padding:6px 12px}
+/* home */
+.clock{text-align:center;padding:10px 0 2px}
+.clock .t{font-size:44px;font-weight:700;color:#E58BA0;letter-spacing:2px;font-variant-numeric:tabular-nums}
+.clock .d{font-size:12px;color:var(--sub);margin-top:2px}
+.quote .dtag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.5px;background:var(--pink-soft);color:#C77F97;border-radius:999px;padding:3px 14px;margin-bottom:10px}
+.quote{text-align:center;padding:6px 20px}
+.quote .cn{font-size:15px;font-weight:600;color:#8B7B8F}
+.quote .en{font-size:11.5px;color:var(--sub);margin-top:6px;font-style:italic}
+.sumcard{border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow)}
+.sumcard .h{font-size:12px;font-weight:700;margin-bottom:8px;display:flex;gap:6px;align-items:center}
+.sumcard .big{font-size:20px;font-weight:700}
+.sumcard .row{display:flex;justify-content:space-between;font-size:11.5px;color:var(--sub);margin-top:4px}
+.bar{height:8px;background:#F6E7EA;border-radius:99px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--pink),#F3C4D4)}
+/* checkin */
+.habits{display:flex;flex-wrap:wrap;gap:10px}
+.habit{display:flex;align-items:center;gap:8px;background:#FFFDFC;border:1.5px solid var(--line);border-radius:999px;padding:7px 14px;font-size:12.5px;cursor:pointer}
+.habit.on{background:var(--mint-soft);border-color:var(--mint)}
+/* float cmd */
+.fab{position:fixed;right:26px;bottom:26px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--lav));color:#fff;font-size:22px;box-shadow:0 8px 20px rgba(220,150,180,.45);display:flex;align-items:center;justify-content:center;z-index:50;transition:.2s}
+.fab:hover{transform:scale(1.08) rotate(8deg)}
+.cmdmenu{position:fixed;right:26px;bottom:90px;background:#fff;border-radius:18px;box-shadow:0 10px 30px rgba(200,150,170,.25);padding:10px;display:none;flex-direction:column;gap:4px;z-index:50;min-width:190px}
+.cmdmenu.open{display:flex}
+.cmdmenu button{text-align:left;padding:9px 14px;border-radius:12px;font-size:13px}
+.cmdmenu button:hover{background:var(--pink-soft)}
+/* misc */
+.empty{text-align:center;color:#D9C4CB;font-size:12px;padding:24px 0}
+.imgprev{max-width:120px;max-height:120px;border-radius:14px;object-fit:cover;margin-top:8px}
+.formrow{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+.formrow input,.formrow select{font-size:12.5px}
+.toast{position:fixed;top:24px;left:50%;transform:translateX(-50%);background:#fff;color:#D97E97;font-weight:600;padding:10px 24px;border-radius:999px;box-shadow:0 8px 24px rgba(220,150,180,.3);z-index:99;display:none}
+.week-head{font-size:12px;color:var(--sub);background:var(--lav-soft);border-radius:12px;padding:6px 12px;display:inline-block;margin-bottom:12px}
+/* ---------- 书影音 · 二级菜单 ---------- */
+.nav-group{display:flex;flex-direction:column}
+.nav-parent{position:relative}
+.nav-parent .chev{position:absolute;right:9px;top:9px;font-size:9px;color:#D3BBBF;transition:transform .22s}
+.nav-parent.open .chev{transform:rotate(180deg)}
+.submenu{max-height:0;overflow:hidden;transition:max-height .26s ease;display:flex;flex-direction:column;gap:2px}
+.submenu.open{max-height:170px;padding:4px 0 4px 4px}
+.sub-item{display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:11px;font-size:12px;color:var(--sub);width:100%;text-align:left;transition:.15s}
+.sub-item:hover{background:var(--pink-soft)}
+.sub-item.active{background:var(--pink-soft);color:#D97E97;font-weight:600}
+/* ---------- 书籍模块 ---------- */
+.bk-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.bk-tools{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+.bk-tools .btn{padding:5px 11px;font-size:11.5px;box-shadow:none}
+.bk-state{font-size:11px;color:var(--sub);margin:8px 0 14px;line-height:1.7}
+.wx-banner{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--mint-soft);border:1.5px dashed #BFE3D6;border-radius:16px;padding:11px 14px;font-size:11.5px;color:#6E8F80;line-height:1.75;margin-bottom:18px}
+.wx-banner b{color:#4F7A66}
+.bk-group{margin-bottom:20px}
+.bk-group-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.bk-group-head h3{font-size:14px}
+.bk-count{font-size:10.5px;color:#D97E97;background:var(--pink-soft);border-radius:999px;padding:1px 8px}
+.bk-hint{font-size:10.5px;color:#CBB6BE}
+.bk-add{margin-left:auto;font-size:11.5px;color:#D97E97;border:1.5px dashed var(--pink);border-radius:999px;padding:4px 12px;background:#fff}
+.bk-add:hover{background:var(--pink-soft)}
+.bk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.bk-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:7px}
+.bk-title{font-weight:700;font-size:14px;line-height:1.45;word-break:break-word}
+.bk-meta{font-size:11px;color:var(--sub);line-height:1.6;word-break:break-word}
+.bk-stars{color:#E9BC6A;font-size:12.5px;letter-spacing:1px}
+.bk-note{font-size:12px;color:#8E7F84;line-height:1.65;word-break:break-word}
+.bk-tags{display:flex;gap:5px;flex-wrap:wrap}
+.chip{font-size:10.5px;padding:2px 8px;border-radius:999px;background:var(--lav-soft);color:#9A88B8}
+.chip.src{background:var(--mint-soft);color:#6FA88C}
+.bk-acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+.bk-acts button{font-size:11.5px;padding:4px 11px;border-radius:999px;border:1.5px solid var(--line);color:var(--sub);background:#fff}
+.bk-acts button:hover{border-color:var(--pink);color:#D97E97;background:var(--pink-soft)}
+.bk-acts button.primary{background:var(--pink-soft);border-color:var(--pink);color:#D97E97;font-weight:600}
+.bk-acts button.danger:hover{border-color:var(--danger);color:var(--danger);background:#FDF0F0}
+.bk-empty{grid-column:1/-1;text-align:center;font-size:12px;color:#D3BEC4;border:1.5px dashed var(--line);border-radius:16px;padding:22px 10px}
+.mv-poster{width:100%;max-height:170px;object-fit:cover;border-radius:12px;cursor:zoom-in;border:1px solid var(--line)}
+.mv-quote{background:var(--lav-soft);border-radius:12px;padding:8px 10px;margin-top:2px}
+.mv-row{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:#8E7F84;padding:6px 2px;border-bottom:1px dashed var(--line)}
+.mv-row:last-child{border-bottom:none}
+.bk-progress{display:flex;flex-direction:column;gap:5px}
+.bk-progress .bar{height:7px;background:#F8EBEE;border-radius:99px;overflow:hidden}
+.bk-progress .bar i{display:block;height:100%;background:linear-gradient(90deg,#F7C6D3,#EF9DB4);border-radius:99px;transition:width .3s}
+.bk-progress .pr{display:flex;justify-content:space-between;font-size:10.5px;color:var(--sub)}
+.ex-text{position:relative;font-size:12.5px;color:#6E7B73;line-height:1.85;white-space:pre-wrap;word-break:break-word;max-height:132px;overflow:hidden;cursor:pointer}
+.ex-text::after{content:"";position:absolute;left:0;right:0;bottom:0;height:24px;background:linear-gradient(transparent,#fff)}
+.ex-text.open{max-height:none}
+.ex-text.open::after{display:none}
+/* 阅读趋势 */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 8px;text-align:center;box-shadow:var(--shadow)}
+.stat .v{font-size:17px;font-weight:700;color:#D97E97}
+.stat .k{font-size:10.5px;color:var(--sub);margin-top:2px}
+.heat-wrap{overflow-x:auto;padding:4px 0 6px}
+.heat{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,12px);grid-auto-columns:12px;gap:3px;width:max-content}
+.heat i{width:12px;height:12px;border-radius:3.5px;background:#F7EFF1}
+.heat i.l1{background:#FBE0E6}.heat i.l2{background:#F7C2CF}.heat i.l3{background:#EF9FB4}.heat i.l4{background:#E27F9C}
+.heat-legend{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--sub);justify-content:flex-end;margin-top:6px}
+.heat-legend i{width:11px;height:11px;border-radius:3px;display:inline-block}
+.bars{display:flex;align-items:flex-end;gap:8px;height:152px;padding-top:12px}
+.bars .b{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:5px;height:100%}
+.bars .b i{width:70%;max-width:38px;background:linear-gradient(180deg,#F9CFD9,#EF9DB4);border-radius:8px 8px 4px 4px;min-height:4px;transition:height .3s}
+.bars .b .bv{font-size:9.5px;color:#C9A8B2}
+.bars .b .bl{font-size:9.5px;color:var(--sub)}
+/* 年度书单 */
+.yr-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.yr-head b{font-size:16px;color:#D97E97}
+.yr-month{margin-bottom:13px}
+.yr-month .ym{display:flex;align-items:center;gap:8px;font-size:11.5px;color:#B08A98;margin-bottom:6px}
+.yr-month .ym::after{content:"";flex:1;height:1px;background:var(--line)}
+.yr-books{display:flex;flex-wrap:wrap;gap:8px}
+.yr-book{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:7px 11px;font-size:12px;box-shadow:0 2px 8px rgba(200,160,170,.06)}
+.yr-book .yrs{color:#E9BC6A;font-size:11px}
+.yr-empty{font-size:11px;color:#DCCBD1}
+/* 通用弹窗 */
+.mask{position:fixed;inset:0;background:rgba(120,95,105,.28);backdrop-filter:blur(2px);display:none;align-items:center;justify-content:center;padding:16px;z-index:120}
+.mask.show{display:flex}
+.modal{background:#fff;border-radius:20px;width:100%;max-width:470px;max-height:88vh;overflow:auto;padding:20px;box-shadow:0 20px 46px rgba(140,100,115,.22)}
+.modal h3{font-size:15px;margin-bottom:14px;color:#8B6F78}
+.mbody{display:flex;flex-direction:column;gap:10px}
+.field{display:flex;flex-direction:column;gap:5px;font-size:11.5px;color:var(--sub)}
+.field b{font-weight:600;color:#8E7F84;font-size:11.5px}
+.field input,.field textarea,.field select{font-size:13px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mactions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+.mactions .btn{padding:8px 20px;font-size:12.5px}
+.mtip{font-size:11px;color:#B4919C;line-height:1.75;background:var(--pink-soft);border-radius:12px;padding:9px 11px}
+/* ---------- AI 图像识别 ---------- */
+.aibar{display:flex;align-items:center;gap:9px;background:linear-gradient(135deg,var(--lav-soft),var(--sky-soft));border-radius:16px;padding:10px 14px;margin-bottom:16px;font-size:11.5px;color:var(--sub);flex-wrap:wrap}
+.aibar b{color:#7E6A70;font-weight:600}
+.aibar .dot{width:7px;height:7px;border-radius:50%;background:#CFC6CA;flex:none}
+.aibar .dot.on{background:#7FB89A;box-shadow:0 0 0 3px rgba(127,184,154,.16)}
+.aibar button{margin-left:auto}
+.btn.ai{background:linear-gradient(135deg,#C9B7EC,#B7D3EC);box-shadow:0 4px 10px rgba(178,163,220,.35)}
+.aibox{background:var(--sky-soft);border-radius:16px;padding:12px 14px;margin-top:10px;font-size:12px;line-height:1.7}
+.aibox .hd{font-weight:600;color:#6E8CA6;margin-bottom:6px;font-size:11.5px}
+.aiitem{display:flex;gap:8px;justify-content:space-between;padding:3px 0;border-bottom:1px dashed rgba(140,120,130,.13);font-size:11.5px}
+.aiitem:last-child{border-bottom:0}
+.aiitem .k{color:var(--text)}
+.aiitem .v{color:#8E7B7F;font-weight:600;flex:none}
+.macros{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px;font-size:10.5px;color:#7E8FA0}
+.macros span{background:#fff;border-radius:999px;padding:2px 9px;box-shadow:0 1px 4px rgba(150,170,190,.15)}
+/* ---------- 电子衣橱 ---------- */
+.wchips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.wchips button{font-size:11px;padding:4px 11px;border-radius:999px;background:#fff;border:1.5px solid var(--line);color:var(--sub);transition:.15s}
+.wchips button.on{border-color:var(--pink);color:#E58BA0;font-weight:600;background:var(--pink-soft)}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));gap:10px}
+.wcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:7px;text-align:center;position:relative;transition:.15s}
+.wcard:hover{box-shadow:0 6px 16px rgba(200,170,185,.18);transform:translateY(-1px)}
+.wcard .ph{width:100%;height:104px;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;background-color:#FAF6F8;background-image:linear-gradient(45deg,#F3ECEF 25%,transparent 25%,transparent 75%,#F3ECEF 75%),linear-gradient(45deg,#F3ECEF 25%,#FDFAFB 25%,#FDFAFB 75%,#F3ECEF 75%);background-size:12px 12px;background-position:0 0,6px 6px}
+.wcard .ph img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.wcard .ph .em{font-size:30px;opacity:.65}
+.wcard .nm{font-size:11.5px;font-weight:600;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wcard .meta2{font-size:10px;color:var(--sub);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wcard .ops{display:flex;gap:4px;justify-content:center;margin-top:5px}
+.wcard .ops button{font-size:10px;padding:2px 7px;border-radius:999px;background:var(--pink-soft);color:#D97E97}
+.wcard .ops button.g{background:#F4F2F5;color:var(--sub)}
+.wcard .src{position:absolute;top:10px;left:10px;font-size:8.5px;padding:1px 6px;border-radius:999px;background:rgba(255,255,255,.9);color:#B08C9C;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.pickrow{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.pickrow:last-child{border-bottom:0}
+.pickrow .thumb{width:54px;height:54px;border-radius:11px;flex:none;display:flex;align-items:center;justify-content:center;overflow:hidden;background-color:#FAF6F8;background-image:linear-gradient(45deg,#F3ECEF 25%,transparent 25%,transparent 75%,#F3ECEF 75%),linear-gradient(45deg,#F3ECEF 25%,#FDFAFB 25%,#FDFAFB 75%,#F3ECEF 75%);background-size:10px 10px;background-position:0 0,5px 5px}
+.pickrow .thumb img{max-width:100%;max-height:100%;object-fit:contain}
+.pickrow .g{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.pickrow input[type=text]{width:100%;font-size:12px;padding:4px 8px;border-radius:9px}
+.pickrow select{font-size:11px;padding:3px 6px;border-radius:9px}
+.pickrow .line{display:flex;gap:5px}
+.busy{position:fixed;inset:0;background:rgba(253,246,241,.9);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;z-index:200;font-size:12.5px;color:#8E7B7F;text-align:center;padding:24px}
+.busy .ring{width:32px;height:32px;border-radius:50%;border:3px solid var(--pink-soft);border-top-color:#E58BA0;animation:spin .9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.aihelp{font-size:11px;color:#9C8570;line-height:1.8;background:var(--butter-soft);border-radius:12px;padding:10px 12px}
+/* ---------- 手机 / PWA 适配 ---------- */
+@media(max-width:860px){
+  .sidebar{width:62px;padding:14px 6px;gap:4px}
+  .logo{font-size:11px;padding:2px 0 10px}
+  .logo small{display:none}
+  .nav-item{padding:8px 2px}
+  .nav-item .ic{font-size:19px}
+  .nav-item .tx{font-size:9.5px}
+  .nav-parent .chev{display:none}
+  .submenu{padding-left:0}
+  .submenu.open{max-height:150px;padding:2px 0}
+  .sub-item{justify-content:center;padding:7px 2px}
+  .sub-item .sl{display:none}
+  .side-foot{display:none}
+  main{padding:16px 14px 80px;max-width:100%}
+  .page-title{font-size:19px}
+  .grid2,.grid3{grid-template-columns:1fr}
+  .cats{grid-template-columns:repeat(4,1fr)}
+  .bk-grid{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:repeat(2,1fr)}
+  .bk-tools{width:100%;margin-left:0}
+  .two-col{grid-template-columns:1fr}
+  .fab{right:16px;bottom:16px;width:46px;height:46px;font-size:19px}
+  .cmdmenu{right:16px;bottom:72px}
+}
+/* ---------- 备份 / 云同步 ---------- */
+.corner-backup{position:fixed;left:206px;bottom:14px;z-index:60;font-size:11px;padding:6px 12px;border-radius:999px;
+  background:#fff;border:1.5px solid var(--line);box-shadow:var(--shadow);color:var(--sub);
+  display:inline-flex;gap:6px;align-items:center;transition:.2s}
+.corner-backup:hover{color:var(--text);border-color:var(--pink)}
+.corner-backup i{width:6px;height:6px;border-radius:50%;background:var(--mint);display:inline-block}
+.corner-backup.off i{background:#E4D8DA}
+.syncbox{display:flex;flex-direction:column;gap:9px;border:1.5px solid var(--line);border-radius:16px;padding:12px;background:#FFFDFC}
+.syncrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.syncrow input,.syncrow select{flex:1;min-width:120px;font-size:12px;padding:6px 10px;border-radius:10px}
+.syncnote{font-size:10.5px;line-height:1.75;color:#B4919C;background:var(--pink-soft);border-radius:10px;padding:8px 10px}
+.cmpbox{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cmpbox>div{border:1.5px solid var(--line);border-radius:12px;padding:10px;font-size:11.5px;line-height:1.85;color:var(--sub)}
+.cmpbox b{color:var(--text);font-size:12px;display:block;margin-bottom:4px}
+@media(max-width:760px){
+  .corner-backup{left:70px;bottom:12px;font-size:10px;padding:5px 10px}
+  .cmpbox{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body data-page-node-id="I3YGJGUIDX9KiGwjRHnS7s">
+<div class="app" data-page-node-id="FgdvDpUNCP1ZdBjBtDlntC">
+  <aside class="sidebar" data-page-node-id="03LsAT5BnL3KCzO34bcX5g">
+    <div class="logo" data-page-node-id="iAmGTLlNUrEkJ55u8Lz8d3">🎀 Swlandll<small data-page-node-id="H1iCzfSlO1bNjZlgtpGfBV">SWEET DAILY</small></div>
+    <button class="nav-item" data-p="home" data-page-node-id="F62k6yDbTJbA9zrdJZmtCi"><span class="ic" data-page-node-id="qkOXv4FFx9VcMiMwLdtbCU">🏠</span><span class="tx" data-page-node-id="1oMFC4n5uWei7FPNQ2zBp4">首页</span></button>
+    <button class="nav-item" data-p="todo" data-page-node-id="Z4gBwyeWijcSXOzFrM55HJ"><span class="ic" data-page-node-id="lFdPoyUsCdk8CPeuKLjPdW">📋</span><span class="tx" data-page-node-id="fbTZy8TeYcYrVxaKCjN1xG">待办</span></button>
+    <button class="nav-item" data-p="finance" data-page-node-id="DvCRFr1yWoqMy4XrWuFsuU"><span class="ic" data-page-node-id="YfRmxWMnxkb4Ngje6TyWLw">💰</span><span class="tx" data-page-node-id="52fOjU9nvKnGJ4vKr9KzbK">记账</span></button>
+    <button class="nav-item" data-p="diet" data-page-node-id="alFQ8ps7GftzFClrUqKwCy"><span class="ic" data-page-node-id="MxoI0bjOlgzFhhfiMKp7d2">🥗</span><span class="tx" data-page-node-id="kBC4R9qv9jZfOKWEpbngPJ">饮食</span></button>
+    <button class="nav-item" data-p="outfit" data-page-node-id="tqJsleCMouqHyxggk9ocmL"><span class="ic" data-page-node-id="Z4CPSmPQOSZvgarTRi128D">👗</span><span class="tx" data-page-node-id="tWPcK0U0jpDsuLbBCFdnKz">穿搭</span></button>
+    <div class="nav-group" data-page-node-id="sD1iN3ItYQ3WMPUw1eho9d">
+      <button class="nav-item nav-parent" id="mediaParent" onclick="toggleMediaMenu()" data-page-node-id="mfdUPALqNqN0HZgnmXS246"><span class="ic" data-page-node-id="M624Fgsb0HJ3XTn3Mxfgog">🎬</span><span class="tx" data-page-node-id="fQaoy5CHqhB7BcTyOiKNUH">书影音</span><span class="chev" data-page-node-id="VOOKSFVxAC2IdH72OPhoh6">▾</span></button>
+      <div class="submenu" id="mediaSub" data-page-node-id="jSV5pJzyZmUUfjzVEWcV1a">
+        <button class="sub-item" data-p="book" onclick="go('book')" data-page-node-id="PlbIK8zjlXo7tHcf2e4pIP"><span data-page-node-id="CLU6NMzLayFOML0CWn3fTu">📖</span><span class="sl" data-page-node-id="YQ28M99UN0DADnVHaPbNzo">书籍</span></button>
+        <button class="sub-item" data-p="movie" onclick="go('movie')" data-page-node-id="H7HfeCJxkpjqAGhL2qGdPb"><span data-page-node-id="ChGexIxGOudM1M69nHO0He">🎬</span><span class="sl" data-page-node-id="oo16oKjU282Ub5oFAS6RuF">影视</span></button>
+        <button class="sub-item" data-p="music" onclick="go('music')" data-page-node-id="ZUIihVCUsdhfgomWfw9e5f"><span data-page-node-id="ST7U7oxq3KZcXGRbtBUyRS">🎵</span><span class="sl" data-page-node-id="zmZegNrBDMWUsG8TcB8wL0">音乐</span></button>
+      </div>
+    </div>
+    <button class="nav-item" data-p="diary" data-page-node-id="9KDPrqbMNR61ARix2hjIgI"><span class="ic" data-page-node-id="Ytj2kWn7om99Hl0v09XQob">📔</span><span class="tx" data-page-node-id="kIvAEmckYsM89yllNzvLbV">日记</span></button>
+    <button class="nav-item" data-p="thoughts" data-page-node-id="R0jXF1S9HdLUBXpz251RVO"><span class="ic" data-page-node-id="kC7tJaX5HVVzDQPlDSPxhZ">💭</span><span class="tx" data-page-node-id="x7Y4TYL9i9VviDVrsauCom">随想</span></button>
+    <button class="nav-item" data-p="review" data-page-node-id="QVNo83gkcpJ8j4qzXKspzf"><span class="ic" data-page-node-id="SfsjxY7GD01iB4BJCgSF7X">📊</span><span class="tx" data-page-node-id="PwwqiskwOF724s1K2lEgfr">周复盘</span></button>
+    <div class="side-foot" data-page-node-id="F8QVWIGa9bwCs8HAAjliys">本地留存 · 清缓存前请备份<br data-page-node-id="w1Ik0sKlQyYnkt1bSbY7OP">🌸</div>
+  </aside>
+  <main id="main" data-page-node-id="IHnrSN2PzZiPU5HtlT2zyN"></main>
+</div>
+<button class="corner-backup off" id="cornerBackup" onclick="openBackup()" title="备份与多端同步" data-page-node-id="IQR33PxBW5hhsVjClVyLAf">💾 备份 / 同步<i data-page-node-id="OSciz994oxfN9GWqKLKcM3"></i></button>
+<button class="fab" onclick="toggleCmd()" title="快捷指令" data-page-node-id="0YvJUHIWh4kVGzd6bCZGlA">⚡</button>
+<div class="cmdmenu" id="cmdMenu" data-page-node-id="v9Kt6h106pHn8qIhYbjubC">
+  <button onclick="cmd('overview')" data-page-node-id="HMu9uIXxrpJ2Fm9NUdbOkI">🏠 工作台总览</button>
+  <button onclick="cmd('exportFinance')" data-page-node-id="GUrXBmXlj7HUTyqvBMfLOo">📊 导出记账报表</button>
+  <button onclick="cmd('openReview')" data-page-node-id="DI3l9zxCL4vEqqGuvsvO35">🗓 调取本周复盘</button>
+  <button onclick="cmd('todayDiet')" data-page-node-id="yeZZfxtwH9nu2w3NgJDeNv">🥗 查看今日饮食记录</button>
+</div>
+<div class="toast" id="toast" data-page-node-id="YyYsorGn2q6HMoZ82Kl7fX"></div>
+<div class="mask" id="mask" data-page-node-id="t108HRBQkIb3IVZw3oQSy2"></div>
+
+<script>
+/* ================= 数据层（全部 localStorage 本地留存） ================= */
+const KEY='swlandll_data_v1';
+const DEFAULT={
+  modes:{todo:'accumulate',finance:'accumulate',diet:'accumulate',outfit:'accumulate',media:'accumulate',diary:'accumulate',thoughts:'accumulate',review:'accumulate'},
+  todo:{todo:[],monthly:[],plan:[]},
+  finance:{records:[],cats:[],budget:0},
+  diet:{records:[],summaries:[]},
+  outfit:{daily:[],wardrobe:[]},
+  media:{book:[],movie:[],music:[]},
+  diary:[], thoughts:[], review:[],
+  checkin:{habits:[],logs:{}},
+  quotes:{custom:[],daily:{}},
+  ai:{base:'',model:'',key:'',preset:'openai',cutout:true},
+  sync:{provider:'builtin',code:'',endpoint:'',auto:false,lastAt:0,withImages:true},
+  deviceId:'', updatedAt:0,
+  imgMigrated:false,
+  diaryReminder:'', exported:0
+};
+let D=load();
+function load(){try{const d=JSON.parse(localStorage.getItem(KEY));const merged=Object.assign(JSON.parse(JSON.stringify(DEFAULT)),d||{});
+// 旧数据迁移：日计划并入日待办
+if(merged.todo&&merged.todo.daily){merged.todo.todo=[...(merged.todo.todo||[]),...merged.todo.daily];delete merged.todo.daily;}
+merged.ai=Object.assign(JSON.parse(JSON.stringify(DEFAULT.ai)),merged.ai||{});
+merged.sync=Object.assign(JSON.parse(JSON.stringify(DEFAULT.sync)),merged.sync||{});
+if(!merged.outfit)merged.outfit={daily:[],wardrobe:[]};
+if(!Array.isArray(merged.outfit.wardrobe))merged.outfit.wardrobe=[];
+return merged;}catch(e){return JSON.parse(JSON.stringify(DEFAULT));}}
+/* 每次写入都落 localStorage，并打上时间戳；有云端同步时再触发一次静默上传 */
+function persist(){
+  D.updatedAt=Date.now();
+  try{localStorage.setItem(KEY,JSON.stringify(D));
+    const el=document.getElementById('saveHint');
+    if(el)el.textContent='已保存 '+nowTime();
+  }catch(e){toast('本地空间不足，请先导出备份或清理旧图片 ⚠️');}
+}
+function save(){persist();if(typeof scheduleSync==='function')scheduleSync();}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function nowTime(){const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+function weekKey(d=new Date()){const t=new Date(d);t.setHours(0,0,0,0);t.setDate(t.getDate()+3-((t.getDay()+6)%7));const w1=new Date(t.getFullYear(),0,4);return t.getFullYear()+'-W'+String(1+Math.round(((t-w1)/86400000-3+((w1.getDay()+6)%7))/7)).padStart(2,'0');}
+function fmtCN(s){if(!s)return'';const [y,m,d]=s.split('-');return `${m}月${d}日`;}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';clearTimeout(t._h);t._h=setTimeout(()=>t.style.display='none',1800);}
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+/* 选图后先压缩再进本地库：长边 1400、JPEG 0.82，体积通常降到原来的 1/8 */
+function readImg(input,cb){
+  const f=input.files&&input.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=async e=>{
+    const raw=e.target.result;
+    try{cb(await shrinkImg(raw,1400,0.82));}
+    catch(_){cb(raw);}
+  };
+  r.readAsDataURL(f);
+}
+// 每日重置模式下：只看今天的记录
+function byMode(list,mod){return D.modes[mod]==='daily'?list.filter(x=>x.date===today()):list;}
+
+/* ================= 首页 · 每日内容卡片（5 类轮换，每天一类，全本地） =================
+   A 书摘小众短句 / B 温和冷知识 / C 小众影片 / D 小众音乐 / E 小众诗词
+   每天由日期确定性抽出「一类 + 一条」，当天固定；手动刷新随机换，状态存本地。 */
+const DAILY_TYPES=[
+ ['A','📖 今日书摘'],['B','💡 今日冷知识'],['C','🎬 今日影片推荐'],['D','🎵 今日音乐推荐'],['E','🏮 今日小众诗词']
+];
+const DAILY_POOL={
+A:[
+ ['梨花的瓣子是月亮做的。','The petals of a pear blossom are cut from the moon.','汪曾祺《人间草木》'],
+ ['世界就在手边，躺倒就是睡眠。','The world sits within arm\'s reach; to lie down is to sleep.','李娟《我的阿勒泰》'],
+ ['岁月不饶人，我亦未曾饶过岁月。','The years spare no one — and I have never spared them either.','木心'],
+ ['下雨天最好的事，是把窗户留一条缝，让潮气替房间洗个澡。','The best thing about rain: leave the window open a crack, and let the damp air give your room a bath.','佚名 · 随笔'],
+ ['傍晚的光是免费的，却比很多东西都贵重。','Evening light costs nothing, yet it is worth more than many things money can buy.','佚名 · 随笔'],
+ ['把袜子晒在向阳的地方，心情也会跟着变得干燥蓬松。','Dry your socks where the sun falls, and your mood will fluff up right along with them.','佚名 · 随笔'],
+ ['煮饭的时候别看手机，米汤咕嘟咕嘟的声音值得一整首歌。','When the rice is cooking, put the phone down — the bubbling of the pot deserves a whole song.','佚名 · 随笔'],
+ ['草稿纸的背面，适合藏一个还不打算说出口的愿望。','The back of a rough sheet is a fine hiding place for a wish you are not ready to say out loud.','佚名 · 随笔'],
+],
+B:[
+ ['企鹅求婚时，会把一颗捡来的小石头送给心仪的对象；如果对方也叼来一颗，就算定情啦。','When penguins propose, they offer a pebble they picked out themselves. If the other penguin brings one back, they are officially a pair.',''],
+ ['海獭睡觉时会手牵着手，免得睡着睡着被海流冲散。','Sea otters hold hands while they nap, so the current will not drift them apart.',''],
+ ['树木会通过地下的真菌网络互通消息，哪棵树缺水缺糖，邻居们会悄悄递过去。','Trees message each other through underground fungal networks, quietly passing water and sugar to whichever neighbour is running low.',''],
+ ['月亮正以每年约 3.8 厘米的速度悄悄离开地球，大概是手指甲生长的速度。','The Moon is quietly drifting away from Earth at about 3.8 cm a year — roughly the speed your fingernails grow.',''],
+ ['猫的鼻子纹路和人的指纹一样，每一只都是独一无二的。','A cat\'s nose print is as unique as a human fingerprint — no two cats are alike.',''],
+ ['一朵雪花从云底飘到地面，大约要花一个小时，路上还会慢悠悠地转很多圈。','A snowflake can take about an hour to drift from the cloud to the ground, spinning leisurely the whole way down.',''],
+ ['考古学家在古埃及墓穴里发现过三千多年前的蜂蜜，居然还没有变质。','Archaeologists have found honey in ancient Egyptian tombs over three thousand years old — still perfectly good.',''],
+ ['香蕉在植物学上其实是一种浆果，而草莓不是。','Botanically speaking, a banana is a berry — and a strawberry is not.',''],
+],
+C:[
+ ['《海鸥食堂》：赫尔辛基开了一家只做饭团的小食堂，客人们慢悠悠地来，把各自的心事就着饭团咽下去。','In "Kamome Diner," a tiny Helsinki cafe serves nothing but rice balls, and its unhurried customers swallow their little worries along with them.','荻上直子 · 2006'],
+ ['《眼镜》：大家都到南方小岛度假了，却发现那里最正经的事，是每天喝冰沙、发呆和午睡。','In "Megane," everyone holidays on a tiny southern island, where the most serious business is shaved ice, daydreaming and afternoon naps.','荻上直子 · 2008'],
+ ['《莫娣》：一位患关节炎的乡村女性用画笔把小木屋画满花，爱情也跟着开了进来。','In "Maudie," a folk artist with arthritis paints flowers over every wall of her little house, and love moves in with them.','艾斯林·沃什 · 2016'],
+ ['《寂静人生》：一位为逝者办后事的先生，一生认真对待每个不被记得的人，看完想立刻给老朋友打个电话。','In "Still Life," a gentle man arranges funerals for the forgotten. Watching it makes you want to call an old friend right away.','乌贝托·帕索里尼 · 2013'],
+ ['《米花之味》：在城市打工的妈妈回到云南山寨，和女儿重新认识彼此，结尾石洞里那段舞轻盈得像羽毛。','In "The Taste of Rice Flower," a mother returns from the city to a Yunnan village to re-meet her daughter; the cave dance at the end is light as a feather.','鹏飞 · 2017'],
+ ['《四个春天》：镜头里只是导演自己的爸妈——熏腊肠、修屋顶、等燕子回来，却把日子过成了诗。','"Four Springs" simply films the director\'s own parents — curing sausages, fixing the roof, waiting for swallows — and turns everyday life into poetry.','陆庆屹 · 2018'],
+ ['《蜂蜜之地》：北马其顿山野里最后一位女养蜂人，她和蜂群、大地的相处安静得能听见风。','"Honeyland" follows the last wild beekeeper in North Macedonia; her quiet life with the bees lets you almost hear the wind.','塔玛拉·科特夫斯卡 · 2019'],
+ ['《哪啊哪啊神去村》：都市青年误入深山当伐木工，一百年的树和几百年的村规，慢慢把他变得柔软。','In "Wood Job!," a city kid stumbles into mountain forestry work; century-old trees and village customs slowly soften him up.','矢口史靖 · 2014'],
+],
+D:[
+ ['《Near Light》：极简钢琴加细碎弦乐，像清晨厨房里飘出的第一缕咖啡香。','"Near Light" layers spare piano over fine strings, like the first smell of coffee drifting from the kitchen at dawn.','Ólafur Arnalds · 冰岛'],
+ ['《Riverside》：低吟的女声贴着河面走，适合在夜里一个人安静地听完。','"Riverside" is a low, murmuring voice that walks along the water\'s edge — best heard alone, late at night.','Agnes Obel · 丹麦'],
+ ['《奇跡の山》：一把木吉他把山野的晨雾弹了出来，纯音乐，不需要懂任何语言。','"Miracle Mountain" pulls mountain mist out of a single acoustic guitar — pure instrumental, no language needed.','岸部真明 · 日本'],
+ ['《Aruarian Dance》：懒洋洋的爵士采样加沙沙的黑胶声，是下午三点最好的背景音。','"Aruarian Dance" floats on lazy jazz samples and vinyl crackle — the perfect soundtrack for three in the afternoon.','Nujabes · 日本'],
+ ['《Rain Watched Cows》：后摇滚的长铺垫，像盯着一场雨看完整场，心会慢慢静下来。','"Rain Watched Cows" builds slowly like watching a whole rainfall — your heartbeat slows to match it.','惘闻 · 中国'],
+ ['《Asleep Among Endives》：透明嗓音浮在吉他上，像睡在一床晒过太阳的被子里。','"Asleep Among Endives" floats a transparent voice over soft guitar, like sleeping in sheets dried in the sun.','青叶市子 · 日本'],
+ ['《I Can Almost See You》：氛围吉他一层层漫上来，适合关灯后当睡前的月亮听。','"I Can Almost See You" washes over you in ambient layers — a good moon to fall asleep to, lights off.','Hammock · 美国'],
+ ['《Cherry-Coloured Funk》：梦幻流行的老唱片，人声含糊也没关系，好听不需要翻译。','"Cherry-Coloured Funk" is dream-pop from an old record; the vocals blur, and that is fine — lovely needs no translation.','Cocteau Twins · 英国'],
+],
+E:[
+ ['春日游，杏花吹满头。','A spring day out wandering — apricot blossoms blow and settle all over my hair.','韦庄《思帝乡》'],
+ ['中庭月色正清明，无数杨花过无影。','In the courtyard the moonlight is crystal clear; countless willow catkins drift past without a shadow.','张先《木兰花》'],
+ ['杏花疏影里，吹笛到天明。','Beneath the sparse shadows of apricot blossoms, I played the flute until dawn.','陈与义《临江仙》'],
+ ['黄蜂频扑秋千索，有当时、纤手香凝。','Wasps still dart at the swing rope, where the fragrance of her slender hands once lingered.','吴文英《风入松》'],
+ ['玉鉴琼田三万顷，着我扁舟一叶。','Thirty thousand acres of jade-like lake, and on it floats my one little leaf of a boat.','张孝祥《念奴娇·过洞庭》'],
+ ['竹外疏花，香冷入瑶席。','Beyond the bamboo, a few sparse blossoms send their cold fragrance drifting into the jade feast.','姜夔《暗香》'],
+ ['花径不曾缘客扫，蓬门今始为君开。','The flowered path was never swept for guests — yet today my humble gate opens just for you.','杜甫《客至》'],
+ ['杨柳丝丝弄轻柔，烟缕织成愁。','Willow strands tease their softness in the air; threads of mist weave a gentle sorrow.','王雱《眼儿媚》'],
+]
+};
+function dayOfYearNum(){return Math.floor((new Date()-new Date(new Date().getFullYear(),0,0))/86400000);}
+function dailyState(){
+  D.quotes=D.quotes||{};D.quotes.daily=D.quotes.daily||{};return D.quotes.daily;
+}
+// 当天确定性挑选：日期 → 一类 + 一条（保证同一天固定）
+function dailyPick(){const doy=dayOfYearNum();const t=DAILY_TYPES[doy%DAILY_TYPES.length][0];const pool=DAILY_POOL[t];return {t:t,i:doy%pool.length};}
+function currentDaily(){
+  const st=dailyState();
+  if(st.date!==today()||!st.t||!DAILY_POOL[st.t]){const p=dailyPick();st.date=today();st.t=p.t;st.i=p.i;save();}
+  const pool=DAILY_POOL[st.t];return pool[(+st.i||0)%pool.length];
+}
+function dailyLabel(t){const x=DAILY_TYPES.find(x=>x[0]===t);return x?x[1]:'今日推荐';}
+function dailyCardHTML(){
+  const st=dailyState(),d=currentDaily(),total=Object.values(DAILY_POOL).reduce((s,p)=>s+p.length,0);
+  return `<div class="dtag">${dailyLabel(st.t)}</div>
+  <div class="cn">🌷 ${esc(d[0])}</div>
+  ${d[1]?`<div class="en">${esc(d[1])}</div>`:''}
+  ${d[2]?`<div style="margin-top:6px;font-style:normal;color:#D9A9BC;font-size:11.5px">—— ${esc(d[2])}</div>`:''}
+  <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+    <button class="btn ghost mini" onclick="changeDaily()">换一条 ✨</button>
+    <button class="btn ghost mini" onclick="favDaily()">📌 收藏到随想</button>
+  </div>
+  <div style="font-size:10.5px;color:#CDB7BF;margin-top:8px">本地内容库 ${total} 条 · 每天自动轮换一类</div>`;
+}
+function renderDailyCard(){const c=document.querySelector('.quote');if(c)c.innerHTML=dailyCardHTML();}
+// 手动刷新：一半概率换类型，一半概率同类换一条；状态存本地，刷新页面不丢失
+function changeDaily(){
+  const st=dailyState();
+  let t=(Math.random()<0.5)?DAILY_TYPES[Math.floor(Math.random()*DAILY_TYPES.length)][0]:st.t;
+  const pool=DAILY_POOL[t];
+  let i=Math.floor(Math.random()*pool.length);
+  if(t===st.t&&pool.length>1&&i===(+st.i||0))i=(i+1)%pool.length;
+  st.t=t;st.i=i;save();renderDailyCard();toast('换好啦 ✨');
+}
+// 一键收藏：写入【随想】模块
+function favDaily(){
+  const st=dailyState(),d=currentDaily();
+  const text='📌 ['+dailyLabel(st.t)+'] '+d[0]+(d[2]?'\n—— '+d[2]:'')+(d[1]?'\n'+d[1]:'')+'\n（收藏自首页每日卡片）';
+  D.thoughts.push({id:uid(),date:today(),time:nowTime(),text:text,voice:false});
+  save();toast('已收进随想 💭');
+}
+
+/* ================= 路由 ================= */
+const PAGES={home:renderHome,todo:renderTodo,finance:renderFinance,diet:renderDiet,outfit:renderOutfit,book:()=>renderBook(),movie:()=>renderMovie(),music:()=>renderMusic(),diary:renderDiary,thoughts:renderThoughts,review:renderReview};
+let page='home';
+function go(p){
+  if(!PAGES[p])return;
+  page=p;
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.p===p));
+  document.querySelectorAll('.sub-item').forEach(b=>b.classList.toggle('active',b.dataset.p===p));
+  const mp=document.getElementById('mediaParent');if(mp)mp.classList.toggle('active',p==='book');
+  if(p==='book'||p==='movie'||p==='music')openMediaMenu(true);
+  PAGES[p]();
+}
+let mediaMenuOpen=false;
+function openMediaMenu(open){
+  mediaMenuOpen=open;
+  document.getElementById('mediaSub').classList.toggle('open',open);
+  document.getElementById('mediaParent').classList.toggle('open',open);
+}
+function toggleMediaMenu(){openMediaMenu(!mediaMenuOpen);}
+document.querySelectorAll('.nav-item[data-p]').forEach(b=>b.onclick=()=>go(b.dataset.p));
+
+function modeToggleHTML(mod){
+  const m=D.modes[mod];
+  return `<div class="mode-toggle" title="本模块数据模式">
+    <button class="${m==='daily'?'on':''}" onclick="setMode('${mod}','daily')">每日重置</button>
+    <button class="${m==='accumulate'?'on':''}" onclick="setMode('${mod}','accumulate')">累积记录</button></div>`;
+}
+function setMode(mod,m){D.modes[mod]=m;save();toast(m==='daily'?'已切换为每日重置模式（仅显示今日）':'已切换为累积记录模式');PAGES[mod]();}
+
+/* ================= 首页 ================= */
+function renderHome(){
+  const fin=D.finance.records.filter(r=>r.date.startsWith(today().slice(0,7)));
+  const inc=fin.filter(r=>r.type==='income').reduce((s,r)=>s+r.amount,0);
+  const exp=fin.filter(r=>r.type==='expense').reduce((s,r)=>s+r.amount,0);
+  const bud=D.finance.budget||0;
+  const tasks=[...D.todo.todo,...D.todo.plan].filter(t=>t.date===today());
+  const doneT=tasks.filter(t=>t.done).length;
+  const dietToday=D.diet.records.filter(r=>r.date===today());
+  const kcal=dietToday.reduce((s,r)=>s+(+r.kcal||0),0);
+  const water=dietToday.filter(r=>r.meal==='water').length;
+  const habits=D.checkin.habits; const logs=D.checkin.logs[today()]||{};
+  const hDone=habits.filter(h=>logs[h.id]).length;
+  main.innerHTML=`
+  <div class="page-title">🏠 今日概览 ${modeToggleHTML('todo')}</div>
+  <div class="page-sub">${today()} · 一切数据只存在这台设备的浏览器里 🌷</div>
+  <div class="card clock"><div class="t" id="liveClock"></div><div class="d" id="liveDate"></div></div>
+  <div class="card quote">${dailyCardHTML()}</div>
+  <div class="card"><h3>✅ 今日打卡</h3>
+    <div class="habits">${habits.map(h=>`<div class="habit ${logs[h.id]?'on':''}" onclick="toggleHabit('${h.id}')">${logs[h.id]?'💚':'🤍'} ${esc(h.name)}</div>`).join('')||'<div class="empty">还没有打卡习惯，添加一个吧～</div>'}</div>
+    <div class="formrow" style="margin:12px 0 0"><input id="newHabit" placeholder="新增打卡习惯，如：喝够8杯水" style="flex:1;min-width:180px"><button class="btn mini" onclick="addHabit()">＋添加</button>
+    <span class="tag">今日完成 ${hDone}/${habits.length}</span></div></div>
+  <div class="grid3">
+    <div class="sumcard" style="background:var(--pink-soft)"><div class="h">💰 本月收支概览</div>
+      <div class="row"><span>收入</span><b style="color:#7FB89A">+¥${inc.toFixed(2)}</b></div>
+      <div class="row"><span>支出</span><b style="color:#E58BA0">-¥${exp.toFixed(2)}</b></div>
+      <div class="row"><span>结余</span><b>¥${(inc-exp).toFixed(2)}</b></div>
+      ${bud?`<div class="bar"><i style="width:${Math.min(100,exp/bud*100)}%"></i></div><div class="row"><span>预算 ¥${bud}</span><span>${exp>=bud?'已超支😭':'剩余 ¥'+(bud-exp).toFixed(2)}</span></div>`:''}
+      <button class="btn ghost mini" style="margin-top:8px" onclick="go('finance')">去记账 →</button></div>
+    <div class="sumcard" style="background:var(--sky-soft)"><div class="h">📋 今日待办</div>
+      <div class="big">${doneT}<span style="font-size:12px;color:var(--sub)"> / ${tasks.length} 项完成</span></div>
+      ${tasks.slice(0,3).map(t=>`<div class="row"><span>${t.done?'✅':'⏰'} ${esc(t.text.slice(0,12))}</span><span>${t.time||''}</span></div>`).join('')||'<div class="row"><span>今天空空的，好清静～</span></div>'}
+      <button class="btn ghost mini" style="margin-top:8px" onclick="go('todo')">去安排 →</button></div>
+    <div class="sumcard" style="background:var(--mint-soft)"><div class="h">🥗 今日饮食小结</div>
+      <div class="big">${kcal}<span style="font-size:12px;color:var(--sub)"> kcal 已记录</span></div>
+      <div class="row"><span>饮食条目</span><span>${dietToday.filter(r=>r.meal!=='water').length} 条</span></div>
+      <div class="row"><span>喝水次数</span><span>${water} 次</span></div>
+      <button class="btn ghost mini" style="margin-top:8px" onclick="go('diet')">去记录 →</button></div>
+  </div>`;
+  tickClock();
+}
+function tickClock(){const el=document.getElementById('liveClock');if(!el)return;const d=new Date();el.textContent=`${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;document.getElementById('liveDate').textContent=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 · ${'日一二三四五六'[d.getDay()]}曜日 · ${['🌙 深夜好梦','🌅 早上好','☀️ 上午好','🍽 中午好','🌤 下午好','🌆 傍晚好','🌃 晚上好'][d.getHours()<6?0:d.getHours()<9?1:d.getHours()<12?2:d.getHours()<14?3:d.getHours()<18?4:d.getHours()<20?5:6]}`;setTimeout(tickClock,1000);}
+function addHabit(){const i=document.getElementById('newHabit');if(!i.value.trim())return;D.checkin.habits.push({id:uid(),name:i.value.trim()});i.value='';save();renderHome();}
+function toggleHabit(id){const k=today();D.checkin.logs[k]=D.checkin.logs[k]||{};D.checkin.logs[k][id]=!D.checkin.logs[k][id];save();renderHome();}
+
+/* ================= 待办 ================= */
+let todoTab='todo',todoDate=today(),todoFilter='all';
+function renderTodo(){
+  const list=D.todo[todoTab]||[];
+  const shown=byMode(list,'todo').filter(t=>t.date===todoDate);
+  const fShown=todoFilter==='all'?shown:shown.filter(t=>todoFilter==='done'?t.done:!t.done);
+  const days=calDays();
+  main.innerHTML=`
+  <div class="page-title">📋 待办 ${modeToggleHTML('todo')}</div>
+  <div class="page-sub">日历选日期 → 定时刻 → 添加任务 · 时间线展示 · 到点提醒</div>
+  <div class="tabs">
+    ${[['todo','日待办'],['monthly','月待办'],['plan','计划表']].map(([k,n])=>`<button class="${todoTab===k?'on':''}" onclick="todoTab='${k}';renderTodo()">${n}</button>`).join('')}
+    <span style="flex:1"></span>
+    ${[['all','全部'],['undone','未完成'],['done','已完成']].map(([k,n])=>`<button class="${todoFilter===k?'on':''}" onclick="todoFilter='${k}';renderTodo()">${n}</button>`).join('')}
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>🗓 ${todoTab==='monthly'?'选择月份中的日期':'选择日期'}</h3>
+      <div class="formrow"><button class="btn ghost mini" onclick="calShift(-1)">◀</button><b style="font-size:13px">${calY}年${calM+1}月</b><button class="btn ghost mini" onclick="calShift(1)">▶</button></div>
+      <div class="cal">${['日','一','二','三','四','五','六'].map(w=>`<div class="wd">${w}</div>`).join('')}${days}</div>
+      <div class="formrow" style="margin-top:12px">
+        <input id="taskText" placeholder="${todoTab==='plan'?'计划内容…':'任务内容…'}" style="flex:1;min-width:150px">
+        <input type="time" id="taskTime" value="${nowTime()}">
+        <button class="btn mini" onclick="addTask()">＋添加</button></div></div>
+    <div class="card"><h3>⏱ ${todoTab==='monthly'?'月待办清单':todoTab==='plan'?'计划表':fmtCN(todoDate)+' 的日待办'}<span class="tag">${fShown.length} 条</span></h3>
+      <div class="tl">${fShown.sort((a,b)=>(a.time||'99:99')<(b.time||'99:99')?-1:1).map(t=>`
+        <div class="item ${t.done?'done':''}">
+          <div class="chk ${t.done?'on':''}" onclick="toggleTask('${t.id}')">${t.done?'✓':''}</div>
+          <div class="grow"><div class="tt">${esc(t.text)}</div>
+          <div class="meta">🗓 ${fmtCN(t.date)}${t.time?' · ⏰ '+t.time+'（到点提醒）':''}</div></div>
+          <div class="op"><button onclick="editTask('${t.id}')">✏️</button><button onclick="delTask('${t.id}')">🗑</button></div>
+        </div>`).join('')||'<div class="empty">这一栏空空的～安排点小事吧</div>'}</div></div>
+  </div>`;
+}
+let calY=new Date().getFullYear(),calM=new Date().getMonth();
+function calShift(n){calM+=n;if(calM<0){calM=11;calY--}if(calM>11){calM=0;calY++}renderTodo();}
+function calDays(){const first=new Date(calY,calM,1).getDay();const n=new Date(calY,calM+1,0).getDate();let h='';for(let i=0;i<first;i++)h+='<div></div>';for(let d=1;d<=n;d++){const ds=`${calY}-${String(calM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;const has=[...D.todo.todo,...D.todo.monthly,...(D.todo.plan||[])].some(t=>t.date===ds);h+=`<div class="d ${ds===todoDate?'sel':''} ${ds===today()?'today':''} ${has?'has':''}" onclick="todoDate='${ds}';renderTodo()">${d}</div>`;}return h;}
+function addTask(){const t=document.getElementById('taskText');if(!t.value.trim())return;D.todo[todoTab].push({id:uid(),text:t.value.trim(),date:todoDate,time:document.getElementById('taskTime')?.value||'',done:false,notified:false});t.value='';save();renderTodo();toast('已添加，到点会提醒你哦 ⏰');}
+function toggleTask(id){['todo','monthly','plan'].forEach(k=>{const t=D.todo[k].find(x=>x.id===id);if(t)t.done=!t.done;});save();renderTodo();}
+function delTask(id){['todo','monthly','plan'].forEach(k=>D.todo[k]=D.todo[k].filter(x=>x.id!==id));save();renderTodo();}
+function editTask(id){['todo','monthly','plan'].forEach(k=>{const t=D.todo[k].find(x=>x.id===id);if(t){const v=prompt('修改任务内容：',t.text);if(v!==null&&v.trim()){t.text=v.trim();const tm=prompt('修改时刻（HH:MM，可留空）：',t.time||'');if(tm!==null)t.time=tm;}}});save();renderTodo();}
+function checkTodoRemind(){const now=nowTime();['todo','monthly','plan'].forEach(k=>D.todo[k].forEach(t=>{if(!t.done&&!t.notified&&t.date===today()&&t.time&&t.time<=now){t.notified=true;toast('⏰ 提醒：'+t.text);save();}}));}
+
+/* ================= 记账 ================= */
+const CATS={expense:[['餐饮','🍜','#FBE3EA'],['衣服鞋包','👗','#F0EAFB'],['护肤彩妆','💄','#FBE0E8'],['酒水饮料','🥤','#E9F4FB'],['水果','🍎','#FDF4DE'],['买菜','🥬','#E7F5EF'],['零食','🍪','#FBEAE0'],['约会','💝','#FBE3EA'],['生活用品','🧴','#E7F5EF'],['交通','🚌','#E9F4FB'],['礼物','🎁','#F0EAFB'],['玩耍','🎡','#FDF4DE'],['红包','🧧','#FBE3EA'],['房租','🏠','#E9F4FB'],['话费','📱','#E7F5EF'],['电费','💡','#FDF4DE'],['文具','✏️','#FBEAE0'],['电影','🎬','#F0EAFB'],['药品','💊','#E7F5EF'],['考试','📝','#E9F4FB'],['学习资料','📚','#F0EAFB'],['淘宝','🛒','#FBE3EA'],['酒店','🏨','#E9F4FB'],['头发','💈','#FDF4DE'],['医院','🏥','#E7F5EF'],['其他','✨','#FBEAE0']],
+income:[['工资','💰','#FDF4DE'],['红包','🧧','#FBE3EA'],['理财收益','📈','#E7F5EF'],['兼职','🧋','#E9F4FB'],['其他','✨','#F0EAFB']],
+transfer:[['转账','🔁','#E9F4FB']]};
+const CATCOLORS=Object.fromEntries([...CATS.expense,...CATS.income,...CATS.transfer].map(c=>[c[0],{e:c[1],c:c[2]}]));
+let finTab='add',finType='expense',finCat='餐饮',finMonth=today().slice(0,7);
+D.finance.cats.forEach(c=>CATS.expense.push([c,'✨','#FBEAE0']));
+function renderFinance(){
+  const recs=D.finance.records;
+  const mrecs=recs.filter(r=>r.date.startsWith(finMonth));
+  const inc=mrecs.filter(r=>r.type==='income').reduce((s,r)=>s+r.amount,0);
+  const exp=mrecs.filter(r=>r.type==='expense').reduce((s,r)=>s+r.amount,0);
+  const bud=D.finance.budget||0;
+  const daysInM=new Date(+finMonth.slice(0,4),+finMonth.slice(5,7),0).getDate();
+  const avg=exp/daysInM;
+  main.innerHTML=`
+  <div class="page-title">💰 记账 ${modeToggleHTML('finance')}</div>
+  <div class="page-sub">参考口袋记账：彩色分类 · 时间线明细 · 饼图报表 · 月度预算</div>
+  <div class="card" style="background:linear-gradient(135deg,var(--pink-soft),var(--lav-soft))"><h3>📊 ${finMonth} 概览</h3>
+    <div class="grid3">
+      <div><div style="font-size:11px;color:var(--sub)">总资产（累计结余）</div><div class="big" style="font-weight:700">¥${(recs.filter(r=>r.type==='income').reduce((s,r)=>s+r.amount,0)-recs.filter(r=>r.type==='expense').reduce((s,r)=>s+r.amount,0)).toFixed(2)}</div></div>
+      <div><div style="font-size:11px;color:var(--sub)">本月收入</div><div class="big" style="font-weight:700;color:#7FB89A">¥${inc.toFixed(2)}</div></div>
+      <div><div style="font-size:11px;color:var(--sub)">本月支出</div><div class="big" style="font-weight:700;color:#E58BA0">¥${exp.toFixed(2)}</div></div>
+      <div><div style="font-size:11px;color:var(--sub)">本月结余</div><div class="big" style="font-weight:700">¥${(inc-exp).toFixed(2)}</div></div>
+      <div><div style="font-size:11px;color:var(--sub)">日均消费</div><div class="big" style="font-weight:700">¥${avg.toFixed(1)}</div></div>
+      <div><div style="font-size:11px;color:var(--sub)">月度预算</div><div class="formrow" style="margin:0"><input id="budInput" type="number" value="${bud||''}" placeholder="设置预算" style="width:90px;padding:4px 8px"><button class="btn mini" onclick="setBudget()">保存</button></div>
+      ${bud?`<div class="bar"><i style="width:${Math.min(100,exp/bud*100)}%;${exp>bud?'background:#E89A9A':''}"></i></div><div style="font-size:11px;color:var(--sub)">已花 ¥${exp.toFixed(0)} · ${exp<=bud?'剩余可花 ¥'+(bud-exp).toFixed(0):'超支 ¥'+(exp-bud).toFixed(0)}</div>`:''}</div>
+    </div></div>
+  <div class="tabs">
+    ${[['add','✏️ 记一笔'],['list','📜 明细'],['report','📈 报表']].map(([k,n])=>`<button class="${finTab===k?'on':''}" onclick="finTab='${k}';renderFinance()">${n}</button>`).join('')}
+    <span style="flex:1"></span><input type="month" value="${finMonth}" onchange="finMonth=this.value;renderFinance()" style="padding:4px 8px;font-size:12px">
+  </div>
+  <div id="finBody"></div>`;
+  finTab==='add'?renderFinAdd():finTab==='list'?renderFinList():renderFinReport();
+}
+function renderFinAdd(){
+  document.getElementById('finBody').innerHTML=`<div class="card">
+    <div class="tabs">${[['expense','支出'],['income','收入'],['transfer','转账']].map(([k,n])=>`<button class="${finType===k?'on':''}" onclick="finType='${k}';finCat='${k==='expense'?'餐饮':k==='income'?'工资':'转账'}';renderFinAdd()">${n}</button>`).join('')}</div>
+    <div class="cats" id="catGrid">${CATS[finType].map(c=>`<div class="cat ${finCat===c[0]?'on':''}" onclick="finCat='${c[0]}';renderFinAdd()"><div class="cicon" style="background:${c[2]}">${c[1]}</div>${c[0]}</div>`).join('')}</div>
+    <div class="formrow" style="margin-top:14px">
+      <input id="finAmt" type="number" placeholder="金额 ¥" style="width:130px">
+      <input id="finNote" placeholder="备注（可选）" style="flex:1;min-width:150px">
+      <input id="finDate" type="date" value="${today()}">
+      <button class="btn" onclick="addRecord()">记一笔 ✓</button></div>
+    <div class="formrow"><button class="btn ghost mini" onclick="addCat()">＋自定义分类</button></div></div>`;
+}
+function addCat(){const n=prompt('新分类名称：');if(!n||!n.trim())return;D.finance.cats.push(n.trim());CATS.expense.push([n.trim(),'✨','#FBEAE0']);save();renderFinAdd();toast('分类已添加 ✨');}
+function addRecord(){const a=+document.getElementById('finAmt').value;if(!a)return toast('请输入金额哦～');D.finance.records.push({id:uid(),type:finType,category:finCat,amount:a,note:document.getElementById('finNote').value,date:document.getElementById('finDate').value||today(),time:nowTime()});save();renderFinance();toast('记好啦 💰');}
+function renderFinList(){
+  const recs=byMode(D.finance.records,'finance').filter(r=>r.date.startsWith(finMonth)).sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time));
+  const groups={};recs.forEach(r=>{(groups[r.date]=groups[r.date]||[]).push(r)});
+  document.getElementById('finBody').innerHTML=`<div class="card"><h3>📜 时间线明细</h3>
+    ${Object.keys(groups).sort().reverse().map(d=>{const g=groups[d];const din=g.filter(r=>r.type==='income').reduce((s,r)=>s+r.amount,0),dout=g.filter(r=>r.type==='expense').reduce((s,r)=>s+r.amount,0);
+    return `<div class="day-head">🌷 ${fmtCN(d)}<span class="sum">${dout?`支 ¥${dout.toFixed(2)}`:''} ${din?`收 ¥${din.toFixed(2)}`:''}</span></div>`+
+    g.map(r=>{const c=CATCOLORS[r.category]||{e:'✨',c:'#FBEAE0'};return `<div class="item"><div class="cicon" style="background:${c.c}">${c.e}</div>
+      <div class="grow"><div class="tt">${r.category}</div><div class="meta">${r.time}${r.note?' · '+esc(r.note):''}</div></div>
+      <b style="color:${r.type==='income'?'#7FB89A':r.type==='expense'?'#E58BA0':'#8FB5D9'}">${r.type==='expense'?'-':r.type==='income'?'+':''}¥${r.amount.toFixed(2)}</b>
+      <div class="op"><button onclick="editRecord('${r.id}')">✏️</button><button onclick="delRecord('${r.id}')">🗑</button></div></div>`}).join('')}).join('')||'<div class="empty">本月还没有账单～</div>'}</div>`;
+}
+function delRecord(id){D.finance.records=D.finance.records.filter(r=>r.id!==id);save();renderFinance();}
+function editRecord(id){const r=D.finance.records.find(x=>x.id===id);if(!r)return;const a=prompt('修改金额：',r.amount);if(a!==null&&+a){r.amount=+a;const n=prompt('修改备注：',r.note||'');if(n!==null)r.note=n;}save();renderFinance();}
+function setBudget(){D.finance.budget=+document.getElementById('budInput').value||0;save();renderFinance();toast('预算已保存 💗');}
+function renderFinReport(){
+  const mrecs=D.finance.records.filter(r=>r.date.startsWith(finMonth));
+  const expBy={};mrecs.filter(r=>r.type==='expense').forEach(r=>expBy[r.category]=(expBy[r.category]||0)+r.amount);
+  document.getElementById('finBody').innerHTML=`<div class="card">
+    <div class="tabs">${[['pie','🥧 分类占比'],['trend','📈 每日趋势'],['cmp','⚖️ 收支对比']].map(([k,n])=>`<button data-rt="${k}" onclick="window._rt='${k}';renderFinReport()">${n}</button>`).join('')}</div>
+    <div id="chartBox" style="text-align:center"></div>
+    <div id="chartLegend" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px;font-size:11px;color:var(--sub)"></div></div>`;
+  document.querySelectorAll('[data-rt]').forEach(b=>b.classList.toggle('on',b.dataset.rt===(window._rt||'pie')));
+  const rt=window._rt||'pie', box=document.getElementById('chartBox'), lg=document.getElementById('chartLegend');
+  if(rt==='pie'){
+    const data=Object.entries(expBy).sort((a,b)=>b[1]-a[1]);const total=data.reduce((s,d)=>s+d[1],0);
+    if(!total){box.innerHTML='<div class="empty">本月暂无支出数据</div>';return;}
+    box.innerHTML='<canvas id="pie" width="300" height="300"></canvas>';
+    const ctx=document.getElementById('pie').getContext('2d');let ang=-Math.PI/2;const cx=150,cy=150,R=120;
+    const P=['#F5B8C8','#BFE3D6','#D9CCF2','#F9E4B5','#C7E3F4','#F8CFB8','#E8A8C0','#9ED0BC','#BCA8E8','#F0CE8F','#A8CFE8','#F0B8A8'];
+    data.forEach((d,i)=>{const a2=ang+d[1]/total*Math.PI*2;ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,R,ang,a2);ctx.fillStyle=P[i%P.length];ctx.fill();ang=a2;});
+    ctx.beginPath();ctx.arc(cx,cy,R*.55,0,7);ctx.fillStyle='#fff';ctx.fill();ctx.fillStyle='#6B5B5E';ctx.font='700 16px sans-serif';ctx.textAlign='center';ctx.fillText('¥'+total.toFixed(0),cx,cy+6);
+    lg.innerHTML=data.map((d,i)=>`<span>● ${d[0]} ¥${d[1].toFixed(0)}（${(d[1]/total*100).toFixed(1)}%）</span>`).join('');
+  }else if(rt==='trend'){
+    const days=new Date(+finMonth.slice(0,4),+finMonth.slice(5,7),0).getDate();
+    const per=Array(days+1).fill(0);mrecs.filter(r=>r.type==='expense').forEach(r=>per[parseInt(r.date.slice(8,10))]+=r.amount);
+    const max=Math.max(...per,1);box.innerHTML='<canvas id="bar" width="640" height="220"></canvas>';
+    const ctx=document.getElementById('bar').getContext('2d');const W=640,H=220,bw=W/days;
+    per.slice(1).forEach((v,i)=>{const h=v/max*160;ctx.fillStyle='#F5B8C8';roundRect(ctx,i*bw+4,H-30-h,bw-8,h,6);ctx.fill();ctx.fillStyle='#A49196';ctx.font='9px sans-serif';ctx.textAlign='center';if((i+1)%2)ctx.fillText(i+1,i*bw+bw/2,H-14);});
+    lg.innerHTML=`<span>本月每日支出 · 峰值 ¥${max.toFixed(0)}</span>`;
+  }else{
+    const inc=mrecs.filter(r=>r.type==='income').reduce((s,r)=>s+r.amount,0),exp=mrecs.filter(r=>r.type==='expense').reduce((s,r)=>s+r.amount,0);
+    const max=Math.max(inc,exp,1);box.innerHTML='<canvas id="bar" width="300" height="240"></canvas>';
+    const ctx=document.getElementById('bar').getContext('2d');
+    [['收入',inc,'#BFE3D6'],['支出',exp,'#F5B8C8']].forEach((d,i)=>{const h=d[1]/max*150,x=70+i*120;roundRect(ctx,x,200-h,60,h,10);ctx.fillStyle=d[2];ctx.fill();ctx.fillStyle='#6B5B5E';ctx.font='700 13px sans-serif';ctx.textAlign='center';ctx.fillText('¥'+d[1].toFixed(0),x+30,192-h);ctx.font='12px sans-serif';ctx.fillStyle='#A49196';ctx.fillText(d[0],x+30,222);});
+    lg.innerHTML=`<span>本月结余 ¥${(inc-exp).toFixed(2)}</span>`;
+  }
+}
+function roundRect(ctx,x,y,w,h,r){r=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+function exportFinance(){
+  const rows=[['日期','时间','类型','分类','金额','备注'],...D.finance.records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>[r.date,r.time,{expense:'支出',income:'收入',transfer:'转账'}[r.type],r.category,r.amount,r.note||''])];
+  const csv='\ufeff'+rows.map(r=>r.join(',')).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`Swlandll记账报表_${today()}.csv`;a.click();toast('报表已导出 📊');
+}
+
+/* ================= 饮食 ================= */
+const MEALS=[['breakfast','🌅 早餐','#FDF4DE'],['lunch','☀️ 午餐','#FBEAE0'],['dinner','🌙 晚餐','#F0EAFB'],['snack','🍪 零食','#FBE3EA'],['water','💧 喝水','#E9F4FB']];
+let dietDate=today(),dietMeal='breakfast';
+function renderDiet(){
+  const shown=byMode(D.diet.records,'diet').filter(r=>r.date===dietDate);
+  const kcal=shown.reduce((s,r)=>s+(+r.kcal||0),0);
+  const sum=D.diet.summaries.find(s=>s.date===today());
+  main.innerHTML=`
+  <div class="page-title">🥗 饮食 ${modeToggleHTML('diet')}</div>
+  <div class="page-sub">拍张照自动识别热量与营养 · 三餐零食饮水 · 每晚 21:00 生成当日总结</div>
+  ${aiBarHTML()}
+  <div class="grid2">
+    <div class="card"><h3>✏️ 添加记录</h3>
+      <div class="tabs">${MEALS.map(([k,n])=>`<button class="${dietMeal===k?'on':''}" onclick="dietMeal='${k}';renderDiet()">${n}</button>`).join('')}</div>
+      <div class="formrow"><input id="dietDesc" placeholder="${dietMeal==='water'?'这一杯水（可写喝了几杯）':'吃了什么？'}" style="flex:1;min-width:140px">
+        <input id="dietKcal" type="number" placeholder="热量kcal" style="width:100px"></div>
+      <div class="formrow"><input id="dietNote" placeholder="备注 / 感受（可选）" style="flex:1;min-width:140px">
+        <input id="dietImg" type="file" accept="image/*" style="font-size:11px;padding:5px" onchange="previewDiet(this)"></div>
+      <div id="dietImgPrev"></div>
+      <div id="dietAiRow" class="formrow" style="display:none;margin-top:8px">
+        <button class="btn ai mini" onclick="runFoodAI()">🤖 识别热量与营养</button>
+        <span style="font-size:10.5px;color:var(--sub)">拍照后自动分析食物与卡路里</span></div>
+      <div id="dietAibox"></div>
+      <button class="btn" onclick="addDiet()" style="margin-top:10px">保存记录 🌷</button></div>
+    <div class="card"><h3>📅 ${fmtCN(dietDate)} 的记录<span class="tag">${shown.length} 条 · ${kcal} kcal</span></h3>
+      <div class="formrow"><input type="date" value="${dietDate}" max="${today()}" onchange="dietDate=this.value;renderDiet()"></div>
+      <div style="max-height:300px;overflow:auto">${shown.map(r=>{const m=MEALS.find(x=>x[0]===r.meal);return `<div class="item">
+        <div class="cicon" style="background:${m?m[2]:'#FBEAE0'}">${m?m[1].split(' ')[0]:'🍽'}</div>
+        <div class="grow"><div class="tt">${esc(r.desc)}${r.kcal?` <span class="tag">${r.kcal} kcal</span>`:''}</div>
+        <div class="meta">${m?m[1]:''} · ${r.time}${r.note?' · '+esc(r.note):''}${r.ai?' · '+esc(r.ai):''}</div>
+        ${r.nutri&&r.nutri.items&&r.nutri.items.length?`<div class="macros" style="margin-top:4px"><span>蛋白 ${r.nutri.items.reduce((s,i)=>s+(+i.protein||0),0)} g</span><span>碳水 ${r.nutri.items.reduce((s,i)=>s+(+i.carb||0),0)} g</span><span>脂肪 ${r.nutri.items.reduce((s,i)=>s+(+i.fat||0),0)} g</span></div>`:''}
+        ${imgSrc(r.img)?`<img class="imgprev" src="${imgSrc(r.img)}">`:''}</div>
+        <div class="op"><button onclick="delDiet('${r.id}')">🗑</button></div></div>`}).join('')||'<div class="empty">这一天还没有记录哦～</div>'}</div></div>
+  </div>
+  <div class="card" style="background:var(--mint-soft)"><h3>🌙 今日饮食总结（每晚 21:00 自动生成）</h3>
+    ${sum?`<div style="font-size:13px;line-height:1.9">${esc(sum.text)}</div><div style="font-size:12px;color:var(--sub);margin-top:8px">💡 ${esc(sum.tip)}</div>`:'<div class="empty">今晚 21:00 见！也可以点下面手动生成～</div>'}
+    <button class="btn mini" style="margin-top:10px" onclick="genDietSummary(true)">手动生成今日总结 ✨</button></div>`;
+  window._dietImg=null;
+}
+function previewDiet(i){
+  readImg(i,d=>{
+    window._dietImg=d;window._dietNutri=null;
+    const p=document.getElementById('dietImgPrev');if(p)p.innerHTML=`<img class="imgprev" src="${d}">`;
+    const row=document.getElementById('dietAiRow');if(row)row.style.display='flex';
+    const box=document.getElementById('dietAibox');if(box)box.innerHTML='';
+  });
+}
+async function addDiet(){
+  const d=document.getElementById('dietDesc');if(!d.value.trim())return toast('写点什么呀～');
+  const raw=window._dietImg,j=window._dietNutri;
+  let ref=null;
+  if(raw){try{ref=await imgPut(raw);}catch(e){ref=raw;}}
+  D.diet.records.push({id:uid(),date:today(),time:nowTime(),meal:dietMeal,desc:d.value.trim(),
+    kcal:+document.getElementById('dietKcal').value||0,
+    note:document.getElementById('dietNote').value,
+    img:ref,nutri:j||null,
+    ai:j?('🤖 AI 识别 '+j.items.length+' 样（'+(j.items.map(i=>i.name).join('、').slice(0,24))+')'):(raw?guessNutrition(d.value.trim()):'')});
+  save();renderDiet();toast('记录好啦 🌷');
+}
+function delDiet(id){D.diet.records=D.diet.records.filter(r=>r.id!==id);save();renderDiet();}
+// 本地启发式"AI"识别：基于常见食物关键词估算热量
+const FOODDB=[['米饭',200],['面条',280],['包子',180],['饺子',300],['粥',120],['面包',250],['蛋糕',350],['奶茶',400],['咖啡',150],['牛奶',120],['鸡蛋',80],['鸡',250],['牛',350],['猪',400],['鱼',180],['虾',120],['蔬菜',80],['沙拉',150],['水果',100],['苹果',80],['香蕉',90],['火锅',800],['烧烤',700],['汉堡',550],['披萨',600],['薯条',350],['可乐',180],['冰淇淋',250],['巧克力',300],['酸奶',150]];
+function guessNutrition(desc){let kcal=0,hit=[];FOODDB.forEach(([k,v])=>{if(desc.includes(k)){kcal=Math.max(kcal,v);hit.push(k);}});return hit.length?`本机食物库估算「${hit.join('、')}」约 ${kcal} kcal（接上 AI 后可识别整张照片）`:'';}
+function genDietSummary(manual){
+  const recs=D.diet.records.filter(r=>r.date===today());
+  if(!recs.length){toast('今天还没有饮食记录哦～');return;}
+  const kcal=recs.reduce((s,r)=>s+(+r.kcal||0),0);
+  const water=recs.filter(r=>r.meal==='water').length;
+  const meals=['breakfast','lunch','dinner'].filter(m=>recs.some(r=>r.meal===m)).length;
+  const snacks=recs.filter(r=>r.meal==='snack').length;
+  let tip=water<6?'今天水喝得有点少，睡前再补两杯吧💧':meals<3?'三餐记得吃齐，身体是甜日子的小地基🍞':kcal>2000?'今天热量略高，明天清淡一点平衡一下～':'今天吃得很均衡，继续保持！🌷';
+  if(snacks>=2)tip='零食有点多哦，解馋可以换点水果🍎';
+  const text=`今日共记录 ${recs.length} 条：三餐完成 ${meals}/3，零食 ${snacks} 次，喝水 ${water} 次，总热量约 ${kcal} kcal。`;
+  D.diet.summaries=D.diet.summaries.filter(s=>s.date!==today());
+  D.diet.summaries.push({date:today(),time:nowTime(),text,tip});save();
+  if(page==='diet')renderDiet();else toast('🌙 今日饮食总结已生成');
+}
+function checkDietSummary(){const d=new Date();if(d.getHours()>=21)if(!D.diet.summaries.find(s=>s.date===today()))genDietSummary(false);}
+
+/* ================= 穿搭 ================= */
+let wardCat='全部';
+function renderOutfit(){
+  const daily=byMode(D.outfit.daily,'outfit');
+  const ward=D.outfit.wardrobe||[];
+  const cats=['全部'].concat(WARD_CATS.filter(c=>ward.some(w=>normCat(w.category)===c)));
+  if(wardCat!=='全部'&&cats.indexOf(wardCat)<0)wardCat='全部';
+  const shown=wardCat==='全部'?ward:ward.filter(w=>normCat(w.category)===wardCat);
+  main.innerHTML=`
+  <div class="page-title">👗 穿搭 ${modeToggleHTML('outfit')}</div>
+  <div class="page-sub">上传穿搭照自动拆解单品 · 抠图收进电子衣橱 · 每条记录自动带日期时间</div>
+  ${aiBarHTML()}
+  <div class="grid2">
+    <div class="card"><h3>📸 记录今日穿搭</h3>
+      <div class="formrow"><input type="file" id="ofImg" accept="image/*" style="font-size:11px;padding:5px" onchange="ofPreview(this)"></div>
+      <div id="ofPrev"></div>
+      <div class="formrow" style="margin-top:8px"><input id="ofNote" placeholder="搭配想法 / 备注" style="flex:1;min-width:140px">
+      <button class="btn" onclick="addOutfit()">保存 🌷</button></div>
+      <button class="btn ai mini" id="ofAiBtn" style="margin-top:10px;display:none" onclick="runOutfitAI()">🤖 拆解单品 · 抠图入衣橱</button>
+      <div class="aihelp" style="margin-top:10px">AI 会找出照片里每件衣服，按上衣 / 毛衣 / 裤子 / 裙子 / 外套… 自动分类，并把每件单独裁出来（可去背景）收进衣橱。</div></div>
+    <div class="card"><h3>🗓 最近穿搭</h3>
+      <div style="max-height:360px;overflow:auto">${daily.slice().reverse().map(o=>`<div class="item">
+        ${imgSrc(o.img)?`<img class="imgprev" style="margin:0;width:58px;height:58px" src="${imgSrc(o.img)}">`:'<div style="width:58px;height:58px;border-radius:12px;background:var(--pink-soft);display:flex;align-items:center;justify-content:center;font-size:22px;flex:none">👗</div>'}
+        <div class="grow"><div class="tt">${esc(o.note||'今日穿搭')}</div>
+        <div class="meta">${fmtCN(o.date)} · ${o.time||''}${o.items&&o.items.length?' · 🧺 '+o.items.length+' 件单品':''}</div></div>
+        <div class="op"><button title="解析这张穿搭" onclick="parseOutfitImage('${o.id}')">🤖</button><button onclick="delOutfit('${o.id}')">🗑</button></div>
+      </div>`).join('')||'<div class="empty">还没有穿搭记录～</div>'}</div></div>
+  </div>
+  <div class="card"><h3>🚪 电子衣橱<span class="tag">${ward.length} 件单品</span>
+    <button class="btn mini" style="margin-left:auto" onclick="addWardrobeItem()">＋手动添加</button></h3>
+    <div class="wchips">${cats.map(c=>`<button class="${wardCat===c?'on':''}" onclick="wardCat='${c}';renderOutfit()">${c}${c==='全部'?'':' '+ward.filter(w=>normCat(w.category)===c).length}</button>`).join('')}</div>
+    <div class="wgrid">${shown.slice().reverse().map(w=>{const s=imgSrc(w.img);return `<div class="wcard">
+      <div class="ph">${s?`<img src="${s}" onclick="viewWard('${w.id}')" style="cursor:zoom-in">`:'<div class="em">👗</div>'}</div>
+      ${w.source==='AI 抠图'?'<span class="src">AI</span>':''}
+      <div class="nm">${esc(w.name||'单品')}</div>
+      <div class="meta2">${esc(normCat(w.category))} · ${esc(w.color||'—')}</div>
+      <div class="ops"><button onclick="editWard('${w.id}')">编辑</button><button class="g" onclick="delWard('${w.id}')">移出</button></div>
+    </div>`;}).join('')||'<div class="empty" style="grid-column:1/-1">衣橱空空的，上传一张穿搭照让 AI 帮你收进来～</div>'}</div></div>`;
+  window._ofImgData=null;
+}
+function ofPreview(inp){
+  readImg(inp,d=>{
+    window._ofImgData=d;
+    const p=document.getElementById('ofPrev');
+    if(p)p.innerHTML=`<img class="imgprev" style="max-height:150px" src="${d}">`;
+    const b=document.getElementById('ofAiBtn');
+    if(b)b.style.display='inline-block';
+  });
+}
+function runOutfitAI(){parseOutfitFlow(window._ofImgData,null);}
+function parseOutfitImage(id){
+  const o=D.outfit.daily.find(x=>x.id===id);if(!o)return;
+  if(!imgSrc(o.img))return toast('这条记录没有照片哦');
+  parseOutfitFlow(imgSrc(o.img),id);
+}
+async function addOutfit(){
+  const raw=window._ofImgData;
+  let ref=null;
+  if(raw){try{ref=await imgPut(raw);}catch(e){ref=raw;}}
+  const noteEl=document.getElementById('ofNote');
+  D.outfit.daily.push({id:uid(),date:today(),time:nowTime(),note:noteEl?noteEl.value:'',img:ref,items:window._lastParsedIds||[]});
+  window._lastParsedIds=null;
+  save();renderOutfit();toast('今日穿搭已收录 📸');
+}
+function delOutfit(id){D.outfit.daily=D.outfit.daily.filter(o=>o.id!==id);save();renderOutfit();}
+function addWardrobeItem(){
+  const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
+  inp.onchange=async e=>{
+    const f=e.target.files[0];if(!f)return;
+    const data=await new Promise(res=>{const r=new FileReader();r.onload=ev=>res(ev.target.result);r.readAsDataURL(f);});
+    let png=data;
+    try{const im=await loadImgEl(data);png=cropCanvas(im,[0,0,1,1],520).toDataURL('image/png');}catch(_){}
+    let ref=png;
+    try{ref=await imgPut(png)||png;}catch(_){}
+    const it={id:uid(),name:'新单品',category:'上衣',color:'—',season:'四季',img:ref,source:'手动',date:today()};
+    D.outfit.wardrobe.push(it);save();wardCat='全部';renderOutfit();editWard(it.id);
+  };
+  inp.click();
+}
+function editWard(id){
+  const w=(D.outfit.wardrobe||[]).find(x=>x.id===id);if(!w)return;
+  openModal('编辑单品',`
+    ${imgSrc(w.img)?`<div style="text-align:center"><img src="${imgSrc(w.img)}" style="max-height:140px;max-width:100%;border-radius:12px;background:#FAF6F8"></div>`:''}
+    <div class="field"><b>名称</b><input id="wName" value="${esc(w.name||'')}"></div>
+    <div class="field"><b>分类</b><select id="wCat">${WARD_CATS.map(c=>`<option ${normCat(w.category)===c?'selected':''}>${c}</option>`).join('')}</select></div>
+    <div class="two-col"><div class="field"><b>颜色</b><input id="wColor" value="${esc(w.color||'')}"></div>
+    <div class="field"><b>季节</b><input id="wSeason" value="${esc(w.season||'四季')}"></div></div>
+    <div class="field"><b>搭配备忘</b><input id="wNote" value="${esc(w.note||'')}" placeholder="和什么搭、什么时候穿…"></div>
+  `,async()=>{
+    w.name=document.getElementById('wName').value.trim()||w.name;
+    w.category=document.getElementById('wCat').value;
+    w.color=document.getElementById('wColor').value.trim()||'—';
+    w.season=document.getElementById('wSeason').value.trim()||'四季';
+    w.note=document.getElementById('wNote').value.trim();
+    save();renderOutfit();toast('已更新 ✨');
+    return true;
+  });
+}
+function viewWard(id){
+  const w=(D.outfit.wardrobe||[]).find(x=>x.id===id);if(!w)return;
+  const mask=document.getElementById('mask');
+  mask.innerHTML=`<div class="modal" style="text-align:center;max-width:400px">
+    <img src="${imgSrc(w.img)}" style="max-width:100%;max-height:56vh;border-radius:14px;background:#FAF6F8">
+    <div style="margin-top:12px;font-weight:600;font-size:14px">${esc(w.name)}</div>
+    <div style="font-size:11px;color:var(--sub);margin-top:4px">${esc(normCat(w.category))} · ${esc(w.color||'—')} · ${esc(w.season||'')}</div>
+    ${w.note?`<div style="font-size:12px;color:var(--sub);margin-top:8px">${esc(w.note)}</div>`:''}
+    <div class="mactions" style="justify-content:center"><button class="btn" onclick="closeModal()">关闭</button></div></div>`;
+  mask.classList.add('show');
+  mask.onclick=e=>{if(e.target===mask)closeModal();};
+}
+function delWard(id){D.outfit.wardrobe=D.outfit.wardrobe.filter(w=>w.id!==id);save();renderOutfit();}
+
+/* ================= 日记 ================= */
+let diaryMonth=today().slice(0,7);
+function renderDiary(){
+  const list=byMode(D.diary,'diary').filter(d=>d.date.startsWith(diaryMonth)).sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time));
+  main.innerHTML=`
+  <div class="page-title">📔 日记 ${modeToggleHTML('diary')}</div>
+  <div class="page-sub">网格记事本 · 保存自动带日期时间 · 支持配图与定时提醒</div>
+  <div class="grid2">
+    <div class="card"><h3>✍️ 写一篇</h3>
+      <textarea id="diaryText" class="paper" placeholder="今天想写点什么呀…（保存会自动带上日期和时间）"></textarea>
+      <div class="formrow" style="margin-top:10px">
+        <input type="file" id="diaryImg" accept="image/*" style="font-size:11px;padding:5px">
+        <button class="btn" onclick="saveDiary()">保存 🌷</button></div>
+      <div id="diaryImgPrev"></div>
+      <div class="formrow" style="margin-top:12px"><span style="font-size:12px;color:var(--sub)">⏰ 每日提醒时间</span>
+        <input type="time" id="diaryRem" value="${D.diaryReminder||'21:30'}" style="width:110px" onchange="D.diaryReminder=this.value;save();toast('日记提醒已设置 ⏰')"></div></div>
+    <div class="card"><h3>📚 历史日记<span class="tag">${list.length} 篇</span></h3>
+      <div class="formrow"><button class="btn ghost mini" onclick="dmShift(-1)">◀</button><b>${diaryMonth}</b><button class="btn ghost mini" onclick="dmShift(1)">▶</button></div>
+      <div style="max-height:420px;overflow:auto">${list.map(d=>`<div class="item">
+        <div class="cicon" style="background:var(--lav-soft)">📔</div>
+        <div class="grow"><div class="tt">${esc((d.text||'（配图日记）').slice(0,30))}…</div>
+        <div class="meta">${d.date} ${d.time||''}</div>
+        ${imgSrc(d.img)?`<img class="imgprev" src="${imgSrc(d.img)}">`:''}</div>
+        <div class="op"><button onclick="editDiary('${d.id}')">✏️</button><button onclick="delDiary('${d.id}')">🗑</button></div></div>`).join('')||'<div class="empty">这个月还没有日记哦～</div>'}</div></div>
+  </div>`;
+  window._diaryImg=null;document.getElementById('diaryImg').onchange=e=>readImg(e.target,d=>{window._diaryImg=d;document.getElementById('diaryImgPrev').innerHTML=`<img class="imgprev" src="${d}">`;});
+}
+function dmShift(n){const [y,m]=diaryMonth.split('-').map(Number);let nm=m+n,ny=y;if(nm<1){nm=12;ny--}if(nm>12){nm=1;ny++}diaryMonth=`${ny}-${String(nm).padStart(2,'0')}`;renderDiary();}
+async function saveDiary(){const t=document.getElementById('diaryText');if(!t.value.trim())return toast('还没写内容哦～');
+  let ref=null;if(window._diaryImg){try{ref=await imgPut(window._diaryImg);}catch(e){ref=window._diaryImg;}}
+  D.diary.push({id:uid(),date:today(),time:nowTime(),text:t.value.trim(),img:ref});save();renderDiary();toast('日记已收好 📔');}
+function delDiary(id){D.diary=D.diary.filter(d=>d.id!==id);save();renderDiary();}
+function editDiary(id){const d=D.diary.find(x=>x.id===id);if(!d)return;const t=prompt('编辑日记：',d.text);if(t!==null&&t.trim()){d.text=t.trim();d.time=nowTime();save();renderDiary();}}
+function checkDiaryRemind(){if(!D.diaryReminder)return;const now=nowTime();if(now>=D.diaryReminder&&!window._diaryReminded){window._diaryReminded=true;if(!D.diary.some(d=>d.date===today()))toast('⏰ 今晚的日记还没写哦～');}}
+
+/* ================= 随想 ================= */
+function renderThoughts(){
+  const list=byMode(D.thoughts,'thoughts').slice().reverse();
+  main.innerHTML=`
+  <div class="page-title">💭 随想 ${modeToggleHTML('thoughts')}</div>
+  <div class="page-sub">树洞式轻量记录 · 语音输入自动转文字 · 自动带日期</div>
+  <div class="card"><textarea id="thText" class="paper" style="min-height:100px" placeholder="突发奇想、心情碎片，扔进树洞里…"></textarea>
+    <div class="formrow" style="margin-top:10px">
+      <button class="btn ghost" id="micBtn" onclick="voiceInput()">🎙 语音输入</button>
+      <span id="micTip" style="font-size:11px;color:var(--sub)"></span>
+      <button class="btn" style="margin-left:auto" onclick="addThought()">收进树洞 🌷</button></div></div>
+  <div class="card"><h3>🌈 树洞里的小纸条<span class="tag">${list.length} 条</span></h3>
+  ${list.map(t=>`<div class="item"><div class="cicon" style="background:var(--butter-soft)">💭</div>
+    <div class="grow"><div class="tt" style="font-weight:400">${esc(t.text)}</div><div class="meta">${t.date} ${t.time||''}${t.voice?' · 🎙语音转写':''}</div></div>
+    <div class="op"><button onclick="delThought('${t.id}')">🗑</button></div></div>`).join('')||'<div class="empty">树洞还很安静～</div>'}</div>`;
+}
+function addThought(){const t=document.getElementById('thText');if(!t.value.trim())return toast('写点什么再收进去嘛～');
+  D.thoughts.push({id:uid(),date:today(),time:nowTime(),text:t.value.trim(),voice:!!window._voiceUsed});window._voiceUsed=false;save();renderThoughts();toast('小纸条已收好 💭');}
+function delThought(id){D.thoughts=D.thoughts.filter(t=>t.id!==id);save();renderThoughts();}
+function voiceInput(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){document.getElementById('micTip').textContent='当前浏览器不支持语音识别，试试 Chrome/Edge～';return;}
+  const r=new SR();r.lang='zh-CN';r.interimResults=true;r.continuous=true;
+  const base=document.getElementById('thText').value;
+  document.getElementById('micTip').textContent='🎙 正在听你说…（再点一次结束）';
+  r.onresult=e=>{let s='';for(let i=e.resultIndex;i<e.results.length;i++)s+=e.results[i][0].transcript;document.getElementById('thText').value=(base?base+' ':'')+s;window._voiceUsed=true;};
+  r.onend=()=>{document.getElementById('micTip').textContent='已结束，语气原样保留 ✨';};
+  r.onerror=e=>{document.getElementById('micTip').textContent='识别中断，可再试一次';};
+  r.start();window._rec=r;
+}
+
+/* ================= 周复盘 ================= */
+function renderReview(){
+  const wk=weekKey();
+  const cur=D.review.find(r=>r.week===wk);
+  const hist=D.review.filter(r=>r.week!==wk).sort((a,b)=>b.week.localeCompare(a.week));
+  main.innerHTML=`
+  <div class="page-title">📊 周复盘</div>
+  <div class="page-sub">每周一份固定模板：本周收获 · 本周遗憾 · 下周计划</div>
+  <div class="week-head">🗓 当前周期：${wk}</div>
+  <div class="card">${cur?`
+    <h3>🌷 本周复盘已创建 <button class="btn ghost mini" style="margin-left:auto" onclick="editReview('${cur.id}')">✏️ 编辑</button></h3>
+    ${reviewView(cur)}`:`
+    <h3>✨ 新建本周复盘</h3>
+    <div style="font-size:12px;color:var(--sub);margin-bottom:10px">收获、遗憾、计划——写下它们，下周见。</div>
+    <div class="formrow"><textarea id="rvGain" class="paper" style="min-height:80px;flex:1" placeholder="🌱 本周收获"></textarea></div>
+    <div class="formrow"><textarea id="rvRegret" class="paper" style="min-height:80px;flex:1" placeholder="🍂 本周遗憾"></textarea></div>
+    <div class="formrow"><textarea id="rvPlan" class="paper" style="min-height:80px;flex:1" placeholder="🚀 下周计划"></textarea></div>
+    <button class="btn" onclick="saveReview()">保存本周复盘 🌷</button>`}</div>
+  <div class="card"><h3>📚 历史复盘<span class="tag">${hist.length} 份</span></h3>
+  ${hist.map(r=>`<div class="item"><div class="cicon" style="background:var(--lav-soft)">📊</div>
+    <div class="grow"><div class="tt">${r.week} 复盘</div><div class="meta">收获 ${esc((r.gain||'—').slice(0,18))}… · ${r.date}</div></div>
+    <div class="op"><button onclick="viewReview('${r.id}')">查看</button><button onclick="delReview('${r.id}')">🗑</button></div></div>`).join('')||'<div class="empty">还没有历史复盘～</div>'}</div>`;
+}
+function reviewView(r){return `<div style="font-size:13px;line-height:1.9">
+  <p><b>🌱 本周收获：</b>${esc(r.gain||'—')}</p>
+  <p><b>🍂 本周遗憾：</b>${esc(r.regret||'—')}</p>
+  <p><b>🚀 下周计划：</b>${esc(r.plan||'—')}</p></div>`;}
+function saveReview(){const g=document.getElementById('rvGain').value.trim(),r=document.getElementById('rvRegret').value.trim(),p=document.getElementById('rvPlan').value.trim();
+  if(!g&&!r&&!p)return toast('至少写一点呀～');
+  D.review.push({id:uid(),week:weekKey(),gain:g,regret:r,plan:p,date:today()});save();renderReview();toast('本周复盘已保存 🌷');}
+function delReview(id){D.review=D.review.filter(r=>r.id!==id);save();renderReview();}
+function editReview(id){const r=D.review.find(x=>x.id===id);if(!r)return;
+  const g=prompt('本周收获：',r.gain||'');if(g!==null)r.gain=g;
+  const rg=prompt('本周遗憾：',r.regret||'');if(rg!==null)r.regret=rg;
+  const p=prompt('下周计划：',r.plan||'');if(p!==null)r.plan=p;save();renderReview();}
+function viewReview(id){const r=D.review.find(x=>x.id===id);if(r)alert(`${r.week} 复盘\n\n🌱 本周收获：${r.gain||'—'}\n\n🍂 本周遗憾：${r.regret||'—'}\n\n🚀 下周计划：${r.plan||'—'}`);}
+
+/* =========================================================
+   AI 图像识别（饮食热量 / 穿搭单品）· 图片 IndexedDB 存储 · 抠图
+   ========================================================= */
+const AI_PRESETS={
+  openai:{name:'OpenAI',base:'https://api.openai.com/v1',model:'gpt-4o-mini'},
+  zhipu:{name:'智谱 GLM-4V',base:'https://open.bigmodel.cn/api/paas/v4',model:'glm-4v-flash'},
+  qwen:{name:'通义千问 VL',base:'https://dashscope.aliyuncs.com/compatible-mode/v1',model:'qwen-vl-plus'},
+  silicon:{name:'硅基流动 SiliconFlow',base:'https://api.siliconflow.cn/v1',model:'Qwen/Qwen2.5-VL-72B-Instruct'},
+  moonshot:{name:'月之暗面 Kimi',base:'https://api.moonshot.cn/v1',model:'moonshot-v1-8k-vision-preview'},
+  custom:{name:'自定义（任意 OpenAI 兼容接口）',base:'',model:''}
+};
+function aiOK(){const a=D.ai||{};return !!(a.base&&a.model&&a.key);}
+function aiLabel(){const a=D.ai||{};const p=AI_PRESETS[a.preset];return (p?p.name:'自定义')+' · '+a.model;}
+function aiBarHTML(){
+  const ok=aiOK();
+  return `<div class="aibar"><span class="dot ${ok?'on':''}"></span>
+    <b>AI 图像识别</b> ${ok?esc(aiLabel()):'未配置（填一个支持看图的模型即可自动识别）'}
+    <button class="btn ghost mini" onclick="openAISettings()">${ok?'⚙️ 设置':'⚙️ 去设置'}</button></div>`;
+}
+function aiApplyPreset(k){
+  const p=AI_PRESETS[k];if(!p)return;
+  if(p.base)document.getElementById('aiBase').value=p.base;
+  if(p.model)document.getElementById('aiModel').value=p.model;
+}
+function openAISettings(after){
+  const a=D.ai||{},cur=a.preset||'openai';
+  const opts=Object.keys(AI_PRESETS).map(k=>`<option value="${k}" ${cur===k?'selected':''}>${AI_PRESETS[k].name}</option>`).join('');
+  const base=a.base||(AI_PRESETS[cur]?AI_PRESETS[cur].base:'');
+  const model=a.model||(AI_PRESETS[cur]?AI_PRESETS[cur].model:'');
+  openModal('🤖 AI 图像识别设置',`
+    <div class="aihelp">饮食热量识别、穿搭拆解都靠一个「能看图」的大模型，用 <b>OpenAI 兼容接口</b> 就能接：填接口地址 + 模型名 + 你自己的 API Key。<br>
+    Key <b>只存在这台设备的浏览器里</b>；识别时照片会直接发给你填的服务商，不经过任何中间服务器。</div>
+    <div class="field"><b>服务商预设</b><select id="aiPreset" onchange="aiApplyPreset(this.value)">${opts}</select></div>
+    <div class="field"><b>接口地址</b><input id="aiBase" value="${esc(base)}" placeholder="https://api.openai.com/v1"></div>
+    <div class="field"><b>模型名（必须支持图片输入）</b><input id="aiModel" list="aiModelList" value="${esc(model)}" placeholder="gpt-4o-mini"><datalist id="aiModelList"></datalist></div>
+    <div class="field"><b>API Key</b><input id="aiKey" type="password" value="${esc(a.key||'')}" placeholder="sk-…"></div>
+    <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--sub)"><input type="checkbox" id="aiCutout" style="width:16px;height:16px" ${a.cutout!==false?'checked':''}> 解析穿搭时自动抠图（去掉背景）</label>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <button class="btn ghost mini" onclick="aiPullModels()">🔍 读取可用模型</button>
+      <span id="aiTestMsg" style="font-size:11px;color:var(--sub)"></span></div>
+    <div class="aihelp" style="background:var(--mint-soft);color:#7E9C8C">没有 Key 也能用：饮食会退回本机常见食物库估算，穿搭可以手动添加单品。</div>
+    <div class="aihelp" style="font-size:10.5px">小提示：识别需要联网把照片发给服务商，用本地地址（预览里的 http://localhost…）打开最稳；如果直接双击 file:// 打开被拒绝，可在服务商后台把来源加白或改用本地地址。</div>
+  `,async()=>{
+    D.ai.base=document.getElementById('aiBase').value.trim();
+    D.ai.model=document.getElementById('aiModel').value.trim();
+    D.ai.key=document.getElementById('aiKey').value.trim();
+    D.ai.preset=document.getElementById('aiPreset').value;
+    D.ai.cutout=document.getElementById('aiCutout').checked;
+    save();
+    if(page==='diet')renderDiet();
+    if(page==='outfit')renderOutfit();
+    toast('AI 设置已保存 🤖');
+    if(typeof after==='function')setTimeout(after,150);
+    return true;
+  });
+}
+async function aiPullModels(){
+  const base=(document.getElementById('aiBase').value||'').trim().replace(/\/+$/,'');
+  const key=(document.getElementById('aiKey').value||'').trim();
+  const msg=document.getElementById('aiTestMsg');
+  if(!base||!key){msg.textContent='先填接口地址和 Key 哦';return;}
+  msg.textContent='读取中…';
+  try{
+    const r=await fetch(base+'/models',{headers:{'Authorization':'Bearer '+key}});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const j=await r.json();
+    const ids=((j&&j.data)||[]).map(m=>m.id).filter(Boolean);
+    if(!ids.length)throw new Error('没有返回模型');
+    document.getElementById('aiModelList').innerHTML=ids.map(i=>`<option value="${esc(i)}">`).join('');
+    const vis=ids.find(i=>/vl|vision|4o|4\.1|glm-4v|gemini|pixtral|internvl/i.test(i));
+    if(vis)document.getElementById('aiModel').value=vis;
+    msg.innerHTML=`✅ 读到 ${ids.length} 个模型${vis?'，已自动选 <b>'+esc(vis)+'</b>':''}`;
+  }catch(e){msg.textContent='读取失败：'+e.message+'（可直接手填模型名）';}
+}
+async function aiChat(messages,opt){
+  const a=D.ai||{};
+  if(!aiOK())throw new Error('还没配置 AI 服务');
+  const url=a.base.replace(/\/+$/,'')+'/chat/completions';
+  const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),90000);
+  let r;
+  try{
+    r=await fetch(url,{method:'POST',signal:ctrl.signal,headers:{'Content-Type':'application/json','Authorization':'Bearer '+a.key},
+      body:JSON.stringify({model:a.model,messages,temperature:0.2,max_tokens:(opt&&opt.max)||1000})});
+  }catch(e){
+    clearTimeout(timer);
+    if(e&&e.name==='AbortError')throw new Error('请求超时（90 秒），检查一下网络');
+    throw new Error('请求被拦截（多为跨域限制或断网），可换个服务商或在本地服务器下打开试试');
+  }
+  clearTimeout(timer);
+  if(!r.ok){
+    let t='';try{t=await r.text();}catch(_){}
+    if(r.status===401||r.status===403)throw new Error('API Key 不正确或没有权限');
+    if(r.status===404)throw new Error('接口地址 / 模型名不对（404）');
+    if(r.status===429)throw new Error('请求太频繁或额度用完了（429）');
+    if(r.status===400)throw new Error('请求被拒绝（400）：该模型可能不支持看图');
+    throw new Error('接口返回 '+r.status+'：'+String(t).slice(0,120));
+  }
+  const j=await r.json();
+  const c=j&&j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content;
+  if(!c)throw new Error('模型没有返回内容');
+  if(typeof c==='string')return c;
+  if(Array.isArray(c))return c.map(x=>x&&x.text||'').join('');
+  return String(c);
+}
+function extractJSON(t){
+  t=String(t||'').replace(/```json/gi,'').replace(/```/g,'').trim();
+  const s=t.search(/[[{]/);
+  if(s<0)return null;
+  const open=t[s],close=open==='{'?'}':']';
+  let depth=0,inStr=false,esc2=false;
+  for(let i=s;i<t.length;i++){
+    const ch=t[i];
+    if(inStr){
+      if(esc2)esc2=false;
+      else if(ch==='\\')esc2=true;
+      else if(ch==='"')inStr=false;
+      continue;
+    }
+    if(ch==='"'){inStr=true;continue;}
+    if(ch===open)depth++;
+    else if(ch===close){depth--;if(depth===0){try{return JSON.parse(t.slice(s,i+1));}catch(e){return null;}}}
+  }
+  return null;
+}
+/* ---------- 图片处理 ---------- */
+function loadImgEl(src){
+  return new Promise((res,rej)=>{
+    const i=new Image();let done=false;
+    const to=setTimeout(()=>{if(!done){done=true;rej(new Error('图片加载超时，换一张试试'));}},15000);
+    i.onload=()=>{if(!done){done=true;clearTimeout(to);res(i);}};
+    i.onerror=()=>{if(!done){done=true;clearTimeout(to);rej(new Error('图片读取失败'));}};
+    i.src=src;
+  });
+}
+async function shrinkImg(data,max,q){
+  const im=await loadImgEl(data);
+  const w=im.naturalWidth||im.width,h=im.naturalHeight||im.height;
+  const s=Math.min(1,(max||1024)/Math.max(w,h));
+  const c=document.createElement('canvas');
+  c.width=Math.max(1,Math.round(w*s));c.height=Math.max(1,Math.round(h*s));
+  const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);
+  x.drawImage(im,0,0,c.width,c.height);
+  return c.toDataURL('image/jpeg',q||0.82);
+}
+function cropCanvas(im,box,max){
+  const W=im.naturalWidth||im.width,H=im.naturalHeight||im.height;
+  let bx=0,by=0,bw=1,bh=1;
+  if(Array.isArray(box)&&box.length===4){
+    bx=Number(box[0]);by=Number(box[1]);bw=Number(box[2]);bh=Number(box[3]);
+    if(!isFinite(bx))bx=0;if(!isFinite(by))by=0;
+    if(!isFinite(bw)||bw<=0)bw=1;if(!isFinite(bh)||bh<=0)bh=1;
+    if(bw>1)bw=bw/100;if(bh>1)bh=bh/100;if(bx>1)bx=bx/100;if(by>1)by=by/100;
+  }
+  bx=Math.min(Math.max(bx,0),1);by=Math.min(Math.max(by,0),1);
+  bw=Math.min(Math.max(bw,0.05),1-bx);bh=Math.min(Math.max(bh,0.05),1-by);
+  const px=bw*0.025,py=bh*0.025;
+  const sx=Math.max(0,Math.round((bx-px)*W)),sy=Math.max(0,Math.round((by-py)*H));
+  const sw=Math.max(2,Math.min(W-sx,Math.round((bw+px*2)*W)));
+  const sh=Math.max(2,Math.min(H-sy,Math.round((bh+py*2)*H)));
+  const s=Math.min(1,(max||480)/Math.max(sw,sh));
+  const c=document.createElement('canvas');
+  c.width=Math.max(1,Math.round(sw*s));c.height=Math.max(1,Math.round(sh*s));
+  c.getContext('2d').drawImage(im,sx,sy,sw,sh,0,0,c.width,c.height);
+  return c;
+}
+/* 取边框主色作为背景参考色，从四边泛洪抠掉背景，抠坏了就退回原图 */
+function cutoutCanvas(c,tol){
+  const W=c.width,H=c.height,x=c.getContext('2d');
+  let id;
+  try{id=x.getImageData(0,0,W,H);}catch(e){return c;}
+  const d=id.data;
+  const map={};
+  const add=p=>{
+    const o=p*4,key=(d[o]>>4)+','+(d[o+1]>>4)+','+(d[o+2]>>4);
+    const m=map[key]||(map[key]={n:0,r:0,g:0,b:0});
+    m.n++;m.r+=d[o];m.g+=d[o+1];m.b+=d[o+2];
+  };
+  for(let i=0;i<W;i++){add(i);add((H-1)*W+i);}
+  for(let j=0;j<H;j++){add(j*W);add(j*W+W-1);}
+  let best=null;
+  for(const k in map){if(!best||map[k].n>best.n)best=map[k];}
+  if(!best)return c;
+  const br=best.r/best.n,bg=best.g/best.n,bb=best.b/best.n;
+  const T=(tol||34),T2=T*T*3;
+  const ok=p=>{const o=p*4,dr=d[o]-br,dg=d[o+1]-bg,db=d[o+2]-bb;return dr*dr+dg*dg+db*db<=T2;};
+  const seen=new Uint8Array(W*H),q=new Int32Array(W*H);
+  let qh=0,qt=0;
+  const push=p=>{if(!seen[p]&&ok(p)){seen[p]=1;q[qt++]=p;}};
+  for(let i=0;i<W;i++){push(i);push((H-1)*W+i);}
+  for(let j=0;j<H;j++){push(j*W);push(j*W+W-1);}
+  while(qh<qt){
+    const p=q[qh++],px=p%W,py=(p-px)/W;
+    if(px>0)push(p-1);
+    if(px<W-1)push(p+1);
+    if(py>0)push(p-W);
+    if(py<H-1)push(p+W);
+  }
+  let rm=0;
+  for(let p=0;p<W*H;p++)if(seen[p])rm++;
+  const ratio=rm/(W*H);
+  if(ratio>0.95||ratio<0.05)return c;
+  for(let p=0;p<W*H;p++)if(seen[p])d[p*4+3]=0;
+  for(let py=1;py<H-1;py++)for(let px=1;px<W-1;px++){
+    const p=py*W+px;
+    if(seen[p])continue;
+    if(seen[p-1]||seen[p+1]||seen[p-W]||seen[p+W]){const o=p*4;if(d[o+3]>115)d[o+3]=115;}
+  }
+  x.putImageData(id,0,0);
+  let x0=W,y0=H,x1=-1,y1=-1;
+  for(let py=0;py<H;py++)for(let px=0;px<W;px++){
+    if(d[(py*W+px)*4+3]>10){if(px<x0)x0=px;if(px>x1)x1=px;if(py<y0)y0=py;if(py>y1)y1=py;}
+  }
+  if(x1<=x0||y1<=y0)return c;
+  const pad=Math.max(2,Math.round(Math.max(x1-x0,y1-y0)*0.035));
+  x0=Math.max(0,x0-pad);y0=Math.max(0,y0-pad);
+  x1=Math.min(W-1,x1+pad);y1=Math.min(H-1,y1+pad);
+  const cw=x1-x0+1,ch=y1-y0+1;
+  const n=document.createElement('canvas');n.width=cw;n.height=ch;
+  n.getContext('2d').drawImage(c,x0,y0,cw,ch,0,0,cw,ch);
+  return n;
+}
+/* ---------- 图片存储（IndexedDB，避免撑爆 localStorage） ---------- */
+const MDB='swlandll_media_db',MSTORE='img';
+let mdb=null,mFallback=false;
+const IMG={};
+function mOpenDB(){return new Promise((res,rej)=>{
+  if(!('indexedDB' in window))return rej(new Error('no idb'));
+  const q=indexedDB.open(MDB,1);
+  q.onupgradeneeded=()=>{const d=q.result;if(!d.objectStoreNames.contains(MSTORE))d.createObjectStore(MSTORE,{keyPath:'id'});};
+  q.onsuccess=()=>res(q.result);
+  q.onerror=()=>rej(q.error||new Error('open fail'));
+});}
+function mAll(){return new Promise((res,rej)=>{const t=mdb.transaction(MSTORE,'readonly').objectStore(MSTORE).getAll();t.onsuccess=()=>res(t.result||[]);t.onerror=()=>rej(t.error);});}
+function mPutRec(rec){return new Promise((res,rej)=>{const t=mdb.transaction(MSTORE,'readwrite').objectStore(MSTORE).put(rec);t.onsuccess=()=>res();t.onerror=()=>rej(t.error);});}
+async function imgPut(data){
+  if(!data)return null;
+  if(mFallback||!mdb)return data;
+  const id=uid();
+  try{await mPutRec({id,data,t:Date.now()});IMG[id]=data;return 'idb:'+id;}
+  catch(e){return data;}
+}
+function imgSrc(ref){
+  if(!ref)return '';
+  if(ref.indexOf('idb:')===0)return IMG[ref.slice(4)]||'';
+  return ref;
+}
+async function mInit(){
+  try{mdb=await mOpenDB();const all=await mAll();all.forEach(r=>{IMG[r.id]=r.data;});}
+  catch(e){mFallback=true;}
+  try{await migrateInlineImages();}catch(_){}
+  const editing=document.activeElement&&/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);
+  if(!editing){
+    if(page==='outfit')renderOutfit();
+    else if(page==='diet')renderDiet();
+    else if(page==='movie'&&document.getElementById('mvBody'))renderMovie();
+    else if(page==='music'&&document.getElementById('msBody'))renderMusic();
+  }
+}
+async function migrateInlineImages(){
+  if(mFallback||D.imgMigrated)return;
+  let n=0;
+  const conv=async o=>{
+    if(o&&typeof o.img==='string'&&o.img.indexOf('data:')===0){
+      const r=await imgPut(o.img);
+      if(r&&r.indexOf('idb:')===0){o.img=r;n++;}
+    }
+  };
+  for(const w of D.outfit.wardrobe)await conv(w);
+  for(const o of D.outfit.daily)await conv(o);
+  for(const d of D.diet.records)await conv(d);
+  for(const d of D.diary)await conv(d);
+  D.imgMigrated=true;if(n)save();
+}
+function showBusy(html){
+  hideBusy();
+  const el=document.createElement('div');el.className='busy';el.id='busy';
+  el.innerHTML=`<div class="ring"></div><div>${html}</div>`;
+  document.body.appendChild(el);
+}
+function hideBusy(){const el=document.getElementById('busy');if(el)el.remove();}
+/* ---------- 饮食：拍照识别热量 ---------- */
+async function aiFood(dataURL){
+  const img=await shrinkImg(dataURL,1024,0.82);
+  const txt=await aiChat([
+    {role:'system',content:'你是严谨的营养师，只输出 JSON。'},
+    {role:'user',content:[
+      {type:'text',text:'这张照片是我吃的食物。请识别所有食物，估算分量、热量和三大营养素。严格只输出 JSON，不要解释：\n{"items":[{"name":"食物名","portion":"约200克","kcal":360,"protein":12,"carb":48,"fat":10}],"totalKcal":360,"comment":"一句话点评","tip":"一条针对这一餐的个性化建议"}\n所有数值用整数；看不清就按最接近的常见食物估。'},
+      {type:'image_url',image_url:{url:img}}
+    ]}
+  ],{max:900});
+  const j=extractJSON(txt);
+  if(!j||!Array.isArray(j.items))throw new Error('模型返回的格式看不懂，请再试一次');
+  j.items=j.items.filter(i=>i&&i.name).map(i=>({name:String(i.name).slice(0,20),portion:i.portion||'',kcal:Math.round(+i.kcal||0),protein:Math.round(+i.protein||0),carb:Math.round(+i.carb||0),fat:Math.round(+i.fat||0)}));
+  j.totalKcal=Math.round(+j.totalKcal||j.items.reduce((s,i)=>s+i.kcal,0));
+  return j;
+}
+function nutriBoxHTML(j){
+  const rows=(j.items||[]).map(i=>`<div class="aiitem"><span class="k">${esc(i.name)}${i.portion?' · '+esc(i.portion):''}</span><span class="v">${i.kcal} kcal</span></div>`).join('');
+  const p=(j.items||[]).reduce((s,i)=>s+(+i.protein||0),0);
+  const c=(j.items||[]).reduce((s,i)=>s+(+i.carb||0),0);
+  const f=(j.items||[]).reduce((s,i)=>s+(+i.fat||0),0);
+  return `<div class="aibox"><div class="hd">🤖 识别 ${j.items.length} 样 · 合计 ${j.totalKcal} kcal</div>${rows}
+    <div class="macros"><span>蛋白 ${Math.round(p)} g</span><span>碳水 ${Math.round(c)} g</span><span>脂肪 ${Math.round(f)} g</span></div>
+    ${j.comment?`<div style="margin-top:8px">💬 ${esc(j.comment)}</div>`:''}
+    ${j.tip?`<div style="color:#6E8CA6;margin-top:4px">💡 ${esc(j.tip)}</div>`:''}
+    <div style="font-size:10px;color:#9BA8B5;margin-top:6px">数值为 AI 估算，可按实际份量改上面的 kcal</div></div>`;
+}
+async function runFoodAI(){
+  if(!window._dietImg)return toast('先选一张食物照片哦～');
+  if(!aiOK()){openAISettings(()=>runFoodAI());return;}
+  showBusy('AI 正在识别食物与热量…<br><span style="font-size:11px;color:#B0A0A6">通常 5~20 秒</span>');
+  try{
+    const j=await aiFood(window._dietImg);
+    hideBusy();
+    window._dietNutri=j;
+    const desc=document.getElementById('dietDesc');
+    if(desc&&!desc.value.trim())desc.value=j.items.map(i=>i.name).join('、');
+    const kc=document.getElementById('dietKcal');
+    if(kc)kc.value=j.totalKcal;
+    const box=document.getElementById('dietAibox');
+    if(box)box.innerHTML=nutriBoxHTML(j);
+  }catch(e){hideBusy();toast('识别失败：'+e.message);}
+}
+/* ---------- 穿搭：拆解单品 + 抠图 ---------- */
+const WARD_CATS=['上衣','短袖','毛衣','卫衣','衬衫','外套','风衣','羽绒服','裤子','牛仔裤','短裤','裙子','连衣裙','鞋子','包包','帽子','围巾','配饰','其他'];
+function normCat(c){
+  const s=String(c||'').trim();
+  if(!s)return '其他';
+  let hit=WARD_CATS.find(x=>s===x)||WARD_CATS.find(x=>s.indexOf(x)>=0)||WARD_CATS.find(x=>x.indexOf(s)>=0);
+  if(hit)return hit;
+  if(/鞋|靴/.test(s))return '鞋子';
+  if(/包/.test(s))return '包包';
+  if(/裤/.test(s))return '裤子';
+  if(/裙/.test(s))return '裙子';
+  if(/卫衣| hoodie/i.test(s))return '卫衣';
+  if(/外套|大衣|夹克|风衣|羽绒/.test(s))return '外套';
+  if(/毛衣|针织|开衫/.test(s))return '毛衣';
+  return '其他';
+}
+async function aiOutfit(dataURL){
+  const img=await shrinkImg(dataURL,1280,0.85);
+  const txt=await aiChat([
+    {role:'system',content:'你是穿搭造型师，擅长从照片里拆解单品，只输出 JSON。'},
+    {role:'user',content:[
+      {type:'text',text:`这是一张穿搭照。请找出画面里每一件可以单独收进衣橱的单品（最多 8 件），并给出它在照片里的位置。
+分类只能从这些里选：${WARD_CATS.join('、')}。
+bbox 是 [x,y,w,h]，表示单品在整张照片中的相对位置与宽高，用 0~1 的小数（左上角为原点）。
+只输出 JSON，不要解释：
+{"items":[{"name":"米白色针织开衫","category":"毛衣","color":"米白","style":"温柔日常","season":"春秋","bbox":[0.18,0.12,0.42,0.38]}],"note":"整体风格一句话"}
+认不出的可以省略，同一件衣服不要重复。`},
+      {type:'image_url',image_url:{url:img}}
+    ]}
+  ],{max:900});
+  const j=extractJSON(txt);
+  if(!j||!Array.isArray(j.items))throw new Error('模型返回的格式看不懂，请再试一次');
+  j.items=j.items.filter(i=>i&&i.name);
+  return j;
+}
+async function parseOutfitFlow(dataURL,fromId){
+  if(!dataURL)return toast('先选一张穿搭照哦～');
+  if(!aiOK()){openAISettings(()=>parseOutfitFlow(dataURL,fromId));return;}
+  showBusy('AI 正在拆解穿搭单品…<br><span style="font-size:11px;color:#B0A0A6">识别 + 裁切 + 抠图，约 10~40 秒</span>');
+  try{
+    const res=await aiOutfit(dataURL);
+    const im=await loadImgEl(dataURL);
+    const items=[];
+    for(let i=0;i<res.items.length&&i<10;i++){
+      const it=res.items[i];
+      if(!it||!it.name)continue;
+      let cv;
+      try{cv=cropCanvas(im,it.bbox,480);}catch(e){continue;}
+      if(D.ai.cutout!==false){try{cv=cutoutCanvas(cv,30);}catch(e){}}
+      let png='';
+      try{png=cv.toDataURL('image/png');}catch(e){continue;}
+      let ref=png;
+      try{ref=await imgPut(png)||png;}catch(e){}
+      items.push({id:uid(),name:String(it.name).slice(0,24),category:normCat(it.category),
+        color:it.color||'—',style:it.style||'',season:it.season||'四季',
+        img:ref,bbox:it.bbox||null,source:'AI 抠图',date:today()});
+    }
+    hideBusy();
+    if(!items.length){toast('没认出单品，换一张更清晰、光线更好的照片试试');return;}
+    reviewParsed(items,res.note,fromId);
+  }catch(e){hideBusy();toast('识别失败：'+e.message);}
+}
+function reviewParsed(items,note,fromId){
+  window._parsed=items;
+  const rows=items.map((it,i)=>`<div class="pickrow">
+    <label style="display:flex;align-items:center"><input type="checkbox" class="pk" data-i="${i}" checked style="width:16px;height:16px"></label>
+    <div class="thumb">${imgSrc(it.img)?`<img src="${imgSrc(it.img)}">`:'👗'}</div>
+    <div class="g">
+      <input type="text" class="pn" data-i="${i}" value="${esc(it.name)}">
+      <div class="line">
+        <select class="pc" data-i="${i}">${WARD_CATS.map(c=>`<option ${c===it.category?'selected':''}>${c}</option>`).join('')}</select>
+        <input type="text" class="pcol" data-i="${i}" value="${esc(it.color)}" style="width:62px" placeholder="颜色">
+      </div>
+    </div></div>`).join('');
+  openModal(`🤖 认出 ${items.length} 件单品`,`
+    <div class="aihelp">名称和分类都能改，不想要的取消勾选即可。${note?'<br>💬 '+esc(note):''}</div>
+    ${rows}`,async()=>{
+    const picked=[];
+    document.querySelectorAll('.pk').forEach(cb=>{
+      if(!cb.checked)return;
+      const i=+cb.dataset.i,it=Object.assign({},window._parsed[i]);
+      const nm=document.querySelector('.pn[data-i="'+i+'"]');
+      const ct=document.querySelector('.pc[data-i="'+i+'"]');
+      const cl=document.querySelector('.pcol[data-i="'+i+'"]');
+      if(nm&&nm.value.trim())it.name=nm.value.trim();
+      if(ct)it.category=ct.value;
+      if(cl&&cl.value.trim())it.color=cl.value.trim();
+      picked.push(it);
+    });
+    if(!picked.length)return false;
+    D.outfit.wardrobe=D.outfit.wardrobe.concat(picked);
+    window._lastParsedIds=picked.map(p=>p.id);
+    if(fromId){
+      const o=D.outfit.daily.find(x=>x.id===fromId);
+      if(o)o.items=(o.items||[]).concat(picked.map(p=>p.id));
+    }
+    save();wardCat='全部';
+    if(page==='outfit')renderOutfit();
+    toast(`已收进衣橱 ${picked.length} 件 🚪`);
+    return true;
+  });
+}
+/* ================= 快捷指令 ================= */
+function toggleCmd(){document.getElementById('cmdMenu').classList.toggle('open');}
+function cmd(k){toggleCmd();
+  if(k==='overview')go('home');
+  if(k==='exportFinance')exportFinance();
+  if(k==='openReview')go('review');
+  if(k==='todayDiet'){dietDate=today();go('diet');}
+}
+document.addEventListener('click',e=>{if(!e.target.closest('.fab')&&!e.target.closest('.cmdmenu'))document.getElementById('cmdMenu').classList.remove('open');});
+document.addEventListener('keydown',e=>{if(e.key==='/'&&!/INPUT|TEXTAREA/.test(document.activeElement.tagName)){e.preventDefault();toggleCmd();}});
+
+/* ================= 全局定时器 ================= */
+setInterval(()=>{checkTodoRemind();checkDietSummary();checkDiaryRemind();},30000);
+// 跨日自动重置检测（每日重置模式的新一天）
+let _lastDay=today();
+setInterval(()=>{if(today()!==_lastDay){_lastDay=today();if(page)PAGES[page]();}},60000);
+
+go('home');
+/* 图片索引加载 + 旧图迁移（IndexedDB） */
+setTimeout(()=>{mInit().catch(()=>{});},0);
+</script>
+
+<script>
+/* =========================================================
+   书影音 · 书籍（IndexedDB 持久化，不使用 sessionStorage）
+   ========================================================= */
+const RDB='swlandll_reading_db', RSTORE='kv', RKEY='data';
+let R={shelf:{read:[],reading:[],wish:[]},excerpts:[],sessions:[],movies:{watched:[],watching:[],wish:[]},music:{fav:[],loop:[],wish:[]},migrated:false};
+let rdb=null, rFallback=false, rPersist='unknown', rReady=null;
+let bookTab='shelf', trendRange='week', annualYear=new Date().getFullYear(), exQuery='';
+
+/* ---------- IndexedDB ---------- */
+function rOpenDB(){
+  return new Promise((res,rej)=>{
+    if(!('indexedDB' in window))return rej(new Error('no idb'));
+    const q=indexedDB.open(RDB,1);
+    q.onupgradeneeded=()=>{const d=q.result;if(!d.objectStoreNames.contains(RSTORE))d.createObjectStore(RSTORE);};
+    q.onsuccess=()=>res(q.result);
+    q.onerror=()=>rej(q.error||new Error('open fail'));
+  });
+}
+function rGet(){return new Promise((res,rej)=>{const t=rdb.transaction(RSTORE,'readonly').objectStore(RSTORE).get(RKEY);t.onsuccess=()=>res(t.result||null);t.onerror=()=>rej(t.error);});}
+function rSet(v){return new Promise((res,rej)=>{const t=rdb.transaction(RSTORE,'readwrite').objectStore(RSTORE).put(v,RKEY);t.onsuccess=()=>res();t.onerror=()=>rej(t.error);});}
+
+async function rInit(){
+  let fromLS=null;
+  try{const raw=localStorage.getItem('swlandll_reading');if(raw)fromLS=JSON.parse(raw);}catch(_){}
+  try{
+    rdb=await rOpenDB();
+    const saved=await rGet();
+    const pick=(fromLS&&(!saved||(fromLS.updated||0)>(saved.updated||0)))?fromLS:saved;
+    if(pick)R=Object.assign({shelf:{read:[],reading:[],wish:[]},excerpts:[],sessions:[],movies:{watched:[],watching:[],wish:[]},music:{fav:[],loop:[],wish:[]},migrated:false},pick);
+    normMedia();
+  }catch(e){
+    rFallback=true;
+    if(fromLS)R=Object.assign({shelf:{read:[],reading:[],wish:[]},excerpts:[],sessions:[],migrated:false},fromLS);
+  }
+  try{if(navigator.storage&&navigator.storage.persisted)rPersist=(await navigator.storage.persisted())?'granted':'no';}catch(_){}
+  await rMigrateOld();
+  renderReadState();
+}
+async function rMigrateOld(){
+  if(R.migrated)return;
+  const olds=(D.media&&D.media.book)||[];
+  olds.forEach(b=>{
+    R.shelf.read.push({id:uid(),title:b.name,author:'',finishDate:b.date||today(),stars:b.stars||0,note:b.note||'',source:'本地',createdAt:b.date||today()});
+    (b.excerpts||[]).forEach(e=>R.excerpts.push({id:uid(),text:e.text,bookTitle:b.name,bookId:'',note:'',tags:[],createdAt:e.time||today()}));
+  });
+  R.migrated=true;
+  await rSave();
+}
+async function rSave(){
+  R.updated=Date.now();
+  /* 双写：localStorage 永远有一份，IndexedDB 再存一份，任何一边坏了都能救回来 */
+  try{localStorage.setItem('swlandll_reading',JSON.stringify(R));}catch(_){}
+  try{
+    if(rdb&&!rFallback)await rSet(R);
+  }catch(e){rFallback=true;toast('数据库写入异常，已改用本地存档');}
+  renderReadState();
+  if(typeof scheduleSync==='function')scheduleSync();
+}
+function renderReadState(){
+  const el=document.getElementById('rState');if(!el)return;
+  const total=R.shelf.read.length+R.shelf.reading.length+R.shelf.wish.length;
+  const d=R.updated?new Date(R.updated):null;
+  const saved=d?`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`:'—';
+  const perm={granted:'🔒 持久存储已开启',denied:'⚠️ 持久存储未授权',no:'⚠️ 持久存储未开启',unsupported:'当前环境不支持持久存储',unknown:'存储权限检测中…'}[rPersist]||'';
+  el.innerHTML=`${rFallback?'localStorage 兜底':'IndexedDB 已连接'} · 上次保存 ${saved} · 书架 ${total} 本 · 摘录 ${R.excerpts.length} 条 · 阅读记录 ${R.sessions.length} 条 · 影视 ${(R.movies?R.movies.watched.length+R.movies.watching.length+R.movies.wish.length:0)} 部 · 音乐 ${(R.music?R.music.fav.length+R.music.loop.length+R.music.wish.length:0)} 首 · ${perm}`;
+}
+
+/* ---------- 通用弹窗 ---------- */
+function openModal(title,bodyHTML,onSave){
+  const mask=document.getElementById('mask');
+  mask.innerHTML=`<div class="modal"><h3>${title}</h3><div class="mbody">${bodyHTML}</div>
+    <div class="mactions"><button class="btn ghost" id="mCancel">取消</button><button class="btn" id="mSave">保存</button></div></div>`;
+  mask.classList.add('show');
+  document.getElementById('mCancel').onclick=closeModal;
+  document.getElementById('mSave').onclick=async()=>{const r=await onSave();if(r!==false)closeModal();};
+  mask.onclick=e=>{if(e.target===mask)closeModal();};
+  setTimeout(()=>{const f=mask.querySelector('input,textarea');f&&f.focus();},60);
+}
+function closeModal(){const m=document.getElementById('mask');m.classList.remove('show');m.innerHTML='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+/* ---------- 页面骨架 ---------- */
+async function renderBook(){
+  main.innerHTML=`<div class="page-title">📖 书籍</div><div class="page-sub">正在读取本地阅读数据…</div>`;
+  await rReady;
+  main.innerHTML=`
+  <div class="page-title">📖 书籍</div>
+  <div class="page-sub">我的阅读档案 · 数据保存在本机，不上传云端</div>
+  <div class="bk-head">
+    <div class="tabs" style="margin:0">
+      ${[['shelf','📚 我的书架'],['excerpts','✂️ 我的摘录'],['trend','📈 阅读趋势'],['annual','🗓 年度书单']].map(([k,n])=>`<button class="bk-tab ${bookTab===k?'on':''}" data-t="${k}" onclick="setBookTab('${k}')">${n}</button>`).join('')}
+    </div>
+    <div class="bk-tools">
+      <button class="btn ghost" onclick="exportReading()">⬇ 导出 JSON</button>
+      <button class="btn ghost" onclick="importReading()">⬆ 导入 JSON</button>
+      <button class="btn ghost" onclick="requestPersist()">🔒 持久存储</button>
+    </div>
+  </div>
+  <div class="bk-state" id="rState"></div>
+  <div id="bookBody"></div>`;
+  renderReadState();
+  renderBookTab();
+}
+function setBookTab(t){bookTab=t;renderBookTab();}
+function setTrend(r){trendRange=r;renderBookTab();}
+function yearShift(n){annualYear+=n;renderBookTab();}
+function yearReset(){annualYear=new Date().getFullYear();renderBookTab();}
+function onExSearch(v){exQuery=v;renderExList();}
+function renderBookTab(){
+  document.querySelectorAll('.bk-tab').forEach(b=>b.classList.toggle('on',b.dataset.t===bookTab));
+  const body=document.getElementById('bookBody');if(!body)return;
+  if(bookTab==='shelf')body.innerHTML=shelfHTML();
+  else if(bookTab==='excerpts'){body.innerHTML=excerptsHTML();renderExList();}
+  else if(bookTab==='trend')body.innerHTML=trendHTML();
+  else body.innerHTML=annualHTML();
+}
+
+/* ---------- 1. 我的书架 ---------- */
+const STAR=n=>'★'.repeat(Math.max(0,Math.min(5,n||0)))+'☆'.repeat(5-Math.max(0,Math.min(5,n||0)));
+function readPct(it){
+  if(it.mode==='page'){const t=+it.total||0,p=+it.page||0;return t?Math.max(0,Math.min(100,Math.round(p/t*100))):0;}
+  return Math.max(0,Math.min(100,Math.round(+it.percent||0)));
+}
+function shelfHTML(){
+  const s=R.shelf;
+  return `<div class="wx-banner">📥 <b>从微信读书导入</b>：无法自动实时同步。支持粘贴微信读书导出的文本 / JSON 批量导入，导入条目会自动标记来源「微信读书」。
+    <button class="btn ghost mini" style="margin-left:auto" onclick="openWxImport()">开始导入</button></div>
+    ${groupHTML('read','✅ 已经阅读','读完的每一本都算数',s.read)}
+    ${groupHTML('reading','📖 正在阅读','记录进度与当下想法',s.reading)}
+    ${groupHTML('wish','🌱 想要阅读','想读的先收藏起来',s.wish)}`;
+}
+function groupHTML(kind,title,hint,list){
+  return `<section class="bk-group">
+    <div class="bk-group-head"><h3>${title}</h3><span class="bk-count">${list.length}</span><span class="bk-hint">${hint}</span>
+      <button class="bk-add" onclick="openBookEditor('${kind}')">＋ 新增</button></div>
+    <div class="bk-grid">${list.length?list.slice().reverse().map(it=>bookCard(kind,it)).join(''):`<div class="bk-empty">还没有记录，点「＋ 新增」添加～</div>`}</div>
+  </section>`;
+}
+function bookCard(kind,it){
+  let body='';
+  if(kind==='read'){
+    body=`<div class="bk-meta">${it.author?esc(it.author)+' · ':''}读完 ${it.finishDate||'—'}</div>
+      <div class="bk-stars">${STAR(it.stars)}</div>
+      ${it.note?`<div class="bk-note">${esc(it.note)}</div>`:''}`;
+  }else if(kind==='reading'){
+    const pct=readPct(it);
+    const label=it.mode==='page'?`第 ${it.page||0}${it.total?' / '+it.total:''} 页 · ${pct}%`:`已读 ${pct}%`;
+    body=`<div class="bk-meta">${it.author?esc(it.author)+' · ':''}开始于 ${it.startDate||'—'}</div>
+      <div class="bk-progress"><div class="bar"><i style="width:${pct}%"></i></div>
+        <div class="pr"><span>${label}</span><span>${pct>=100?'可以收尾啦':'继续加油'}</span></div></div>
+      ${it.note?`<div class="bk-note">${esc(it.note)}</div>`:''}`;
+  }else{
+    body=`<div class="bk-meta">${it.author?esc(it.author):'作者未填'}</div>
+      ${it.reason?`<div class="bk-note">💡 ${esc(it.reason)}</div>`:''}
+      ${(it.tags&&it.tags.length)?`<div class="bk-tags">${it.tags.map(t=>`<span class="chip">${esc(t)}</span>`).join('')}</div>`:''}`;
+  }
+  const src=it.source&&it.source!=='本地'?`<span class="chip src">${esc(it.source)}</span>`:'';
+  return `<div class="bk-card">
+    <div class="bk-title">《${esc(it.title)}》${src}</div>
+    ${body}
+    <div class="bk-acts">
+      ${kind==='reading'?`<button class="primary" onclick="finishBook('${it.id}')">读完了 →</button>`:''}
+      ${kind==='wish'?`<button class="primary" onclick="startBook('${it.id}')">开始阅读 →</button>`:''}
+      <button onclick="openBookEditor('${kind}','${it.id}')">编辑</button>
+      <button class="danger" onclick="delBook('${kind}','${it.id}')">删除</button>
+    </div></div>`;
+}
+async function finishBook(id){
+  const it=R.shelf.reading.find(x=>x.id===id);if(!it)return;
+  const d=prompt('读完日期（YYYY-MM-DD）：',today());
+  if(d===null)return;
+  R.shelf.reading=R.shelf.reading.filter(x=>x.id!==id);
+  R.shelf.read.push({id:uid(),title:it.title,author:it.author||'',finishDate:d||today(),stars:it.stars||0,note:it.note||'',source:it.source||'本地',createdAt:it.startDate||today()});
+  await rSave();renderBookTab();toast('已移入「已经阅读」🎉');
+}
+async function startBook(id){
+  const it=R.shelf.wish.find(x=>x.id===id);if(!it)return;
+  R.shelf.wish=R.shelf.wish.filter(x=>x.id!==id);
+  R.shelf.reading.push({id:uid(),title:it.title,author:it.author||'',mode:'percent',percent:0,page:0,total:0,startDate:today(),note:it.reason||'',source:it.source||'本地'});
+  await rSave();renderBookTab();toast('已开始阅读，加油 📖');
+}
+async function delBook(kind,id){
+  const it=R.shelf[kind].find(x=>x.id===id);if(!it)return;
+  if(!confirm(`确定删除《${it.title}》吗？`))return;
+  R.shelf[kind]=R.shelf[kind].filter(x=>x.id!==id);
+  await rSave();renderBookTab();toast('已删除');
+}
+function openBookEditor(kind,id){
+  const it=id?R.shelf[kind].find(x=>x.id===id):null;
+  const isEdit=!!it;
+  const starSel=n=>[0,1,2,3,4,5].map(i=>`<option value="${i}" ${i===(n||0)?'selected':''}>${i?'★'.repeat(i):'暂不评分'}</option>`).join('');
+  let fields=`<label class="field"><b>书名 *</b><input id="fTitle" value="${esc(it?it.title:'')}" placeholder="书籍名称"></label>
+    <label class="field"><b>作者</b><input id="fAuthor" value="${esc(it?it.author:'')}" placeholder="可选"></label>`;
+  if(kind==='read'){
+    fields+=`<div class="two-col">
+      <label class="field"><b>读完日期</b><input id="fDate" type="date" value="${it?it.finishDate||today():today()}"></label>
+      <label class="field"><b>星级评分</b><select id="fStars">${starSel(it?it.stars:0)}</select></label></div>
+      <label class="field"><b>阅读感想</b><textarea id="fNote" placeholder="读完的想法…">${esc(it?it.note:'')}</textarea></label>`;
+  }else if(kind==='reading'){
+    fields+=`<label class="field"><b>进度方式</b><select id="fMode" onchange="toggleReadFields()">
+        <option value="percent" ${(!it||it.mode!=='page')?'selected':''}>按百分比</option>
+        <option value="page" ${it&&it.mode==='page'?'selected':''}>按页码</option></select></label>
+      <div class="two-col">
+        <label class="field" id="wrapPercent"><b>已读百分比</b><input id="fPercent" type="number" min="0" max="100" value="${it&&it.percent!=null?it.percent:''}" placeholder="35"></label>
+        <label class="field" id="wrapPage"><b>当前页码</b><input id="fPage" type="number" min="0" value="${it&&it.page!=null?it.page:''}" placeholder="120"></label>
+        <label class="field" id="wrapTotal"><b>总页数</b><input id="fTotal" type="number" min="0" value="${it&&it.total!=null?it.total:''}" placeholder="320"></label>
+        <label class="field"><b>开始阅读日期</b><input id="fDate" type="date" value="${it?it.startDate||today():today()}"></label></div>
+      <label class="field"><b>当前感想</b><textarea id="fNote" placeholder="读到哪了，想到什么…">${esc(it?it.note:'')}</textarea></label>`;
+  }else{
+    fields+=`<label class="field"><b>想读理由</b><textarea id="fReason" placeholder="为什么想读？">${esc(it?it.reason:'')}</textarea></label>
+      <label class="field"><b>标签</b><input id="fTags" value="${it?esc((it.tags||[]).join(',')):''}" placeholder="用逗号分隔，如：心理学,自我成长"></label>`;
+  }
+  openModal(isEdit?'编辑书籍':(kind==='read'?'添加一本读完的书':kind==='reading'?'添加正在阅读':'添加想读的书'),fields,async()=>{
+    const title=document.getElementById('fTitle').value.trim();
+    if(!title){toast('书名不能为空');return false;}
+    const base={title,author:document.getElementById('fAuthor').value.trim()};
+    if(kind==='read'){
+      Object.assign(base,{finishDate:document.getElementById('fDate').value||today(),stars:+document.getElementById('fStars').value||0,note:document.getElementById('fNote').value.trim()});
+    }else if(kind==='reading'){
+      Object.assign(base,{mode:document.getElementById('fMode').value,percent:+document.getElementById('fPercent').value||0,page:+document.getElementById('fPage').value||0,total:+document.getElementById('fTotal').value||0,startDate:document.getElementById('fDate').value||today(),note:document.getElementById('fNote').value.trim()});
+    }else{
+      const tags=document.getElementById('fTags').value.split(/[,，\s]+/).map(s=>s.trim()).filter(Boolean);
+      Object.assign(base,{reason:document.getElementById('fReason').value.trim(),tags});
+    }
+    if(isEdit)Object.assign(it,base);
+    else R.shelf[kind].push(Object.assign({id:uid(),source:'本地',createdAt:today()},base));
+    await rSave();renderBookTab();toast(isEdit?'已更新':'已添加 🌿');
+    return true;
+  });
+  if(kind==='reading')toggleReadFields();
+}
+function toggleReadFields(){
+  const m=document.getElementById('fMode');if(!m)return;
+  const page=m.value==='page';
+  document.getElementById('wrapPercent').style.display=page?'none':'flex';
+  document.getElementById('wrapPage').style.display=page?'flex':'none';
+  document.getElementById('wrapTotal').style.display=page?'flex':'none';
+}
+
+/* ---------- 2. 我的摘录 ---------- */
+function excerptsHTML(){
+  return `<div class="bk-head" style="margin-bottom:14px">
+    <input id="exSearch" placeholder="🔍 搜索摘录原文 / 书籍 / 批注 / 标签" value="${esc(exQuery)}" oninput="onExSearch(this.value)" style="flex:1;min-width:220px;font-size:13px">
+    <button class="btn ghost mini" onclick="openExcerptEditor()">＋ 新增摘录</button></div>
+    <div id="exList"></div>`;
+}
+function renderExList(){
+  const box=document.getElementById('exList');if(!box)return;
+  const q=exQuery.trim().toLowerCase();
+  const list=R.excerpts.filter(e=>!q||[e.text,e.bookTitle,e.note,(e.tags||[]).join(' ')].join(' ').toLowerCase().includes(q)).slice().reverse();
+  box.innerHTML=`<div class="bk-grid">${list.map(exCard).join('')||`<div class="bk-empty">${q?'没有匹配的摘录～':'还没有摘录，点「＋ 新增摘录」记录第一段吧'}</div>`}</div>`;
+}
+function exCard(e){
+  return `<div class="bk-card">
+    <div class="bk-meta">📖 ${e.bookTitle?esc(e.bookTitle):'未关联书籍'}</div>
+    <div class="ex-text" onclick="this.classList.toggle('open')">${esc(e.text)}</div>
+    ${e.note?`<div class="bk-note">💬 ${esc(e.note)}</div>`:''}
+    ${(e.tags&&e.tags.length)?`<div class="bk-tags">${e.tags.map(t=>`<span class="chip">${esc(t)}</span>`).join('')}</div>`:''}
+    <div class="bk-meta" style="color:#C9B4BB">🕘 ${e.createdAt||''}</div>
+    <div class="bk-acts"><button onclick="openExcerptEditor('${e.id}')">编辑</button><button class="danger" onclick="delExcerpt('${e.id}')">删除</button></div>
+  </div>`;
+}
+function openExcerptEditor(id){
+  const e=id?R.excerpts.find(x=>x.id===id):null;
+  const books=[...R.shelf.read,...R.shelf.reading,...R.shelf.wish];
+  const opts=`<option value="">不关联</option>`+books.map(b=>`<option value="${b.id}" ${e&&e.bookId===b.id?'selected':''}>${esc(b.title)}</option>`).join('');
+  openModal(e?'编辑摘录':'新增摘录',`
+    <label class="field"><b>摘录原文 *</b><textarea id="fText" style="min-height:150px" placeholder="粘贴或输入摘抄内容…">${esc(e?e.text:'')}</textarea></label>
+    <label class="field"><b>关联书籍</b><select id="fBook" onchange="onExBookChange()">${opts}</select></label>
+    <label class="field" id="wrapBookTitle"><b>或手动填写来源书名</b><input id="fBookTitle" value="${esc(e?e.bookTitle:'')}" placeholder="如《被讨厌的勇气》"></label>
+    <label class="field"><b>个人批注</b><textarea id="fNote" placeholder="看到这段时的想法…">${esc(e?e.note:'')}</textarea></label>
+    <label class="field"><b>标签</b><input id="fTags" value="${e?esc((e.tags||[]).join(',')):''}" placeholder="用逗号分隔，如：成长,金句"></label>
+  `,async()=>{
+    const text=document.getElementById('fText').value.trim();
+    if(!text){toast('摘录内容不能为空');return false;}
+    const sel=document.getElementById('fBook').value;
+    const book=books.find(b=>b.id===sel);
+    const manual=document.getElementById('fBookTitle').value.trim();
+    const tags=document.getElementById('fTags').value.split(/[,，\s]+/).map(s=>s.trim()).filter(Boolean);
+    const data={text,bookId:sel||'',bookTitle:book?book.title:manual,note:document.getElementById('fNote').value.trim(),tags};
+    if(e)Object.assign(e,data);
+    else R.excerpts.push(Object.assign({id:uid(),createdAt:today()+' '+nowTime()},data));
+    await rSave();renderExList();toast(e?'摘录已更新':'摘录已保存 ✂️');
+    return true;
+  });
+  onExBookChange();
+}
+function onExBookChange(){
+  const sel=document.getElementById('fBook'),wrap=document.getElementById('wrapBookTitle');
+  if(!sel||!wrap)return;
+  wrap.style.display=sel.value?'none':'flex';
+}
+async function delExcerpt(id){
+  if(!confirm('确定删除这条摘录吗？'))return;
+  R.excerpts=R.excerpts.filter(x=>x.id!==id);
+  await rSave();renderExList();toast('已删除');
+}
+
+/* ---------- 3. 阅读趋势 ---------- */
+function weekMinutes(){
+  const now=new Date();now.setHours(0,0,0,0);
+  const mon=new Date(now);mon.setDate(mon.getDate()-((mon.getDay()+6)%7));
+  return R.sessions.filter(s=>{const d=new Date(s.date+'T00:00:00');return d>=mon&&d<=now;}).reduce((a,s)=>a+(+s.minutes||0),0);
+}
+function trendHTML(){
+  const byDate={};R.sessions.forEach(s=>{byDate[s.date]=(byDate[s.date]||0)+(+s.minutes||0);});
+  const totalDays=Object.keys(byDate).filter(d=>byDate[d]>0).length;
+  const totalMin=R.sessions.reduce((a,s)=>a+(+s.minutes||0),0);
+  const mm=today().slice(0,7);
+  const monthMin=R.sessions.filter(s=>s.date.startsWith(mm)).reduce((a,s)=>a+(+s.minutes||0),0);
+  return `<div class="stat-row">
+      <div class="stat"><div class="v">${totalDays}</div><div class="k">总阅读天数</div></div>
+      <div class="stat"><div class="v">${(totalMin/60).toFixed(1)}</div><div class="k">总阅读时长(h)</div></div>
+      <div class="stat"><div class="v">${(monthMin/60).toFixed(1)}</div><div class="k">本月时长(h)</div></div>
+      <div class="stat"><div class="v">${weekMinutes()}</div><div class="k">本周(min)</div></div>
+    </div>
+    <div class="card"><h3>🔥 每日阅读热力图（近 20 周）</h3>${heatmapHTML(byDate)}</div>
+    <div class="card"><h3>📊 ${trendRange==='week'?'近 8 周':'近 6 个月'}阅读时长
+      <span class="mode-toggle" style="margin-left:auto">
+        <button class="${trendRange==='week'?'on':''}" onclick="setTrend('week')">周</button>
+        <button class="${trendRange==='month'?'on':''}" onclick="setTrend('month')">月</button></span></h3>
+      ${barsHTML()}</div>
+    <div class="card"><h3>➕ 手动记录阅读</h3>
+      <div class="formrow">
+        <input id="sDate" type="date" value="${today()}" style="width:148px">
+        <input id="sMin" type="number" min="1" placeholder="时长（分钟）" style="width:124px">
+        <input id="sBook" placeholder="书籍（可选）" style="flex:1;min-width:120px">
+        <input id="sNote" placeholder="备注（可选）" style="flex:1;min-width:120px">
+        <button class="btn mini" onclick="addSession()">保存</button>
+      </div>
+      <button class="btn ghost mini" style="margin-top:10px" onclick="openWxTimeImport()">📥 导入微信读书时长</button></div>
+    <div class="card"><h3>🕘 最近阅读记录<span class="tag">${R.sessions.length} 条</span></h3>
+      ${R.sessions.slice().reverse().slice(0,10).map(s=>`<div class="item">
+        <div class="cicon" style="background:var(--sky-soft)">📖</div>
+        <div class="grow"><div class="tt">${esc(s.bookTitle||'未标注书籍')}</div>
+          <div class="meta">${s.date} · ${s.minutes} 分钟${s.note?' · '+esc(s.note):''}</div></div>
+        <div class="op"><button onclick="delSession('${s.id}')">🗑</button></div></div>`).join('')||'<div class="empty">还没有阅读记录～</div>'}</div>`;
+}
+function heatmapHTML(byDate){
+  const end=new Date();end.setHours(0,0,0,0);
+  const start=new Date(end);start.setDate(start.getDate()-139);
+  start.setDate(start.getDate()-((start.getDay()+6)%7));
+  let cells='';
+  const d=new Date(start);
+  while(d<=end){
+    const key=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const m=byDate[key]||0;
+    const lvl=m>=60?'l4':m>=31?'l3':m>=16?'l2':m>0?'l1':'';
+    cells+=`<i class="${lvl}" title="${key} · ${m} 分钟"></i>`;
+    d.setDate(d.getDate()+1);
+  }
+  return `<div class="heat-wrap"><div class="heat">${cells}</div></div>
+    <div class="heat-legend">少
+      <i style="background:#F7EFF1"></i><i style="background:#FBE0E6"></i>
+      <i style="background:#F7C2CF"></i><i style="background:#EF9FB4"></i>
+      <i style="background:#E27F9C"></i> 多</div>`;
+}
+function barsHTML(){
+  const data=[];
+  if(trendRange==='week'){
+    for(let i=7;i>=0;i--){
+      const s=new Date();s.setHours(0,0,0,0);
+      s.setDate(s.getDate()-((s.getDay()+6)%7)-i*7);
+      const e=new Date(s);e.setDate(e.getDate()+6);
+      const mins=R.sessions.filter(x=>{const d=new Date(x.date+'T00:00:00');return d>=s&&d<=e;}).reduce((a,x)=>a+(+x.minutes||0),0);
+      data.push({label:`${s.getMonth()+1}/${s.getDate()}`,v:mins});
+    }
+  }else{
+    for(let i=5;i>=0;i--){
+      const d=new Date();d.setDate(1);d.setMonth(d.getMonth()-i);
+      const key=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+      const mins=R.sessions.filter(x=>x.date.startsWith(key)).reduce((a,x)=>a+(+x.minutes||0),0);
+      data.push({label:`${d.getMonth()+1}月`,v:mins});
+    }
+  }
+  const max=Math.max(...data.map(d=>d.v),30);
+  return `<div class="bars">${data.map(d=>`<div class="b">
+      <span class="bv">${d.v||''}</span>
+      <i style="height:${Math.max(4,Math.round(d.v/max*110))}px"></i>
+      <span class="bl">${d.label}</span></div>`).join('')}</div>`;
+}
+async function addSession(){
+  const date=document.getElementById('sDate').value||today();
+  const min=+document.getElementById('sMin').value||0;
+  if(min<=0)return toast('请输入阅读时长（分钟）');
+  R.sessions.push({id:uid(),date,minutes:min,bookTitle:document.getElementById('sBook').value.trim(),note:document.getElementById('sNote').value.trim()});
+  await rSave();renderBookTab();toast('阅读记录已保存 📖');
+}
+async function delSession(id){
+  R.sessions=R.sessions.filter(x=>x.id!==id);
+  await rSave();renderBookTab();toast('已删除');
+}
+
+/* ---------- 4. 年度书单 ---------- */
+function annualHTML(){
+  const y=annualYear;
+  const books=R.shelf.read.filter(b=>b.finishDate&&b.finishDate.startsWith(String(y)));
+  const mins=R.sessions.filter(s=>s.date.startsWith(String(y))).reduce((a,s)=>a+(+s.minutes||0),0);
+  const avg=books.length?(books.reduce((a,b)=>a+(+b.stars||0),0)/books.length).toFixed(1):'0.0';
+  let months='';
+  for(let m=1;m<=12;m++){
+    const key=`${y}-${String(m).padStart(2,'0')}`;
+    const list=books.filter(b=>b.finishDate.startsWith(key));
+    months+=`<div class="yr-month"><div class="ym">${m} 月${list.length?' · 读完 '+list.length+' 本':''}</div>
+      <div class="yr-books">${list.map(b=>`<span class="yr-book">《${esc(b.title)}》${b.stars?`<span class="yrs">${STAR(b.stars)}</span>`:''}</span>`).join('')||'<span class="yr-empty">这个月还没有读完的书</span>'}</div></div>`;
+  }
+  return `<div class="yr-head">
+      <button class="btn ghost mini" onclick="yearShift(-1)">◀</button>
+      <b>${y} 年书单</b>
+      <button class="btn ghost mini" onclick="yearShift(1)">▶</button>
+      ${y!==new Date().getFullYear()?`<button class="btn ghost mini" onclick="yearReset()">回到今年</button>`:''}</div>
+    <div class="stat-row" style="grid-template-columns:repeat(3,1fr)">
+      <div class="stat"><div class="v">${books.length}</div><div class="k">本年读完（本）</div></div>
+      <div class="stat"><div class="v">${(mins/60).toFixed(1)}</div><div class="k">阅读时长（小时）</div></div>
+      <div class="stat"><div class="v">${avg}</div><div class="k">平均星级</div></div>
+    </div>
+    <div class="card">${months}</div>`;
+}
+
+/* ---------- 导入：微信读书 ---------- */
+function openWxImport(){
+  openModal('从微信读书导入',`
+    <div class="mtip">⚠️ 无法自动实时同步微信读书。请将微信读书导出的文本或 JSON 粘贴到下方批量导入，条目会自动标记来源「微信读书」。</div>
+    <label class="field"><b>粘贴内容</b><textarea id="wxText" style="min-height:170px" placeholder="格式一（JSON）：
+[{&quot;title&quot;:&quot;书名&quot;,&quot;author&quot;:&quot;作者&quot;,&quot;status&quot;:&quot;读完&quot;,&quot;progress&quot;:100,&quot;date&quot;:&quot;2026-10-01&quot;}]
+格式二（每行一本，逗号分隔）：
+书名,作者,状态(读完/在读/想读),进度%,日期"></textarea></label>
+    <div class="mtip">同名书籍会自动去重，不会重复导入。</div>
+  `,async()=>{
+    const raw=document.getElementById('wxText').value.trim();
+    if(!raw){toast('请先粘贴内容');return false;}
+    const list=parseWxBooks(raw);
+    if(!list.length){toast('没有解析到可导入的书籍');return false;}
+    let add=0;
+    list.forEach(b=>{
+      if([...R.shelf.read,...R.shelf.reading,...R.shelf.wish].some(x=>x.title===b.title))return;
+      const base={id:uid(),title:b.title,author:b.author||'',source:'微信读书',createdAt:today()};
+      if(b.status==='read')R.shelf.read.push(Object.assign(base,{finishDate:b.date||today(),stars:b.stars||0,note:b.note||''}));
+      else if(b.status==='wish')R.shelf.wish.push(Object.assign(base,{reason:b.note||'',tags:['微信读书']}));
+      else R.shelf.reading.push(Object.assign(base,{mode:'percent',percent:Math.max(0,Math.min(100,b.progress||0)),page:0,total:0,startDate:b.date||today(),note:b.note||''}));
+      add++;
+    });
+    await rSave();renderBookTab();toast(add?`已导入 ${add} 本（来源：微信读书）`:'这些书都已经在书架里了');
+    return true;
+  });
+}
+function parseWxBooks(raw){
+  let items=[];
+  try{
+    const j=JSON.parse(raw);
+    const arr=Array.isArray(j)?j:(Array.isArray(j.books)?j.books:null);
+    if(arr){
+      items=arr.map(x=>({title:x.title||x.bookName||x.name||'',author:x.author||'',status:normStatus(x.status||x.state||''),progress:+x.progress||0,date:x.date||x.finishDate||'',stars:+x.stars||0,note:x.note||x.review||''}));
+    }
+  }catch(e){
+    raw.split('\n').map(l=>l.trim()).filter(Boolean).forEach(l=>{
+      const p=l.split(/[\t,，|]+/).map(s=>s.trim());
+      if(p.length<2)return;
+      items.push({title:p[0].replace(/[《》]/g,''),author:p[1]||'',status:normStatus(p[2]||''),progress:parseFloat((p[3]||'').replace('%',''))||0,date:p[4]||'',stars:+p[5]||0,note:p[6]||''});
+    });
+  }
+  return items.filter(x=>x.title);
+}
+function normStatus(s){
+  if(/想读|待读/.test(s))return 'wish';
+  if(/在读|阅读中|进行/.test(s))return 'reading';
+  if(/读完|已读|完成/.test(s))return 'read';
+  return 'read';
+}
+function openWxTimeImport(){
+  openModal('导入微信读书时长',`
+    <div class="mtip">支持 JSON 或每行「日期 分钟」格式，导入记录会标注来源微信读书。</div>
+    <label class="field"><b>粘贴内容</b><textarea id="wxTime" style="min-height:150px" placeholder="2026-10-01,45
+2026-10-02,30"></textarea></label>
+  `,async()=>{
+    const raw=document.getElementById('wxTime').value.trim();
+    if(!raw){toast('请先粘贴内容');return false;}
+    let list=[];
+    try{
+      const j=JSON.parse(raw);
+      const arr=Array.isArray(j)?j:(j.data||j.sessions||[]);
+      list=arr.map(x=>({date:x.date,minutes:+x.minutes||+x.duration||0,bookTitle:x.book||x.bookTitle||'',note:x.note||'微信读书'}));
+    }catch(e){
+      raw.split('\n').map(l=>l.trim()).filter(Boolean).forEach(l=>{
+        const p=l.split(/[\t,，|\s]+/);
+        const d=p.find(x=>/^\d{4}-\d{1,2}-\d{1,2}$/.test(x));
+        const nums=p.map(x=>parseFloat(x)).filter(x=>!isNaN(x)&&x<1440);
+        const m=nums.length?nums[nums.length-1]:0;
+        if(d&&m)list.push({date:d,minutes:m,bookTitle:'',note:'微信读书'});
+      });
+    }
+    list=list.filter(x=>x.date&&x.minutes>0);
+    if(!list.length){toast('没有解析到时长数据');return false;}
+    list.forEach(x=>R.sessions.push({id:uid(),date:x.date,minutes:x.minutes,bookTitle:x.bookTitle||'',note:x.note||'微信读书'}));
+    await rSave();renderBookTab();toast(`已导入 ${list.length} 天阅读时长`);
+    return true;
+  });
+}
+
+
+/* =========================================================
+   书影音 · 影视 & 音乐（沿用书籍的 R 存储 / bk-* 卡片风格）
+   ========================================================= */
+function normMedia(){
+  R.movies=R.movies||{watched:[],watching:[],wish:[]};
+  R.music=R.music||{fav:[],loop:[],wish:[]};
+  ['watched','watching','wish'].forEach(k=>R.movies[k]=R.movies[k]||[]);
+  ['fav','loop','wish'].forEach(k=>R.music[k]=R.music[k]||[]);
+}
+
+/* ---------- 收藏到随想（通用） ---------- */
+function favTextToThoughts(text){
+  D.thoughts.push({id:uid(),date:today(),time:nowTime(),text:text,voice:false});
+  save();toast('已收进随想 💭');
+}
+
+/* ================= 影视 🎬 ================= */
+const MV_TYPES=['电影','动画','纪录片','剧集'];
+let mvTab='watched',mvStar=0,mvTag='',_mvImgData=null;
+async function renderMovie(){
+  main.innerHTML=`<div class="page-title">🎬 影视</div><div class="page-sub">正在读取本地数据…</div>`;
+  await rReady;
+  main.innerHTML=`
+  <div class="page-title">🎬 影视</div>
+  <div class="page-sub">我的观影档案 · 全部手动录入 · 数据保存在本机不上云</div>
+  <div class="bk-head">
+    <div class="tabs" style="margin:0">
+      ${[['watched','✅ 已看完'],['watching','▶️ 在看'],['wish','🌱 想看'],['stats','📊 影视统计']].map(([k,n])=>`<button class="bk-tab ${mvTab===k?'on':''}" data-t="${k}" onclick="setMvTab('${k}')">${n}</button>`).join('')}
+    </div>
+    <div class="bk-tools">
+      <button class="btn ghost" onclick="exportReading()">⬇ 导出 JSON</button>
+      <button class="btn ghost" onclick="importReading()">⬆ 导入 JSON</button>
+      <button class="btn ghost" onclick="requestPersist()">🔒 持久存储</button>
+    </div>
+  </div>
+  <div class="bk-state" id="rState"></div>
+  <div id="mvBody"></div>`;
+  normMedia();renderReadState();renderMovieTab();
+}
+function setMvTab(t){mvTab=t;renderMovieTab();}
+function renderMovieTab(){
+  document.querySelectorAll('.bk-tab').forEach(b=>b.classList.toggle('on',b.dataset.t===mvTab));
+  const body=document.getElementById('mvBody');if(!body)return;
+  if(mvTab==='watched')body.innerHTML=mvWatchedHTML();
+  else if(mvTab==='watching')body.innerHTML=`${mvGroup('watching','▶️ 正在追','长剧 / 纪录片跟进，记下进度和心情')}`;
+  else if(mvTab==='wish')body.innerHTML=`${mvGroup('wish','🌱 想看片单','被安利的先存着，看完一键迁移')}`;
+  else body.innerHTML=mvStatsHTML();
+}
+function mvTagPool(){
+  const s=new Set();normMedia();
+  R.movies.watched.forEach(m=>(m.tags||[]).forEach(t=>s.add(t)));
+  return [...s];
+}
+function mvWatchedHTML(){
+  const tags=mvTagPool();
+  const list=R.movies.watched.filter(m=>(!mvStar||(m.stars||0)>=mvStar)&&(!mvTag||(m.tags||[]).includes(mvTag)))
+    .slice().sort((a,b)=>(b.watchDate||'').localeCompare(a.watchDate||''));
+  return `<div class="bk-head" style="margin-bottom:14px">
+    <select onchange="mvStar=+this.value;renderMovieTab()" style="padding:6px 10px;border-radius:999px;font-size:12px">
+      <option value="0" ${!mvStar?'selected':''}>全部星级</option>
+      ${[5,4,3].map(n=>`<option value="${n}" ${mvStar===n?'selected':''}>${'★'.repeat(n)} 及以上</option>`).join('')}
+    </select>
+    <select onchange="mvTag=this.value;renderMovieTab()" style="padding:6px 10px;border-radius:999px;font-size:12px">
+      <option value="">全部标签</option>
+      ${tags.map(t=>`<option value="${esc(t)}" ${mvTag===t?'selected':''}>${esc(t)}</option>`).join('')}
+    </select>
+    <span style="flex:1"></span>
+    <button class="bk-add" onclick="openMovieEditor('watched')">＋ 看完一部</button></div>
+    <div class="bk-grid">${list.length?list.map(m=>mvCard('watched',m)).join(''):`<div class="bk-empty">${mvStar||mvTag?'没有符合筛选的记录～':'还没有观影记录，点「＋ 看完一部」添加～'}</div>`}</div>`;
+}
+function mvGroup(kind,title,hint){
+  const list=R.movies[kind];
+  return `<div class="bk-head" style="margin-bottom:14px"><span class="bk-hint">${hint}</span><span style="flex:1"></span>
+    <button class="bk-add" onclick="openMovieEditor('${kind}')">＋ 新增</button></div>
+    <div class="bk-grid">${list.length?list.slice().reverse().map(m=>mvCard(kind,m)).join(''):`<div class="bk-empty">还没有记录，点「＋ 新增」添加～</div>`}</div>`;
+}
+function prioChip(p){
+  const map={'高':'#E58BA0','中':'#E9BC6A','低':'#9BB8A8'};
+  return p?`<span class="chip" style="background:${map[p]}22;color:${map[p]}">优先级 · ${esc(p)}</span>`:'';
+}
+function mvCard(kind,m){
+  const typeChip=m.type?`<span class="chip">${esc(m.type)}</span>`:'';
+  let body='',acts='';
+  if(kind==='watched'){
+    body=`<div class="bk-meta">${m.year?esc(m.year)+' 年 · ':''}观看于 ${m.watchDate||'—'}</div>
+      <div class="bk-stars">${STAR(m.stars)}</div>
+      ${(m.tags&&m.tags.length)?`<div class="bk-tags">${m.tags.map(t=>`<span class="chip">${esc(t)}</span>`).join('')}</div>`:''}
+      ${m.note?`<div class="bk-note">💬 ${esc(m.note)}</div>`:''}
+      ${m.quote?`<div class="mv-quote"><div class="bk-meta" style="color:#B4919C">🎞 名场面台词</div><div class="ex-text">“${esc(m.quote)}”</div></div>`:''}
+      ${m.img?`<img class="mv-poster" src="${esc(imgSrc(m.img))}" onclick="viewBigPic('${m.id}')" alt="剧照">`:''}`;
+    acts=`${m.quote?`<button onclick="favMovieQuote('${m.id}')">📌 台词收进随想</button>`:''}
+      <button onclick="openMovieEditor('watched','${m.id}')">编辑</button>
+      <button class="danger" onclick="delMediaItem('movies','watched','${m.id}')">删除</button>`;
+  }else if(kind==='watching'){
+    body=`${typeChip}<div class="bk-meta">进度：${esc(m.progress||'—')} · 上次观看 ${m.lastDate||'—'}</div>
+      ${m.note?`<div class="bk-note">💭 ${esc(m.note)}</div>`:''}`;
+    acts=`<button class="primary" onclick="finishMovie('${m.id}')">看完了 →</button>
+      <button onclick="openMovieEditor('watching','${m.id}')">编辑</button>
+      <button class="danger" onclick="delMediaItem('movies','watching','${m.id}')">删除</button>`;
+  }else{
+    body=`${typeChip}${prioChip(m.prio)}
+      ${m.from?`<div class="bk-meta">🙋 推荐来源：${esc(m.from)}</div>`:''}`;
+    acts=`<button class="primary" onclick="wishToWatched('${m.id}')">看完了 →</button>
+      <button onclick="openMovieEditor('wish','${m.id}')">编辑</button>
+      <button class="danger" onclick="delMediaItem('movies','wish','${m.id}')">删除</button>`;
+  }
+  return `<div class="bk-card"><div class="bk-title">《${esc(m.title)}》</div>${body}<div class="bk-acts">${acts}</div></div>`;
+}
+function viewBigPic(id){
+  const m=R.movies.watched.find(x=>x.id===id);if(!m||!m.img)return;
+  openModal('剧照',`<img src="${esc(imgSrc(m.img))}" style="width:100%;border-radius:14px">`,()=>true);
+}
+function favMovieQuote(id){
+  const m=R.movies.watched.find(x=>x.id===id);if(!m||!m.quote)return;
+  favTextToThoughts(`📌 [影视台词]《${m.title}》${m.year?'（'+m.year+'）':''}\n“${m.quote}”\n（收藏自影视记录 · ${today()} ${nowTime()}）`);
+}
+async function delMediaItem(mod,kind,id){
+  if(!confirm('确定删除这条记录吗？'))return;
+  R[mod][kind]=R[mod][kind].filter(x=>x.id!==id);
+  await rSave();renderMediaTab();toast('已删除');
+}
+function renderMediaTab(){if(page==='movie')renderMovieTab();else if(page==='music')renderMusicTab();}
+async function finishMovie(id){
+  const m=R.movies.watching.find(x=>x.id===id);if(!m)return;
+  R.movies.watching=R.movies.watching.filter(x=>x.id!==id);
+  R.movies.watched.push({id:uid(),title:m.title,type:m.type||'',year:m.year||'',watchDate:today(),stars:0,tags:[],note:m.note||'',quote:'',img:null,from:'本地'});
+  await rSave();renderMovieTab();toast('已移入「已看完」，记得补个星级 ⭐');
+}
+async function wishToWatched(id){
+  const m=R.movies.wish.find(x=>x.id===id);if(!m)return;
+  R.movies.wish=R.movies.wish.filter(x=>x.id!==id);
+  R.movies.watched.push({id:uid(),title:m.title,type:m.type||'',year:'',watchDate:today(),stars:0,tags:[],note:'',quote:'',img:null,from:m.from||'本地'});
+  await rSave();renderMovieTab();toast('已移入「已看完」🎬');
+}
+function mvPickImg(i){readImg(i,d=>{_mvImgData=d;const p=document.getElementById('mvImgPrev');if(p)p.innerHTML=`<img class="imgprev" src="${d}">`;});}
+function openMovieEditor(kind,id){
+  const it=id?R.movies[kind].find(x=>x.id===id):null;
+  const isEdit=!!it;_mvImgData=null;
+  const typeSel=n=>MV_TYPES.map(t=>`<option value="${t}" ${t===(n||'电影')?'selected':''}>${t}</option>`).join('');
+  const starSel=n=>[0,1,2,3,4,5].map(i=>`<option value="${i}" ${i===(n||0)?'selected':''}>${i?'★'.repeat(i):'暂不评分'}</option>`).join('');
+  let fields=`<label class="field"><b>作品名称 *</b><input id="fTitle" value="${esc(it?it.title:'')}" placeholder="片名 / 剧名"></label>
+    <div class="two-col"><label class="field"><b>类型</b><select id="fType">${typeSel(it?it.type:'')}</select></label>`;
+  if(kind==='watched'){
+    fields+=`<label class="field"><b>年份</b><input id="fYear" type="number" min="1900" max="2100" value="${esc(it?it.year:'')}" placeholder="如 2019"></label></div>
+      <div class="two-col">
+      <label class="field"><b>观看日期</b><input id="fDate" type="date" value="${it?it.watchDate||today():today()}"></label>
+      <label class="field"><b>星级评分</b><select id="fStars">${starSel(it?it.stars:0)}</select></label></div>
+      <label class="field"><b>自定义标签</b><input id="fTags" value="${it?esc((it.tags||[]).join(',')):''}" placeholder="用逗号分隔，如：治愈,宇宙,二刷"></label>
+      <label class="field"><b>个人短评</b><textarea id="fNote" placeholder="看完的感受…">${esc(it?it.note:'')}</textarea></label>
+      <label class="field"><b>名场面台词摘录</b><textarea id="fQuote" placeholder="最打动你的那句台词…">${esc(it?it.quote:'')}</textarea></label>
+      <label class="field"><b>剧照 / 截图</b><input type="file" accept="image/*" style="font-size:11px;padding:5px" onchange="mvPickImg(this)">
+        <div id="mvImgPrev">${it&&it.img?`<img class="imgprev" src="${esc(imgSrc(it.img))}">`:''}</div></label>`;
+  }else if(kind==='watching'){
+    fields+=`</div>
+      <label class="field"><b>当前进度（集数 / 时长）</b><input id="fProgress" value="${esc(it?it.progress:'')}" placeholder="如：S2 第 5 集 / 看到第 40 分钟"></label>
+      <label class="field"><b>上次观看时间</b><input id="fDate" type="date" value="${it?it.lastDate||today():today()}"></label>
+      <label class="field"><b>当下感受备注</b><textarea id="fNote" placeholder="追到哪了，感觉如何…">${esc(it?it.note:'')}</textarea></label>`;
+  }else{
+    fields+=`</div>
+      <label class="field"><b>推荐来源</b><input id="fFrom" value="${esc(it&&it.from&&it.from!=='本地'?it.from:'')}" placeholder="谁安利的 / 在哪看到的"></label>
+      <label class="field"><b>优先级</b><select id="fPrio">
+        <option value="高" ${it&&it.prio==='高'?'selected':''}>高 · 想马上看</option>
+        <option value="中" ${!it||!it.prio||it.prio==='中'?'selected':''}>中 · 有空就看</option>
+        <option value="低" ${it&&it.prio==='低'?'selected':''}>低 · 先种草着</option></select></label>`;
+  }
+  const titles={watched:isEdit?'编辑观影记录':'记一部看完的作品',watching:isEdit?'编辑在追':'添加正在追的',wish:isEdit?'编辑想看':'种草一部想看'};
+  openModal(titles[kind],fields,async()=>{
+    const title=document.getElementById('fTitle').value.trim();
+    if(!title){toast('名称不能为空');return false;}
+    const type=document.getElementById('fType').value;
+    const tgt=it||{};
+    if(kind==='watched'){
+      const ref=_mvImgData?await imgPut(_mvImgData):(it?it.img:null);
+      Object.assign(tgt,{title,type,year:document.getElementById('fYear').value.trim(),watchDate:document.getElementById('fDate').value||today(),stars:+document.getElementById('fStars').value||0,tags:document.getElementById('fTags').value.split(/[,，\s]+/).map(s=>s.trim()).filter(Boolean),note:document.getElementById('fNote').value.trim(),quote:document.getElementById('fQuote').value.trim(),img:ref});
+    }else if(kind==='watching'){
+      Object.assign(tgt,{title,type,progress:document.getElementById('fProgress').value.trim(),lastDate:document.getElementById('fDate').value||today(),note:document.getElementById('fNote').value.trim()});
+    }else{
+      Object.assign(tgt,{title,type,from:document.getElementById('fFrom').value.trim()||'本地',prio:document.getElementById('fPrio').value});
+    }
+    if(!isEdit)R.movies[kind].push(Object.assign({id:uid()},tgt));
+    await rSave();renderMovieTab();toast(isEdit?'已更新':'已记录 🎬');
+    return true;
+  });
+}
+function mvStatsHTML(){
+  normMedia();
+  const all=R.movies.watched,mm=today().slice(0,7),y=today().slice(0,4);
+  const month=all.filter(m=>(m.watchDate||'').startsWith(mm)).length;
+  const year=all.filter(m=>(m.watchDate||'').startsWith(y)).length;
+  const byType=MV_TYPES.map(t=>[t,all.filter(m=>m.type===t).length]).filter(x=>x[1]);
+  const five=all.filter(m=>(m.stars||0)>=5).slice().sort((a,b)=>(b.watchDate||'').localeCompare(a.watchDate||''));
+  return `<div class="stat-row">
+    <div class="stat"><div class="v">${month}</div><div class="k">本月观影</div></div>
+    <div class="stat"><div class="v">${year}</div><div class="k">年度累计</div></div>
+    <div class="stat"><div class="v">${all.length}</div><div class="k">累计看完</div></div>
+    <div class="stat"><div class="v">${R.movies.watching.length}</div><div class="k">正在追</div></div></div>
+    <div class="card"><h3>🎭 类型分布（已看完）</h3>
+      ${byType.length?byType.map(([t,n])=>`<div class="mv-row"><span>${t}</span><b>${n} 部</b></div>`).join(''):'<div class="bk-empty">还没有数据，先去看部片子吧～</div>'}</div>
+    <div class="card"><h3>⭐ 五星高分作品<span class="tag">${five.length} 部</span></h3>
+      ${five.length?`<div class="bk-grid">${five.map(m=>`<div class="bk-card"><div class="bk-title">《${esc(m.title)}》</div><div class="bk-stars">${STAR(m.stars)}</div><div class="bk-meta">${esc(m.type||'')} · ${m.watchDate||''}</div></div>`).join('')}</div>`:'<div class="bk-empty">还没有五星作品，遇到心头好记得打满星 ⭐</div>'}</div>`;
+}
+
+/* ================= 音乐 🎵 ================= */
+let msTab='fav',msTag='',_msImgData=null;
+async function renderMusic(){
+  main.innerHTML=`<div class="page-title">🎵 音乐</div><div class="page-sub">正在读取本地数据…</div>`;
+  await rReady;
+  main.innerHTML=`
+  <div class="page-title">🎵 音乐</div>
+  <div class="page-sub">我的听觉记忆 · 全部手动录入 · 数据保存在本机不上云</div>
+  <div class="bk-head">
+    <div class="tabs" style="margin:0">
+      ${[['fav','💜 我的收藏'],['loop','🔁 正在循环'],['wish','🎧 想听清单'],['review','🕰 音乐回顾']].map(([k,n])=>`<button class="bk-tab ${msTab===k?'on':''}" data-t="${k}" onclick="setMsTab('${k}')">${n}</button>`).join('')}
+    </div>
+    <div class="bk-tools">
+      <button class="btn ghost" onclick="exportReading()">⬇ 导出 JSON</button>
+      <button class="btn ghost" onclick="importReading()">⬆ 导入 JSON</button>
+      <button class="btn ghost" onclick="requestPersist()">🔒 持久存储</button>
+    </div>
+  </div>
+  <div class="bk-state" id="rState"></div>
+  <div id="msBody"></div>`;
+  normMedia();renderReadState();renderMusicTab();
+}
+function setMsTab(t){msTab=t;renderMusicTab();}
+function renderMusicTab(){
+  document.querySelectorAll('.bk-tab').forEach(b=>b.classList.toggle('on',b.dataset.t===msTab));
+  const body=document.getElementById('msBody');if(!body)return;
+  if(msTab==='fav'){body.innerHTML=msFavHTML();renderMsFavList();}
+  else if(msTab==='loop')body.innerHTML=msGroup('loop','🔁 正在循环','最近单曲循环的歌和循环的理由');
+  else if(msTab==='wish')body.innerHTML=msGroup('wish','🎧 想听清单','被安利的先收着，听完一键收进收藏');
+  else body.innerHTML=msReviewHTML();
+}
+function msTagPool(){
+  const s=new Set();normMedia();
+  R.music.fav.forEach(m=>(m.tags||[]).forEach(t=>s.add(t)));
+  return [...s];
+}
+function msFavHTML(){
+  const tags=msTagPool();
+  return `<div class="bk-head" style="margin-bottom:14px">
+    <select onchange="msTag=this.value;renderMusicTab()" style="padding:6px 10px;border-radius:999px;font-size:12px">
+      <option value="">全部标签</option>
+      ${tags.map(t=>`<option value="${esc(t)}" ${msTag===t?'selected':''}>${esc(t)}</option>`).join('')}
+    </select>
+    <span style="flex:1"></span>
+    <button class="bk-add" onclick="openMusicEditor('fav')">＋ 收藏一首</button></div>
+    <div id="msFavList"></div>`;
+  // 列表单独渲染以支持筛选
+}
+function renderMsFavList(){
+  const box=document.getElementById('msFavList');if(!box)return;
+  const list=R.music.fav.filter(m=>!msTag||(m.tags||[]).includes(msTag)).slice().sort((a,b)=>(b.firstDate||'').localeCompare(a.firstDate||''));
+  box.innerHTML=`<div class="bk-grid">${list.length?list.map(m=>msCard('fav',m)).join(''):`<div class="bk-empty">${msTag?'这个标签下还没有歌～':'还没有收藏，点「＋ 收藏一首」记录打动你的第一首吧'}</div>`}</div>`;
+}
+function msGroup(kind,title,hint){
+  const list=R.music[kind];
+  return `<div class="bk-head" style="margin-bottom:14px"><span class="bk-hint">${hint}</span><span style="flex:1"></span>
+    <button class="bk-add" onclick="openMusicEditor('${kind}')">＋ 新增</button></div>
+    <div class="bk-grid">${list.length?list.slice().reverse().map(m=>msCard(kind,m)).join(''):`<div class="bk-empty">还没有记录，点「＋ 新增」添加～</div>`}</div>`;
+}
+function msCard(kind,m){
+  let body='',acts='';
+  if(kind==='fav'){
+    body=`${m.img?`<img class="mv-poster" src="${esc(imgSrc(m.img))}" onclick="viewMusicPic('${m.id}')" alt="封面">`:''}
+      <div class="bk-meta">${esc(m.artist||'未知音乐人')}${m.genre?' · '+esc(m.genre):''}</div>
+      <div class="bk-meta">💜 初听于 ${m.firstDate||'—'}</div>
+      ${(m.tags&&m.tags.length)?`<div class="bk-tags">${m.tags.map(t=>`<span class="chip">${esc(t)}</span>`).join('')}</div>`:''}
+      ${m.note?`<div class="bk-note">💭 ${esc(m.note)}</div>`:''}`;
+    acts=`${m.lyrics?`<button onclick="favLyrics('${m.id}')">📌 歌词收进随想</button>`:''}
+      <button onclick="openMusicEditor('fav','${m.id}')">编辑</button>
+      <button class="danger" onclick="delMediaItem('music','fav','${m.id}')">删除</button>`;
+  }else if(kind==='loop'){
+    body=`${esc(m.artist||'')?`<div class="bk-meta">${esc(m.artist)}</div>`:''}
+      ${m.reason?`<div class="bk-note">🔁 循环理由：${esc(m.reason)}</div>`:''}
+      ${m.since?`<div class="bk-meta" style="color:#C9B4BB">从 ${m.since} 开始循环</div>`:''}`;
+    acts=`<button class="primary" onclick="loopToFav('${m.id}')">收进收藏 →</button>
+      <button onclick="openMusicEditor('loop','${m.id}')">编辑</button>
+      <button class="danger" onclick="delMediaItem('music','loop','${m.id}')">不循环了</button>`;
+  }else{
+    body=`${m.source?`<div class="bk-meta">🙋 谁安利的：${esc(m.source)}</div>`:''}
+      ${m.note?`<div class="bk-note">💡 ${esc(m.note)}</div>`:''}`;
+    acts=`<button class="primary" onclick="wishToFav('${m.id}')">听完了 →</button>
+      <button onclick="openMusicEditor('wish','${m.id}')">编辑</button>
+      <button class="danger" onclick="delMediaItem('music','wish','${m.id}')">删除</button>`;
+  }
+  return `<div class="bk-card"><div class="bk-title">♪ ${esc(m.title)}</div>${body}<div class="bk-acts">${acts}</div></div>`;
+}
+function viewMusicPic(id){
+  const m=R.music.fav.find(x=>x.id===id);if(!m||!m.img)return;
+  openModal('专辑封面',`<img src="${esc(imgSrc(m.img))}" style="width:100%;border-radius:14px">`,()=>true);
+}
+function favLyrics(id){
+  const m=R.music.fav.find(x=>x.id===id);if(!m||!m.lyrics)return;
+  favTextToThoughts(`📌 [歌词] ♪ ${m.title} — ${m.artist||'未知音乐人'}\n${m.lyrics}\n（收藏自音乐记录 · ${today()} ${nowTime()}）`);
+}
+async function loopToFav(id){
+  const m=R.music.loop.find(x=>x.id===id);if(!m)return;
+  R.music.loop=R.music.loop.filter(x=>x.id!==id);
+  R.music.fav.push({id:uid(),title:m.title,artist:m.artist||'',genre:'',firstDate:today(),note:m.reason||'',tags:[],lyrics:'',img:null});
+  await rSave();renderMusicTab();toast('已收进「我的收藏」💜');
+}
+async function wishToFav(id){
+  const m=R.music.wish.find(x=>x.id===id);if(!m)return;
+  R.music.wish=R.music.wish.filter(x=>x.id!==id);
+  R.music.fav.push({id:uid(),title:m.title,artist:m.artist||'',genre:'',firstDate:today(),note:m.note||'',tags:[],lyrics:'',img:null});
+  await rSave();renderMusicTab();toast('已收进「我的收藏」💜');
+}
+function msPickImg(i){readImg(i,d=>{_msImgData=d;const p=document.getElementById('msImgPrev');if(p)p.innerHTML=`<img class="imgprev" src="${d}">`;});}
+function openMusicEditor(kind,id){
+  const it=id?R.music[kind].find(x=>x.id===id):null;
+  const isEdit=!!it;_msImgData=null;
+  let fields='';
+  if(kind==='fav'){
+    fields=`<label class="field"><b>曲目名称 *</b><input id="fTitle" value="${esc(it?it.title:'')}" placeholder="歌名 / 曲名"></label>
+      <div class="two-col">
+      <label class="field"><b>歌手 / 乐队</b><input id="fArtist" value="${esc(it?it.artist:'')}" placeholder="可选"></label>
+      <label class="field"><b>曲风</b><input id="fGenre" value="${esc(it?it.genre:'')}" placeholder="如：民谣 / 后摇 / 爵士"></label></div>
+      <label class="field"><b>初次听到日期</b><input id="fDate" type="date" value="${it?it.firstDate||today():today()}"></label>
+      <label class="field"><b>场景 & 心情备注</b><textarea id="fNote" placeholder="什么场景听到的，当时的心情…">${esc(it?it.note:'')}</textarea></label>
+      <label class="field"><b>自定义标签</b><input id="fTags" value="${it?esc((it.tags||[]).join(',')):''}" placeholder="用逗号分隔，如：通勤,睡前,散步,松弛"></label>
+      <label class="field"><b>喜欢的歌词</b><textarea id="fLyrics" placeholder="可以留空；填了之后可一键收进随想…">${esc(it?it.lyrics:'')}</textarea></label>
+      <label class="field"><b>专辑封面</b><input type="file" accept="image/*" style="font-size:11px;padding:5px" onchange="msPickImg(this)">
+        <div id="msImgPrev">${it&&it.img?`<img class="imgprev" src="${esc(imgSrc(it.img))}">`:''}</div></label>`;
+  }else if(kind==='loop'){
+    fields=`<label class="field"><b>曲目名称 *</b><input id="fTitle" value="${esc(it?it.title:'')}" placeholder="最近在循环的歌"></label>
+      <label class="field"><b>歌手 / 乐队</b><input id="fArtist" value="${esc(it?it.artist:'')}" placeholder="可选"></label>
+      <label class="field"><b>循环的理由</b><textarea id="fReason" placeholder="为什么一直单曲循环…">${esc(it?it.reason:'')}</textarea></label>
+      <label class="field"><b>开始循环日期</b><input id="fSince" type="date" value="${it?it.since||today():today()}"></label>`;
+  }else{
+    fields=`<label class="field"><b>曲目名称 *</b><input id="fTitle" value="${esc(it?it.title:'')}" placeholder="被安利的歌"></label>
+      <label class="field"><b>歌手 / 乐队</b><input id="fArtist" value="${esc(it?it.artist:'')}" placeholder="可选"></label>
+      <label class="field"><b>谁安利的</b><input id="fSource" value="${esc(it?it.source:'')}" placeholder="朋友 / 歌单 / 影视剧…"></label>
+      <label class="field"><b>备注</b><textarea id="fNote" placeholder="为什么想听…">${esc(it?it.note:'')}</textarea></label>`;
+  }
+  const titles={fav:isEdit?'编辑收藏':'收藏一首打动你的歌',loop:isEdit?'编辑循环':'添加正在循环',wish:isEdit?'编辑想听':'加入想听清单'};
+  openModal(titles[kind],fields,async()=>{
+    const title=document.getElementById('fTitle').value.trim();
+    if(!title){toast('曲目名称不能为空');return false;}
+    const tgt=it||{};
+    if(kind==='fav'){
+      const ref=_msImgData?await imgPut(_msImgData):(it?it.img:null);
+      Object.assign(tgt,{title,artist:document.getElementById('fArtist').value.trim(),genre:document.getElementById('fGenre').value.trim(),firstDate:document.getElementById('fDate').value||today(),note:document.getElementById('fNote').value.trim(),tags:document.getElementById('fTags').value.split(/[,，\s]+/).map(s=>s.trim()).filter(Boolean),lyrics:document.getElementById('fLyrics').value.trim(),img:ref});
+    }else if(kind==='loop'){
+      Object.assign(tgt,{title,artist:document.getElementById('fArtist').value.trim(),reason:document.getElementById('fReason').value.trim(),since:document.getElementById('fSince').value||today()});
+    }else{
+      Object.assign(tgt,{title,artist:document.getElementById('fArtist').value.trim(),source:document.getElementById('fSource').value.trim(),note:document.getElementById('fNote').value.trim()});
+    }
+    if(!isEdit)R.music[kind].push(Object.assign({id:uid()},tgt));
+    await rSave();renderMusicTab();toast(isEdit?'已更新':'已记录 🎵');
+    return true;
+  });
+}
+function msReviewHTML(){
+  normMedia();
+  const mm=today().slice(0,7),y=today().slice(0,4);
+  const fav=R.music.fav;
+  const month=fav.filter(m=>(m.firstDate||'').startsWith(mm)).length;
+  const year=fav.filter(m=>(m.firstDate||'').startsWith(y)).length;
+  const tags=msTagPool();
+  const picked=msTag?fav.filter(m=>(m.tags||[]).includes(msTag)):[];
+  const lyricCards=fav.filter(m=>m.lyrics).slice().reverse();
+  return `<div class="stat-row">
+    <div class="stat"><div class="v">${month}</div><div class="k">本月新增喜欢</div></div>
+    <div class="stat"><div class="v">${year}</div><div class="k">今年新增</div></div>
+    <div class="stat"><div class="v">${fav.length}</div><div class="k">收藏总数</div></div>
+    <div class="stat"><div class="v">${R.music.loop.length}</div><div class="k">循环中</div></div></div>
+    <div class="card"><h3>🏷 按标签找同场景歌单</h3>
+      <div class="bk-tags" style="margin-bottom:10px">
+        <button class="chip" style="border:none;cursor:pointer;${!msTag?'outline:2px solid var(--pink)':''}" onclick="msTag='';renderMusicTab()">全部</button>
+        ${tags.map(t=>`<button class="chip" style="border:none;cursor:pointer;${msTag===t?'outline:2px solid var(--pink)':''}" onclick="msTag='${esc(t)}';renderMusicTab()">${esc(t)}</button>`).join('')||'<span class="bk-hint">在收藏里给歌打上标签，就能按场景调取合集～</span>'}</div>
+      ${msTag?`<div class="bk-grid">${picked.map(m=>`<div class="bk-card"><div class="bk-title">♪ ${esc(m.title)}</div><div class="bk-meta">${esc(m.artist||'')}</div><div class="bk-meta">💜 ${m.firstDate||''}</div></div>`).join('')||'<div class="bk-empty">这个标签下还没有歌～</div>'}</div>`:'<div class="bk-hint">点上面的标签，快速调取同场景的歌曲合集</div>'}</div>
+    <div class="card"><h3>📝 歌词卡片<span class="tag">${lyricCards.length} 张</span></h3>
+      ${lyricCards.length?`<div class="bk-grid">${lyricCards.map(m=>`<div class="bk-card">
+        <div class="bk-title">♪ ${esc(m.title)}</div>
+        <div class="bk-meta">${esc(m.artist||'')} · 歌词</div>
+        <div class="ex-text">${esc(m.lyrics)}</div>
+        <div class="bk-acts"><button onclick="favLyrics('${m.id}')">📌 收进随想</button></div></div>`).join('')}</div>`:'<div class="bk-empty">在收藏一首歌时填上「喜欢的歌词」，这里就会出现歌词卡片～</div>'}</div>`;
+}
+/* ---------- 导出 / 导入 / 持久存储 ---------- */
+function exportReading(){
+  const payload={app:'Swlandll · 书影音数据',version:1,exportedAt:new Date().toISOString(),data:R};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`Swlandll书影音数据_${today()}.json`;
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),3000);
+  toast('书影音数据已导出 ⬇');
+}
+function importReading(){
+  const inp=document.createElement('input');
+  inp.type='file';inp.accept='application/json,.json';
+  inp.onchange=async()=>{
+    const f=inp.files[0];if(!f)return;
+    try{
+      const parsed=JSON.parse(await f.text());
+      const d=parsed.data||parsed;
+      if(!d||typeof d!=='object')throw new Error('bad');
+      if(!confirm('导入将覆盖当前全部书影音数据（书籍 / 影视 / 音乐 / 摘录 / 阅读记录），继续吗？'))return;
+      R={shelf:{read:[],reading:[],wish:[]},excerpts:[],sessions:[],movies:{watched:[],watching:[],wish:[]},music:{fav:[],loop:[],wish:[]},migrated:true};
+      ['read','reading','wish'].forEach(k=>{
+        if(d.shelf&&Array.isArray(d.shelf[k]))R.shelf[k]=d.shelf[k].filter(x=>x&&x.title).map(x=>Object.assign({id:uid(),source:'本地',createdAt:today()},x,{id:x.id||uid()}));
+      });
+      if(Array.isArray(d.excerpts))R.excerpts=d.excerpts.filter(x=>x&&x.text).map(x=>Object.assign({id:uid(),createdAt:today()},x,{id:x.id||uid()}));
+      if(Array.isArray(d.sessions))R.sessions=d.sessions.filter(x=>x&&x.date).map(x=>Object.assign({id:uid(),minutes:0},x,{id:x.id||uid()}));
+      if(d.movies){['watched','watching','wish'].forEach(k=>{if(Array.isArray(d.movies[k]))R.movies[k]=d.movies[k].filter(x=>x&&x.title).map(x=>Object.assign({id:uid()},x,{id:x.id||uid()}));});}
+      if(d.music){['fav','loop','wish'].forEach(k=>{if(Array.isArray(d.music[k]))R.music[k]=d.music[k].filter(x=>x&&x.title).map(x=>Object.assign({id:uid()},x,{id:x.id||uid()}));});}
+      await rSave();if(page==='movie')renderMovie();else if(page==='music')renderMusic();else renderBook();toast('书影音数据已恢复 ✅');
+    }catch(e){toast('导入失败：文件格式不正确');}
+  };
+  inp.click();
+}
+async function requestPersist(){
+  if(!navigator.storage||!navigator.storage.persist)return toast('当前环境不支持持久存储申请');
+  try{
+    const ok=await navigator.storage.persist();
+    rPersist=ok?'granted':'denied';
+    renderReadState();
+    toast(ok?'已获得持久存储权限 ✅':'申请未通过，建议定期导出 JSON 备份');
+  }catch(e){toast('申请失败，建议定期导出 JSON 备份');}
+}
+
+/* ---------- 启动 ---------- */
+rReady=rInit().catch(()=>{rFallback=true;});
+</script>
+
+<script>
+/* =========================================================
+   备份 & 多端同步：本地优先，云端只是附加能力
+   ========================================================= */
+const LS_READ='swlandll_reading';
+let _syncTimer=null,_applying=false;
+
+function deviceId(){
+  if(!D.deviceId){
+    const kind=/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)?'手机':'电脑';
+    D.deviceId=kind+'·'+uid().slice(-4).toUpperCase();persist();
+  }
+  return D.deviceId;
+}
+function freshR(){return {shelf:{read:[],reading:[],wish:[]},excerpts:[],sessions:[],movies:{watched:[],watching:[],wish:[]},music:{fav:[],loop:[],wish:[]},migrated:true};}
+function dataHash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return (h>>>0).toString(36);}
+function fmtTs(ts){if(!ts)return '—';const d=new Date(ts),p=n=>String(n).padStart(2,'0');
+  return `${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;}
+function countsOf(p){
+  const d=(p&&p.data&&p.data.D)||{},r=(p&&p.data&&p.data.R)||{};
+  const n=a=>Array.isArray(a)?a.length:0;
+  return n(d.diary)+n(d.thoughts)+n(d.review)+n(d.finance&&d.finance.records)+n(d.diet&&d.diet.records)
+    +n(d.todo&&d.todo.todo)+n(d.todo&&d.todo.monthly)+n(d.todo&&d.todo.plan)
+    +n(d.outfit&&d.outfit.daily)+n(d.outfit&&d.outfit.wardrobe)
+    +n(r.excerpts)+n(r.sessions)
+    +n(r.shelf&&r.shelf.read)+n(r.shelf&&r.shelf.reading)+n(r.shelf&&r.shelf.wish)
+    +n(r.movies&&r.movies.watched)+n(r.movies&&r.movies.watching)+n(r.movies&&r.movies.wish)
+    +n(r.music&&r.music.fav)+n(r.music&&r.music.loop)+n(r.music&&r.music.wish);
+}
+function collectImages(){const o={};Object.keys(IMG).forEach(k=>{if(IMG[k])o[k]=IMG[k];});return o;}
+async function putImages(map){
+  for(const k of Object.keys(map||{})){
+    IMG[k]=map[k];
+    if(mdb&&!mFallback){try{await mPutRec({id:k,data:map[k],t:Date.now()});}catch(_){}}
+  }
+}
+/* 打包：不含 API Key、不含同步配置 */
+async function buildPayload(withImages){
+  const cfg=D.sync||{};
+  const dd=JSON.parse(JSON.stringify(D));
+  delete dd.sync;delete dd.ai;delete dd.deviceId;delete dd.updatedAt;
+  const rr=JSON.parse(JSON.stringify(R||freshR()));
+  delete rr.updated;
+  const p={app:'Swlandll',version:2,savedAt:Math.max(D.updatedAt||0,(R&&R.updated)||0),device:deviceId(),data:{D:dd,R:rr}};
+  if(withImages&&cfg.withImages!==false)p.images=collectImages();
+  p.hash=dataHash(JSON.stringify(p.data)+(p.images?Object.keys(p.images).sort().join(','):''));
+  return p;
+}
+function rerender(){
+  try{
+    if(page==='movie')renderMovie();
+    else if(page==='music')renderMusic();
+    else if(page==='book')renderBook();
+    else if(PAGES[page])PAGES[page]();
+  }catch(_){}
+}
+async function applyPayload(p){
+  _applying=true;
+  try{
+    if(p.data&&p.data.D){
+      const next=Object.assign(JSON.parse(JSON.stringify(DEFAULT)),p.data.D);
+      next.sync=D.sync;next.ai=D.ai;next.deviceId=D.deviceId;
+      next.updatedAt=p.savedAt||Date.now();
+      D=next;persist();
+    }
+    if(p.data&&p.data.R){R=Object.assign(freshR(),p.data.R);await rSave();}
+    if(p.images)await putImages(p.images);
+    rerender();
+  }finally{_applying=false;}
+  renderSyncBadge();
+}
+
+/* ---------- 云端通道（可换自建地址） ---------- */
+function withTimeout(p,ms){return Promise.race([p,new Promise((_,rej)=>{setTimeout(()=>rej(new Error('网络超时')),ms||15000);})]);}
+const CLOUD={
+  builtin:{
+    /* 与页面同源的轻量存档接口（server.js 提供），换设备只要打开同一个链接 */
+    url(code){return location.origin+'/api/sync/'+encodeURIComponent(code)+(location.search||'');},
+    async create(payload){
+      const code=genCode();
+      await this.put(code,payload);
+      return code;
+    },
+    async put(code,payload){
+      const r=await withTimeout(fetch(this.url(code),
+        {method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}));
+      if(!r.ok)throw new Error(r.status===404?'当前地址没有同步接口':'上传失败 '+r.status);
+    },
+    async get(code){
+      const r=await withTimeout(fetch(this.url(code),{cache:'no-store'}));
+      if(r.status===404)return null;
+      if(!r.ok)throw new Error('读取失败 '+r.status);
+      const t=(await r.text()).trim();return t?JSON.parse(t):null;
+    }
+  },
+  custom:{
+    url(code){
+      const base=(D.sync.endpoint||'').trim();
+      if(!base)throw new Error('先填自建地址');
+      return base.indexOf('{code}')>=0?base.replace('{code}',encodeURIComponent(code)):base;
+    },
+    async create(){throw new Error('自建地址需要自己填存档码');},
+    async put(code,payload){
+      const r=await withTimeout(fetch(this.url(code),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}));
+      if(!r.ok)throw new Error('上传失败 '+r.status);
+    },
+    async get(code){
+      const r=await withTimeout(fetch(this.url(code),{cache:'no-store'}));
+      if(r.status===404)return null;
+      if(!r.ok)throw new Error('读取失败 '+r.status);
+      const t=(await r.text()).trim();return t?JSON.parse(t):null;
+    }
+  }
+};
+function syncProv(){return (D.sync&&D.sync.provider==='custom')?CLOUD.custom:CLOUD.builtin;}
+function genCode(){const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<8;i++)s+=A[Math.floor(Math.random()*A.length)];return s;}
+
+/* ---------- 同步动作 ---------- */
+function scheduleSync(){
+  if(_applying)return;
+  const c=D.sync||{};
+  if(!c.auto||!c.code)return;
+  clearTimeout(_syncTimer);
+  _syncTimer=setTimeout(()=>{cloudPush(true);},2500);
+}
+async function syncBoot(){
+  deviceId();renderSyncBadge();
+  const c=D.sync||{};
+  if(!c.code)return;
+  try{
+    const remote=await syncProv().get(c.code);
+    if(!remote||!remote.data)return;
+    const local=await buildPayload(true);
+    if(remote.hash&&remote.hash!==local.hash){
+      c.pendingRemote=1;persist();renderSyncBadge();
+      toast('☁️ 云端有一份不一样的数据，点「💾 备份 / 同步」可拉取或合并');
+    }
+  }catch(_){}
+}
+async function cloudCreate(){
+  syncSaveFields();
+  if(!confirm('会生成一个 8 位「存档码」，在手机 / 电脑上填同一个码就能互通。现在创建并上传？'))return;
+  toast('正在创建云端存档…');
+  try{
+    const p=await buildPayload(true);
+    const code=await syncProv().create(p);
+    D.sync.code=code;D.sync.lastAt=Date.now();D.sync.pendingRemote=0;persist();
+    if(document.getElementById('syncCode'))openBackup();
+    renderSyncBadge();
+    toast('存档码已生成：'+code+'（建议截图保存）');
+  }catch(e){toast('创建失败：'+syncErrText(e));}
+}
+function syncErrText(e){
+  const msg=(e&&e.message)||'未知错误';
+  if(D.sync.provider!=='custom'&&/404|没有同步接口/.test(msg))
+    return '当前地址不支持云端同步（把文件上传到纯静态空间时会出现）。可以改用「自建地址」，或者直接用备份文件在设备间搬。';
+  return msg+'；本地记录不受影响';
+}
+async function cloudPush(silent){
+  syncSaveFields();
+  const c=D.sync||{};
+  if(!c.code){if(!silent)toast('先创建或填写存档码');return 0;}
+  try{
+    const p=await buildPayload(true);
+    await syncProv().put(c.code,p);
+    c.lastAt=Date.now();c.pendingRemote=0;persist();renderSyncBadge();
+    if(!silent)toast('已上传到云端 ✅');
+    if(document.getElementById('syncInfo'))openBackup();
+    return 1;
+  }catch(e){
+    if(!silent)toast('上传失败：'+syncErrText(e));
+    return 0;
+  }
+}
+async function cloudPull(){
+  syncSaveFields();
+  const c=D.sync||{};
+  if(!c.code)return toast('先创建或填写存档码');
+  toast('正在读取云端…');
+  try{
+    const remote=await syncProv().get(c.code);
+    if(!remote||!remote.data)return toast('云端还没有数据，先点「上传到云端」');
+    const local=await buildPayload(true);
+    if(remote.hash&&remote.hash===local.hash){
+      c.lastAt=Date.now();persist();renderSyncBadge();
+      return toast('本机和云端已经一致 ✅');
+    }
+    /* 本机还是空的（新设备）→ 直接接收云端，不必问 */
+    if(countsOf(local)===0&&countsOf(remote)>0){
+      await applyPayload(remote);
+      c.lastAt=Date.now();persist();renderSyncBadge();
+      if(document.getElementById('syncInfo'))openBackup();
+      return toast('已从云端恢复 ' + countsOf(remote) + ' 条记录 ✅');
+    }
+    openConflict(local,remote);
+  }catch(e){toast('拉取失败：'+syncErrText(e));}
+}
+function openConflict(local,remote){
+  const box=document.getElementById('mask');
+  window._conflict={local,remote};
+  box.innerHTML=`<div class="modal"><h3>⚠️ 发现两份不同的数据</h3>
+    <div class="mbody">
+      <div class="aihelp">本机和云端的记录不一样，选一份为准，或者合并（同一条记录用较新的那份，不会整份覆盖）。</div>
+      <div class="cmpbox">
+        <div><b>💻 本机</b>${fmtTs(local.savedAt)}<br>约 ${countsOf(local)} 条记录<br>设备 ${esc(local.device||'')}</div>
+        <div><b>☁️ 云端</b>${fmtTs(remote.savedAt)}<br>约 ${countsOf(remote)} 条记录<br>设备 ${esc(remote.device||'')}</div>
+      </div>
+      <div class="syncnote">建议：平时只用一台设备记录就选「合并」；确定另一边的数据不要了，再选覆盖。</div>
+    </div>
+    <div class="mactions" style="flex-wrap:wrap">
+      <button class="btn ghost" onclick="resolveConflict('local')">本机覆盖云端</button>
+      <button class="btn ghost" onclick="resolveConflict('merge')">合并两份</button>
+      <button class="btn" onclick="resolveConflict('remote')">云端覆盖本机</button>
+    </div></div>`;
+  box.classList.add('show');
+  box.onclick=e=>{if(e.target===box)closeModal();};
+}
+async function resolveConflict(kind){
+  const {local,remote}=window._conflict||{};
+  closeModal();
+  if(!local||!remote)return;
+  if(kind==='remote'){
+    await applyPayload(remote);toast('已用云端数据覆盖本机 ✅');
+  }else if(kind==='local'){
+    await cloudPush();toast('已用本机数据覆盖云端 ✅');
+  }else{
+    const merged=mergePayload(local,remote);
+    await applyPayload(merged);
+    await cloudPush(true);
+    toast('两份已合并 ✅');
+  }
+}
+function deepMerge(a,b){
+  if(Array.isArray(a)&&Array.isArray(b)){
+    const hasId=x=>x&&typeof x==='object'&&x.id;
+    const m=new Map();
+    if(a.every(hasId)&&b.every(hasId)){a.forEach(x=>m.set(x.id,x));b.forEach(x=>m.set(x.id,x));return [...m.values()];}
+    a.concat(b).forEach(x=>m.set(JSON.stringify(x),x));return [...m.values()];
+  }
+  if(a&&b&&typeof a==='object'&&typeof b==='object'&&!Array.isArray(a)){
+    const o=Object.assign({},a);
+    Object.keys(b).forEach(k=>{o[k]=(k in a)?deepMerge(a[k],b[k]):b[k];});
+    return o;
+  }
+  return b===undefined?a:b;
+}
+function mergePayload(a,b){
+  const newer=(b.savedAt||0)>=(a.savedAt||0)?b:a,older=(newer===b)?a:b;
+  return {app:'Swlandll',version:2,device:newer.device||deviceId(),savedAt:Date.now(),
+    data:{D:deepMerge(older.data.D||{},newer.data.D||{}),R:deepMerge(older.data.R||{},newer.data.R||{})},
+    images:Object.assign({},older.images||{},newer.images||{}),hash:''};
+}
+
+/* ---------- 全量备份 ---------- */
+async function exportAll(){
+  try{
+    const p=await buildPayload(true);p.kind='backup';
+    const txt=JSON.stringify(p);
+    const blob=new Blob([txt],{type:'application/json'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download=`Swlandll全量备份_${today()}_${nowTime().replace(':','')}.json`;
+    document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+    toast(`已导出 ${Math.max(1,Math.round(txt.length/1024))} KB ⬇`);
+  }catch(e){toast('导出失败：'+e.message);}
+}
+function importAll(){
+  const inp=document.createElement('input');
+  inp.type='file';inp.accept='application/json,.json';
+  inp.onchange=async()=>{
+    const f=inp.files[0];if(!f)return;
+    try{
+      const p=JSON.parse(await f.text());
+      const payload=(p.data&&(p.data.D||p.data.R))?p:(p.shelf?{data:{R:p}}:null);
+      if(!payload)throw new Error('不是 Swlandll 的备份文件');
+      const imgs=payload.images?Object.keys(payload.images).length:0;
+      if(!confirm(`将用这份备份覆盖本机数据（约 ${countsOf(payload)} 条记录${imgs?'，'+imgs+' 张图片':''}）。\n如果本机已有重要记录，建议先导出一次再导入。继续？`))return;
+      await applyPayload(payload);
+      toast('数据已恢复 ✅');
+      if(document.getElementById('syncInfo'))openBackup();
+    }catch(e){toast('导入失败：'+(e.message==='不是 Swlandll 的备份文件'?e.message:'文件格式不正确'));}
+  };
+  inp.click();
+}
+
+/* ---------- 面板 ---------- */
+function syncSaveFields(){
+  const c=D.sync;if(!c)return;
+  const code=document.getElementById('syncCode');
+  const end=document.getElementById('syncEnd');
+  const auto=document.getElementById('syncAuto');
+  const img=document.getElementById('syncImg');
+  let dirty=false;
+  if(code&&code.value.trim()!==(c.code||'')){c.code=code.value.trim();dirty=true;}
+  if(end&&end.value.trim()!==(c.endpoint||'')){c.endpoint=end.value.trim();dirty=true;}
+  if(auto&&auto.checked!==!!c.auto){c.auto=auto.checked;dirty=true;}
+  if(img&&img.checked!==(c.withImages!==false)){c.withImages=img.checked;dirty=true;}
+  if(dirty)persist();
+}
+function syncSetProvider(v){syncSaveFields();D.sync.provider=v;persist();openBackup();}
+function syncSetAuto(v){D.sync.auto=v;persist();toast(v?'已开启：每次保存后自动上传 ☁️':'已关闭自动上传');}
+function syncSetImg(v){D.sync.withImages=v;persist();}
+function renderSyncBadge(){
+  const b=document.getElementById('cornerBackup');if(!b)return;
+  const on=!!(D.sync&&D.sync.code);
+  b.classList.toggle('off',!on);
+  b.innerHTML=(on?'☁️':'💾')+' 备份 / 同步<i></i>';
+}
+function openBackup(){
+  const c=D.sync||{};
+  const imgs=Object.keys(IMG).length;
+  const el=document.getElementById('mask');
+  el.innerHTML=`<div class="modal"><h3>💾 备份 & 多端同步</h3>
+  <div class="mbody">
+    <div class="aihelp">本机存档 <b id="syncInfo">约 ${countsOf({data:{D,R}})} 条记录 · ${imgs} 张图片</b><br>
+      上次保存 <span id="saveHint">${fmtTs(D.updatedAt)}</span> · 设备 ${esc(deviceId())}</div>
+    <div class="syncnote">⚠️ 本地存储是兜底：清理浏览器缓存、换浏览器、换设备都会读不到。建议每周导出一次备份，或开启下面的云端同步。</div>
+    <div class="syncrow">
+      <button class="btn" onclick="exportAll()">⬇ 导出全部备份</button>
+      <button class="btn ghost" onclick="importAll()">⬆ 导入备份恢复</button></div>
+    <div class="syncbox">
+      <b style="font-size:12px;color:#8E7F84">☁️ 云端存档（可选，失败也不影响本地）</b>
+      <div class="syncrow">
+        <input id="syncCode" value="${esc(c.code||'')}" placeholder="云端存档码">
+        <button class="btn mini" onclick="cloudCreate()">创建存档码</button></div>
+      <div class="syncrow">
+        <button class="btn mini" onclick="cloudPush()">☁️ 上传到云端</button>
+        <button class="btn mini ghost" onclick="cloudPull()">⬇ 从云端拉取</button>
+        <span style="font-size:10.5px;color:var(--sub)">上次同步 ${c.lastAt?fmtTs(c.lastAt):'从未'}</span></div>
+      <div class="syncrow">
+        <select id="syncProv" onchange="syncSetProvider(this.value)">
+          <option value="builtin" ${c.provider!=='custom'?'selected':''}>本链接内置同步</option>
+          <option value="custom" ${c.provider==='custom'?'selected':''}>自建地址（进阶）</option>
+        </select>
+        ${c.provider==='custom'?`<input id="syncEnd" value="${esc(c.endpoint||'')}" placeholder="https://你的地址/api/sync/{code}">`:''}
+      </div>
+      <label style="display:flex;gap:8px;align-items:center;font-size:11.5px;color:var(--sub)">
+        <input type="checkbox" id="syncAuto" style="width:16px;height:16px" ${c.auto?'checked':''} onchange="syncSetAuto(this.checked)"> 保存后自动上传（只推云端，不会覆盖本机）</label>
+      <label style="display:flex;gap:8px;align-items:center;font-size:11.5px;color:var(--sub)">
+        <input type="checkbox" id="syncImg" style="width:16px;height:16px" ${c.withImages!==false?'checked':''} onchange="syncSetImg(this.checked)"> 同步时带上图片（体积稍大）</label>
+      <div class="syncnote" style="background:var(--mint-soft);color:#7E9C8C">换设备：在新设备打开同一个链接 → 填同一个存档码 → 点「从云端拉取」。两边都改过会弹窗让你选用哪一份或合并。</div>
+    </div>
+  </div>
+  <div class="mactions"><button class="btn ghost" onclick="closeModal()">关闭</button></div></div>`;
+  el.classList.add('show');
+  el.onclick=e=>{if(e.target===el)closeModal();};
+  el.querySelectorAll('input,select').forEach(i=>i.addEventListener('change',syncSaveFields));
+}
+
+/* ---------- PWA：manifest 内联 + 桌面图标 + Service Worker ---------- */
+function iconDataURL(){
+  try{
+    const s=256,c=document.createElement('canvas');c.width=c.height=s;
+    const x=c.getContext('2d');
+    if(!x)return '';
+    const g=x.createLinearGradient(0,0,s,s);g.addColorStop(0,'#FBE3EA');g.addColorStop(1,'#F0EAFB');
+    x.fillStyle=g;
+    const r=56;
+    x.beginPath();
+    x.moveTo(r,0);x.lineTo(s-r,0);x.quadraticCurveTo(s,0,s,r);x.lineTo(s,s-r);
+    x.quadraticCurveTo(s,s,s-r,s);x.lineTo(r,s);x.quadraticCurveTo(0,s,0,s-r);
+    x.lineTo(0,r);x.quadraticCurveTo(0,0,r,0);x.fill();
+    x.fillStyle='#E58BA0';
+    x.font='bold 132px "PingFang SC",sans-serif';x.textAlign='center';x.textBaseline='middle';
+    x.fillText('S',s/2,s/2+8);
+    return c.toDataURL('image/png');
+  }catch(_){return '';}
+}
+async function bootPWA(){
+  const icon=iconDataURL();
+  if(icon){
+    const ai=document.createElement('link');ai.rel='apple-touch-icon';ai.href=icon;document.head.appendChild(ai);
+  }
+  /* 同目录有 manifest.json 就用它；只有单个 HTML 时自动内联一份，仍可添加到桌面 */
+  let hasFile=false;
+  try{const r=await fetch('manifest.json',{method:'GET',cache:'no-store'});hasFile=!!r.ok;}catch(_){hasFile=false;}
+  if(!hasFile){
+    const old=document.querySelector('link[rel="manifest"]');
+    if(old)old.remove();
+    const mf={
+      name:'Swlandll · 生活工作台',short_name:'Swlandll',description:'本地优先的生活工作台',
+      start_url:location.href.split('#')[0],scope:location.href.replace(/[^/]*$/,''),
+      display:'standalone',background_color:'#FDF6F1',theme_color:'#FDF6F1',lang:'zh-CN',
+      icons:icon?[{src:icon,sizes:'256x256',type:'image/png',purpose:'any'}]:[]
+    };
+    const link=document.createElement('link');
+    link.rel='manifest';
+    link.href='data:application/manifest+json;charset=utf-8,'+encodeURIComponent(JSON.stringify(mf));
+    document.head.appendChild(link);
+  }
+  if('serviceWorker' in navigator&&location.protocol.startsWith('http')){
+    /* 带上分享参数，托管平台要求每个请求都携带它 */
+    navigator.serviceWorker.register('sw.js'+(location.search||''),{scope:'./'}).catch(()=>{});
+  }
+}
+
+/* ---------- 启动 ---------- */
+renderSyncBadge();
+bootPWA();
+setTimeout(()=>{syncBoot();},1200);
+</script>
+</body>
+</html>
