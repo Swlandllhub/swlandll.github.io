@@ -136,6 +136,19 @@ main{flex:1;padding:26px 30px 90px;max-width:1080px}
 .habits{display:flex;flex-wrap:wrap;gap:10px}
 .habit{display:flex;align-items:center;gap:8px;background:#FFFDFC;border:1.5px solid var(--line);border-radius:999px;padding:7px 14px;font-size:12.5px;cursor:pointer}
 .habit.on{background:var(--mint-soft);border-color:var(--mint)}
+/* 打卡条目：删除按钮 + 长按反馈 */
+.habits .habit{padding:6px 7px 6px 13px;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transition:transform .15s,background .15s}
+.hb-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
+.hb-del{width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;line-height:1;color:#D8C3C9;background:#FBF1F3;flex-shrink:0;padding:0 0 1px;opacity:.9;transition:.15s}
+.hb-del:hover{background:var(--pink);color:#fff;transform:scale(1.12)}
+.habit.longpress{transform:scale(.94);background:var(--lav-soft)}
+/* 删除确认弹窗 */
+#habitDelMask .modal{max-width:320px;text-align:center}
+#habitDelMask .hd-emoji{font-size:30px;line-height:1.3;margin-bottom:4px}
+#habitDelMask .hd-name{font-size:12.5px;color:#8E7F84;background:var(--pink-soft);border-radius:12px;padding:7px 12px;margin:2px 0 6px;word-break:break-word}
+#habitDelMask .hd-tip{font-size:11px;color:var(--sub);line-height:1.7}
+#habitDelMask .mactions{justify-content:center;margin-top:14px}
+.btn.warn{background:linear-gradient(135deg,#F0A3A3,#E88C8C);box-shadow:0 4px 10px rgba(230,150,150,.4)}
 /* float cmd */
 .fab{position:fixed;right:26px;bottom:26px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--lav));color:#fff;font-size:22px;box-shadow:0 8px 20px rgba(220,150,180,.45);display:flex;align-items:center;justify-content:center;z-index:50;transition:.2s}
 .fab:hover{transform:scale(1.08) rotate(8deg)}
@@ -422,8 +435,9 @@ function readImg(input,cb){
 function byMode(list,mod){return D.modes[mod]==='daily'?list.filter(x=>x.date===today()):list;}
 
 /* ================= 首页 · 每日内容卡片（5 类轮换，每天一类，全本地） =================
-   A 书摘小众短句 / B 温和冷知识 / C 小众影片 / D 小众音乐 / E 小众诗词
-   每天由日期确定性抽出「一类 + 一条」，当天固定；手动刷新随机换，状态存本地。 */
+   A 文学句子 / B 冷知识 / C 影片 / D 音乐 / E 古典诗词
+   素材全部写死在本文件内，不联网、离线可用；每天按日期确定一条，手动可换。
+   防重复：记录最近 3 条已展示过的内容，刷新时优先避开。 */
 const DAILY_TYPES=[
  ['A','📖 今日书摘'],['B','💡 今日冷知识'],['C','🎬 今日影片推荐'],['D','🎵 今日音乐推荐'],['E','🏮 今日小众诗词']
 ];
@@ -431,22 +445,81 @@ const DAILY_POOL={
 A:[
  ['梨花的瓣子是月亮做的。','The petals of a pear blossom are cut from the moon.','汪曾祺《人间草木》'],
  ['世界就在手边，躺倒就是睡眠。','The world sits within arm\'s reach; to lie down is to sleep.','李娟《我的阿勒泰》'],
- ['岁月不饶人，我亦未曾饶过岁月。','The years spare no one — and I have never spared them either.','木心'],
- ['下雨天最好的事，是把窗户留一条缝，让潮气替房间洗个澡。','The best thing about rain: leave the window open a crack, and let the damp air give your room a bath.','佚名 · 随笔'],
- ['傍晚的光是免费的，却比很多东西都贵重。','Evening light costs nothing, yet it is worth more than many things money can buy.','佚名 · 随笔'],
- ['把袜子晒在向阳的地方，心情也会跟着变得干燥蓬松。','Dry your socks where the sun falls, and your mood will fluff up right along with them.','佚名 · 随笔'],
- ['煮饭的时候别看手机，米汤咕嘟咕嘟的声音值得一整首歌。','When the rice is cooking, put the phone down — the bubbling of the pot deserves a whole song.','佚名 · 随笔'],
- ['草稿纸的背面，适合藏一个还不打算说出口的愿望。','The back of a rough sheet is a fine hiding place for a wish you are not ready to say out loud.','佚名 · 随笔'],
+ ['岁月不饶人，我亦未曾饶过岁月。','The years spare no one — and I have never spared them either.','木心《素履之往》'],
+ ['人是为了活着本身而活着，而不是为了活着之外的任何事物而活着。','A person lives for living itself, not for anything that lies beyond living.','余华《活着》'],
+ ['我不再装模作样地拥有很多朋友，而是回到了孤单之中，以真正的我开始了独自的生活。','I stopped pretending to have many friends and went back to being alone, starting a solitary life as my real self.','余华《在细雨中呼喊》'],
+ ['事情都是被逼出来的，人只有被逼上绝路了，才会有办法。','Things are forced into being; only when a person is backed into a corner does he find a way.','余华《许三观卖血记》'],
+ ['世界上的事情，最忌讳的就是个十全十美。','In this world, the one thing to be avoided above all is perfection.','莫言《檀香刑》'],
+ ['八月深秋，无边无际的高粱红成汪洋的血海。','In deep August the endless sorghum turned red, a vast ocean of blood.','莫言《红高粱家族》'],
+ ['暴风雨结束后，你不会记得自己是怎样活下来的，但有一件事是确定的：当你穿过了暴风雨，你就不再是原来那个人。','When the storm is over you will not remember how you survived — but one thing is certain: you are no longer the person who walked into it.','村上春树《海边的卡夫卡》'],
+ ['死并非生的对立面，而作为生的一部分永存。','Death is not the opposite of life, but a part of it that goes on living.','村上春树《挪威的森林》'],
+ ['你要做一个不动声色的大人了。不许情绪化，不许偷偷想念，不许回头看。','It is time to be a grown-up who keeps a still face: no tantrums, no secret missing, no looking back.','村上春树《舞！舞！舞！》'],
+ ['穿过县界长长的隧道，便是雪国。夜空下一片白茫茫。','Through the long tunnel at the border lies the snow country; beneath the night sky all is a pale white.','川端康成《雪国》'],
+ ['山路变得弯弯曲曲，快到天城岭了。这时，骤雨白亮亮地笼罩着茂密的杉林。','The road grew winding as I neared Amagi Pass; a sudden rain came down bright and white over the dense cedar woods.','川端康成《伊豆的舞女》'],
+ ['美的东西，对我来说，是怨敌。','For me, anything beautiful is an enemy.','三岛由纪夫《金阁寺》'],
+ ['一天早晨，格里高尔·萨姆沙从不安的睡梦中醒来，发现自己躺在床上变成了一只巨大的甲虫。','One morning Gregor Samsa woke from uneasy dreams to find himself transformed in his bed into a monstrous insect.','卡夫卡《变形记》'],
+ ['巴尔扎克的手杖上刻着：我在粉碎一切障碍；我的手杖上刻着：一切障碍都在粉碎我。','On Balzac\'s walking stick: I crush every obstacle. On mine: every obstacle crushes me.','卡夫卡《谈话录》'],
+ ['真正的发现之旅不在于寻找新的风景，而在于拥有新的眼光。','The real voyage of discovery consists not in seeking new landscapes but in having new eyes.','普鲁斯特《追忆似水年华》'],
+ ['当一个人不能拥有的时候，他唯一能做的便是不要忘记。','When one cannot have something, the only thing left is not to forget it.','普鲁斯特《追忆似水年华》'],
+ ['唯一真实的乐园是人们失去的乐园。','The only true paradise is the one we have lost.','普鲁斯特《追忆似水年华》'],
+ ['今天，妈妈死了。也许是昨天，我不知道。','Today Mother died. Or maybe yesterday; I don\'t know.','加缪《局外人》'],
+ ['必须想象西西弗是幸福的。','One must imagine Sisyphus happy.','加缪《西西弗神话》'],
+ ['在人的身上，值得赞赏的东西总多于值得蔑视的东西。','There is more in people to admire than to despise.','加缪《鼠疫》'],
+ ['知识可以传授，智慧却不能。','Knowledge can be communicated, but not wisdom.','黑塞《悉达多》'],
+ ['鸟从蛋里挣脱出来。蛋是世界。谁要想诞生，就必须先摧毁一个世界。','The bird fights its way out of the egg. The egg is the world. Whoever would be born must first destroy a world.','黑塞《德米安》'],
+ ['人可以被毁灭，但不能被打败。','A man can be destroyed but not defeated.','海明威《老人与海》'],
+ ['假如你年轻时在巴黎生活过，那么此后无论你到哪里，巴黎都将与你同在，因为它是一席流动的盛宴。','If you were lucky enough to live in Paris as a young man, then wherever you go afterwards it stays with you, for Paris is a moveable feast.','海明威《流动的盛宴》'],
+ ['你们都是迷惘的一代。','You are all a lost generation.','海明威《太阳照常升起》'],
+ ['死是一件不必急于求成的事，死是一个必然会降临的节日。','Death is not something to be hurried; it is a festival that will surely come.','史铁生《我与地坛》'],
+ ['一个人，出生了，这就不再是一个可以辩论的问题，而只是上帝交给他的一个事实。','Once a person is born, it is no longer a question for argument but simply a fact handed to him.','史铁生《我与地坛》'],
+ ['上天叫我看见，叫我听见，叫我置身其中，又叫我超然物外。','Heaven lets me see, lets me hear, sets me inside it all, and keeps me outside it too.','阿来《尘埃落定》'],
+ ['多年以后，面对行刑队，奥雷里亚诺·布恩迪亚上校将会回想起父亲带他去见识冰块的那个遥远的下午。','Many years later, as he faced the firing squad, Colonel Aureliano Buendía was to remember that distant afternoon when his father took him to discover ice.','马尔克斯《百年孤独》'],
+ ['我偏爱写诗的荒谬，胜过不写诗的荒谬。','I prefer the absurdity of writing poems to the absurdity of not writing poems.','辛波斯卡《种种可能》'],
+ ['傍晚是一天中最好的时候。','The evening is the best part of the day.','石黑一雄《长日将尽》'],
+ ['有些事我们说无法原谅，或者说永远不原谅自己。可我们还是会原谅——一次又一次。','We say of some things that they can\'t be forgiven, or that we will never forgive ourselves. But we do — we do it all the time.','爱丽丝·门罗《亲爱的生活》'],
+ ['我什么也不是。这天晚上，我只是咖啡店灯光下的一个影子。','I am nothing. This evening I am only a shadow under the cafe lights.','莫迪亚诺《暗店街》'],
+ ['地狱并不是将来才有的；它已经存在了，就在此地，就在我们每天生活的地方。','Hell is not something that comes later; it is already here, in this very place where we live each day.','卡尔维诺《看不见的城市》'],
+ ['我要让你知道我的整个一生，我的一生一直是属于你的，而你却对我一无所知。','I want you to know my whole life; it has always belonged to you, and you know nothing of me.','茨威格《一个陌生女人的来信》'],
+ ['请爱你的问题本身，像爱一间上了锁的房间。','Love your questions themselves, as you would love a locked room.','里尔克《给青年诗人的信》'],
+ ['一个女人如果要写小说，她必须有钱，还有一间自己的房间。','A woman must have money and a room of her own if she is to write fiction.','伍尔夫《一间自己的房间》'],
+ ['最沉重的负担同时也是最强盛的生命力的影像。','The heaviest burden is at the same time the image of the fullest vitality.','昆德拉《不能承受的生命之轻》'],
+ ['从话语中，你很少能学到人性，从沉默中却能。','You rarely learn human nature from speech; from silence you can.','王小波《沉默的大多数》'],
+ ['我是雨和雪的老熟人了，我有九十岁了。','Rain and snow and I are old acquaintances; I am ninety years old now.','迟子建《额尔古纳河右岸》'],
+ ['生如夏花之绚烂，死如秋叶之静美。','Let life be beautiful like summer flowers and death like autumn leaves.','泰戈尔《飞鸟集》'],
+ ['人生如痴人说梦，充满着喧哗与骚动，却没有任何意义。','Life is a tale told by an idiot, full of sound and fury, signifying nothing.','福克纳《喧哗与骚动》'],
+ ['时间永远分岔，通向无数的将来。','Time forks forever into an infinite number of futures.','博尔赫斯《小径分岔的花园》'],
 ],
 B:[
- ['企鹅求婚时，会把一颗捡来的小石头送给心仪的对象；如果对方也叼来一颗，就算定情啦。','When penguins propose, they offer a pebble they picked out themselves. If the other penguin brings one back, they are officially a pair.',''],
- ['海獭睡觉时会手牵着手，免得睡着睡着被海流冲散。','Sea otters hold hands while they nap, so the current will not drift them apart.',''],
- ['树木会通过地下的真菌网络互通消息，哪棵树缺水缺糖，邻居们会悄悄递过去。','Trees message each other through underground fungal networks, quietly passing water and sugar to whichever neighbour is running low.',''],
- ['月亮正以每年约 3.8 厘米的速度悄悄离开地球，大概是手指甲生长的速度。','The Moon is quietly drifting away from Earth at about 3.8 cm a year — roughly the speed your fingernails grow.',''],
- ['猫的鼻子纹路和人的指纹一样，每一只都是独一无二的。','A cat\'s nose print is as unique as a human fingerprint — no two cats are alike.',''],
- ['一朵雪花从云底飘到地面，大约要花一个小时，路上还会慢悠悠地转很多圈。','A snowflake can take about an hour to drift from the cloud to the ground, spinning leisurely the whole way down.',''],
- ['考古学家在古埃及墓穴里发现过三千多年前的蜂蜜，居然还没有变质。','Archaeologists have found honey in ancient Egyptian tombs over three thousand years old — still perfectly good.',''],
- ['香蕉在植物学上其实是一种浆果，而草莓不是。','Botanically speaking, a banana is a berry — and a strawberry is not.',''],
+ ['企鹅求婚时，会把一颗捡来的小石头送给心仪的对象；如果对方也叼来一颗，就算定情啦。','When penguins propose, they offer a pebble they picked out themselves. If the other penguin brings one back, they are officially a pair.','动物行为学'],
+ ['海獭睡觉时会手牵着手，免得睡着睡着被海流冲散。','Sea otters hold hands while they nap, so the current will not drift them apart.','海洋生物学'],
+ ['树木会通过地下的真菌网络互通消息，哪棵树缺水缺糖，邻居们会悄悄递过去。','Trees message each other through underground fungal networks, quietly passing water and sugar to whichever neighbour is running low.','菌根研究'],
+ ['月亮正以每年约 3.8 厘米的速度悄悄离开地球，大概是手指甲生长的速度。','The Moon is quietly drifting away from Earth at about 3.8 cm a year — roughly the speed your fingernails grow.','天文学'],
+ ['猫的鼻子纹路和人的指纹一样，每一只都是独一无二的。','A cat\'s nose print is as unique as a human fingerprint — no two cats are alike.','兽医解剖学'],
+ ['一朵雪花从云底飘到地面，大约要花一个小时，路上还会慢悠悠地转很多圈。','A snowflake can take about an hour to drift from the cloud to the ground, spinning leisurely the whole way down.','气象学'],
+ ['考古学家在古埃及墓穴里发现过三千多年前的蜂蜜，居然还没有变质。','Archaeologists have found honey in ancient Egyptian tombs over three thousand years old — still perfectly good.','考古学'],
+ ['香蕉在植物学上其实是一种浆果，而草莓不是。','Botanically speaking, a banana is a berry — and a strawberry is not.','植物学'],
+ ['章鱼有三颗心脏，血液是蓝色的。','An octopus has three hearts and blue blood.','海洋生物学'],
+ ['长颈鹿的颈椎骨和人一样，只有七块。','A giraffe has exactly seven neck bones — the same number as you.','比较解剖学'],
+ ['一朵普通的积云，重量大约有五百吨，相当于一百头大象浮在天上。','An ordinary cumulus cloud weighs about five hundred tonnes — roughly a hundred elephants floating overhead.','大气物理'],
+ ['金星自转一圈要二百四十多天，比它绕太阳一圈还慢，所以在金星上，一天比一年长。','Venus turns once on its axis in about 243 days — slower than its year, so a day there lasts longer than a year.','行星科学'],
+ ['水熊虫能在真空、强辐射和零下一百多度的环境里活下来，干燥十年泡点水还能醒。','Tardigrades survive vacuum, hard radiation and extreme cold, and can revive after a decade of dryness with a drop of water.','极端微生物学'],
+ ['全球平均每秒发生约四十五次闪电，一天差不多四百万次。','Lightning strikes the Earth about forty-five times a second — some four million times a day.','大气电学'],
+ ['闪电通道的温度可达三万摄氏度，是太阳表面温度的五倍左右。','A lightning channel can reach 30,000 °C — about five times the surface of the Sun.','大气电学'],
+ ['海豚有自己的“名字”：每只海豚都有一套独特的签名口哨，同伴会用它来叫它。','Dolphins have names: each one develops a signature whistle, and pod-mates use it to call them.','海洋声学'],
+ ['出生时人的骨骼大约有三百块，成年后只剩二百零六块，因为有些骨头长在一起了。','A baby is born with about 300 bones; an adult has 206, because some of them fuse together.','人体解剖学'],
+ ['舌头的味觉地图是错的：酸甜苦咸鲜的受体分布在整条舌头上，并没有分区。','The tongue map is a myth: receptors for sweet, sour, bitter, salty and umami are spread across the whole tongue.','感官科学'],
+ ['每个人每天大约分泌一到一点五升唾液，一辈子能装满两个浴缸。','You produce one to one and a half litres of saliva a day — two bathtubs over a lifetime.','生理学'],
+ ['记忆每被回忆一次，就会被重新写一遍，所以同一件事讲得越多，版本越不一样。','Every time a memory is recalled it gets rewritten, so the more often you tell a story, the more it changes.','认知神经科学'],
+ ['咖啡因在体内的半衰期约五小时，下午三点的那杯咖啡，到晚上八点还剩一半。','Caffeine has a half-life of about five hours: half of that 3 p.m. coffee is still with you at 8 p.m.','药理学'],
+ ['一茶匙健康的土壤里，细菌的数量比地球上的人口还多。','A single teaspoon of healthy soil holds more bacteria than there are people on Earth.','土壤微生物学'],
+ ['草莓的“籽”其实长在表面，每一颗都是一枚果实，一颗草莓上能有二百粒。','A strawberry wears its seeds on the outside — each one is a separate fruit, up to two hundred per berry.','植物学'],
+ ['蜂蜜几乎不会变质，因为它的水分太少、酸度太高，细菌根本活不下去。','Honey practically never spoils: too little water, too much acid — bacteria simply cannot survive in it.','食品科学'],
+ ['珠穆朗玛峰每年还在长高约四毫米，印度板块仍在向北挤。','Everest is still rising about four millimetres a year as the Indian plate keeps pushing north.','地质学'],
+ ['大象是少数能通过镜子认出自己的动物之一，和人类、黑猩猩、海豚同列。','Elephants are among the few animals that recognise themselves in a mirror, along with humans, chimps and dolphins.','比较心理学'],
+ ['蝴蝶用脚尝味道，落在叶子上先“踩一踩”，才知道能不能吃。','Butterflies taste with their feet — they land and step on a leaf before deciding it is edible.','昆虫学'],
+ ['雨的气味来自土壤里的放线菌，干旱越久，第一场雨越香。','The smell of rain comes from soil bacteria called actinomycetes — the longer the dry spell, the sweeter the first rain.','微生物学'],
+ ['人类和香蕉共享大约百分之五十的基因，和黑猩猩共享约百分之九十八点八。','Humans share roughly 50% of their genes with a banana, and about 98.8% with a chimpanzee.','基因组学'],
+ ['太阳光从太阳跑到地球，需要八分二十秒，你看到的太阳永远是八分钟前的。','Sunlight takes eight minutes and twenty seconds to reach us, so you only ever see the Sun as it was eight minutes ago.','天文学'],
 ],
 C:[
  ['《海鸥食堂》：赫尔辛基开了一家只做饭团的小食堂，客人们慢悠悠地来，把各自的心事就着饭团咽下去。','In "Kamome Diner," a tiny Helsinki cafe serves nothing but rice balls, and its unhurried customers swallow their little worries along with them.','荻上直子 · 2006'],
@@ -457,6 +530,30 @@ C:[
  ['《四个春天》：镜头里只是导演自己的爸妈——熏腊肠、修屋顶、等燕子回来，却把日子过成了诗。','"Four Springs" simply films the director\'s own parents — curing sausages, fixing the roof, waiting for swallows — and turns everyday life into poetry.','陆庆屹 · 2018'],
  ['《蜂蜜之地》：北马其顿山野里最后一位女养蜂人，她和蜂群、大地的相处安静得能听见风。','"Honeyland" follows the last wild beekeeper in North Macedonia; her quiet life with the bees lets you almost hear the wind.','塔玛拉·科特夫斯卡 · 2019'],
  ['《哪啊哪啊神去村》：都市青年误入深山当伐木工，一百年的树和几百年的村规，慢慢把他变得柔软。','In "Wood Job!," a city kid stumbles into mountain forestry work; century-old trees and village customs slowly soften him up.','矢口史靖 · 2014'],
+ ['《小森林》：从城市逃回东北山村，种田、做饭、听雨，四季一餐一餐地过，安静得能闻见米香。','"Little Forest" returns a city girl to a mountain village: farming, cooking, listening to rain, and letting the seasons pass one meal at a time.','森淳一 · 2014'],
+ ['《比海更深》：一个失败的中年男人，为了看儿子在母亲家里多待了一夜，就着一碗面把一生都翻了出来。','In "After the Storm," a washed-up novelist spends one long night at his mother\'s flat, and over a bowl of noodles his whole life spills out.','是枝裕和 · 2016'],
+ ['《步履不停》：一家人团聚一天，煮玉米、剥毛豆、说起死去的大哥，什么都没发生，什么也都发生了。','"Still Walking" gathers a family for a single day of corn and edamame and talk of the brother who died; nothing happens, and everything does.','是枝裕和 · 2008'],
+ ['《澄沙之味》：一家铜锣烧小店的老板，跟着一位老人学着怎样等一锅豆沙慢慢熬出春天。','In "An," a waffle-shop owner learns from an old woman how to wait for a pot of bean paste to slowly turn into spring.','河濑直美 · 2015'],
+ ['《横道世之介》：一个有点笨拙的男孩，什么都没做成，却成了很多人一生里最好的那一段回忆。','"A Story of Yonosuke" follows a clumsy, unremarkable boy who achieves nothing and becomes the best memory of many people\'s lives.','冲田修一 · 2013'],
+ ['《编舟记》：一群人花十五年编一本国语辞典，为了给一个词写下最准确的定义，吵得很幸福。','"The Great Passage" spends fifteen years making a dictionary; arguing over the most exact definition of a single word turns out to be a happy way to live.','石井裕也 · 2013'],
+ ['《啄木鸟和雨》：一个拍僵尸片的剧组住进山里的小镇，怯生生的年轻人慢慢学会了喊“开机”。','"The Woodsman and the Rain" drops a zombie-movie crew into a mountain town, and a shy young man slowly learns how to shout "action."','冲田修一 · 2011'],
+ ['《南极料理人》：在南极的基地里，八个男人最大的事就是等一顿饭，烤一块面包能开心一整天。','In "The Chef of South Polar," eight men at an Antarctic base live for the next meal; a loaf of fresh bread makes an entire day.','冲田修一 · 2009'],
+ ['《百元之恋》：三十二岁的女人在便利店打工，后来去打拳击，输得很惨，可她终于自己站起来了一次。','In "100 Yen Love," a thirty-two-year-old shop worker takes up boxing, loses badly, and stands up for herself for the first time.','武正晴 · 2014'],
+ ['《夜空总有最大密度的蓝色》：两个在东京打零工的人，在便利店的灯和救护车声里，笨拙地靠近彼此。','"The Tokyo Night Sky Is Always the Densest Shade of Blue" brings two part-timers together, awkwardly, among convenience-store lights and ambulance sirens.','石井裕也 · 2017'],
+ ['《帕特森》：一个巴士司机每天写诗，写关于火柴、关于妻子做的杯子，日子重复却从不空洞。','"Paterson" drives a bus, writes poems about matches and the cups his wife makes, and a repeating life turns out never to be empty.','吉姆·贾木许 · 2016'],
+ ['《咖啡与香烟》：十一段黑白短片，全是两个人坐着抽烟、喝咖啡、说些没头没尾的话。','"Coffee and Cigarettes" is eleven black-and-white vignettes of people sitting, smoking, drinking coffee, and talking about nothing in particular.','吉姆·贾木许 · 2003'],
+ ['《弗兰西丝·哈》：一个总在摔跤的舞者，穷、笨、迟到，却把友谊过得比谁都认真。','"Frances Ha" stumbles through New York — broke, clumsy, always late — and takes friendship more seriously than anyone around her.','诺亚·鲍姆巴赫 · 2012'],
+ ['《初恋这首情歌》：1980 年代的都柏林，男孩为了追女孩组了支乐队，歌写得比人生顺。','"Sing Street" sends a Dublin boy into 1980s bands to impress a girl; the songs come out far smoother than his life.','约翰·卡尼 · 2016'],
+ ['《布鲁克林》：爱尔兰姑娘去了纽约，在异乡的冬天里慢慢长出另一个自己，然后再回家看一眼。','In "Brooklyn," an Irish girl builds another self through a New York winter, then goes home once more to see what she left.','约翰·克劳利 · 2015'],
+ ['《燃烧女子的肖像》：十八世纪的海岛上，一位女画家为不肯配合的小姐画像，两人在琴声里互相看见。','"Portrait of a Lady on Fire" sets a painter before a reluctant sitter on an eighteenth-century island, and they see each other through the sound of a harpsichord.','瑟琳·席安玛 · 2019'],
+ ['《罗马》：一个女佣在 1970 年代的墨西哥城，收拾别人家的地板，也收拾自己塌下来的生活。','"Roma" follows a housekeeper in 1970s Mexico City, cleaning other people\'s floors while her own life collapses around her.','阿方索·卡隆 · 2018'],
+ ['《完美的日子》：一个公厕清洁工，听磁带、拍树影、看天空，把重复的日子过成了一套仪式。','"Perfect Days" follows a public-toilet cleaner who plays cassettes, photographs leaves, looks at the sky, and turns repetition into ritual.','维姆·文德斯 · 2023'],
+ ['《路边野餐》：贵州山路上，一个男人坐着火车和小船找一个没见过的人，时间在镜头里绕了个圈。','"Kaili Blues" drifts a man through Guizhou by train and boat in search of someone he has never met, and time curls back on itself.','毕赣 · 2015'],
+ ['《春江水暖》：富春江边一家人分四季过日子，寿宴、拆迁、游泳，江水一直流。','"Dwelling in the Fuchun Mountains" follows one family through four seasons by the river — birthdays, demolition, swimming — while the water keeps moving.','顾晓刚 · 2019'],
+ ['《天水围的日与夜》：一对母子和一个独居阿姨，在同一栋楼里各过各的，饭却常常一起吃。','"The Way We Are" keeps a mother, her son and a lonely neighbour in the same block, living separate lives but often sharing a meal.','许鞍华 · 2008'],
+ ['《一一》：一个台北家庭从婚礼到葬礼，每个人都在别人的生活里看见自己没走的那条路。','"Yi Yi" moves a Taipei family from a wedding to a funeral, everyone glimpsing in another life the road they did not take.','杨德昌 · 2000'],
+ ['《牯岭街少年杀人事件》：六十年代的台北，一个功课很好的男孩，慢慢被世界推到了那把小刀旁边。','"A Brighter Summer Day" follows a good student in 1960s Taipei, slowly pushed by the world towards the small knife in his hand.','杨德昌 · 1991'],
+ ['《桃姐》：一位老佣人住进养老院，少东家开始学着给她剥橘子、推轮椅、送最后一程。','"A Simple Life" sends an old family servant into a nursing home, and the young master learns to peel her oranges and push her chair.','许鞍华 · 2011'],
 ],
 D:[
  ['《Near Light》：极简钢琴加细碎弦乐，像清晨厨房里飘出的第一缕咖啡香。','"Near Light" layers spare piano over fine strings, like the first smell of coffee drifting from the kitchen at dawn.','Ólafur Arnalds · 冰岛'],
@@ -467,6 +564,28 @@ D:[
  ['《Asleep Among Endives》：透明嗓音浮在吉他上，像睡在一床晒过太阳的被子里。','"Asleep Among Endives" floats a transparent voice over soft guitar, like sleeping in sheets dried in the sun.','青叶市子 · 日本'],
  ['《I Can Almost See You》：氛围吉他一层层漫上来，适合关灯后当睡前的月亮听。','"I Can Almost See You" washes over you in ambient layers — a good moon to fall asleep to, lights off.','Hammock · 美国'],
  ['《Cherry-Coloured Funk》：梦幻流行的老唱片，人声含糊也没关系，好听不需要翻译。','"Cherry-Coloured Funk" is dream-pop from an old record; the vocals blur, and that is fine — lovely needs no translation.','Cocteau Twins · 英国'],
+ ['《Merry Christmas Mr. Lawrence》：一段主题旋律反复堆叠，像雪落在肩上，冷，却让人不想走。','The theme of "Merry Christmas Mr. Lawrence" circles and returns like snow settling on your shoulders — cold, and impossible to walk away from.','坂本龍一 · 日本'],
+ ['《Aqua》：钢琴像水滴落在木地板上，一颗一颗，把整个房间泡软。','"Aqua" lets the piano fall like drops on a wooden floor, one by one, until the whole room softens.','坂本龍一 · 日本'],
+ ['《Summer》：久石让最轻快的一首，像夏天骑车下坡，风把汗都吹干了。','Hisaishi\'s "Summer" is a bicycle ride downhill in July — the wind drying the sweat as you go.','久石让 · 日本'],
+ ['《The Rose》：一把干净的嗓子把一首老歌唱得像刚写完，适合放在很安静的清晨。','"The Rose" sung in a clean, bare voice sounds newly written — best saved for a very quiet morning.','手嶌葵 · 日本'],
+ ['《Nuvole Bianche》：钢琴一路往上走，像云被风推着，最后落在心口上。','"Nuvole Bianche" climbs and climbs like clouds pushed by wind, then settles right on your chest.','Ludovico Einaudi · 意大利'],
+ ['《Comptine d\'un autre été》：手风琴一样的钢琴，轻巧又怅然，是午后发呆的标配。','The piano of "Comptine d\'un autre été" is nimble and wistful at once — standard equipment for an afternoon of staring out the window.','Yann Tiersen · 法国'],
+ ['《On the Nature of Daylight》：弦乐一层层叠上来，像光慢慢铺满地板，适合在很低落的时候听。','"On the Nature of Daylight" piles strings like light spreading across a floor — the right thing to hear on a very low day.','Max Richter · 英国'],
+ ['《Hoppípolla》：钢琴和鼓一点点涨起来，像终于跑上一座小山坡，看见整片海。','"Hoppípolla" swells on piano and drums until you crest a small hill and the whole sea opens up.','Sigur Rós · 冰岛'],
+ ['《Holocene》：木吉他和气声，唱的是很辽阔的孤独，适合一个人开车走长途。','"Holocene" pairs fingerpicked guitar with breathy vocals — a wide, generous loneliness, made for long drives alone.','Bon Iver · 美国'],
+ ['《Pink Moon》：只有一把吉他和一个很轻的声音，短得像一句没说完的话。','"Pink Moon" is one guitar and one very quiet voice, as short as a sentence left unfinished.','Nick Drake · 英国'],
+ ['《Mystery of Love》：竖琴和假声，像夏天傍晚的蝉声，甜得有点不真实。','"Mystery of Love" runs on harp and falsetto like cicadas at dusk in summer — sweet to the point of disbelief.','Sufjan Stevens · 美国'],
+ ['《White Winter Hymnal》：和声一圈一圈转，像小孩子手拉手转圈，转到头晕也不肯停。','"White Winter Hymnal" turns its harmonies in circles like children holding hands, dizzy and unwilling to stop.','Fleet Foxes · 美国'],
+ ['《Your Hand in Mine》：后摇滚最温柔的一首，吉他慢慢亮起来，像天亮。','The gentlest of post-rock: "Your Hand in Mine" lets the guitars brighten slowly, the way a morning does.','Explosions in the Sky · 美国'],
+ ['《秦皇岛》：小号在夜里吹起来的时候，整个北方都安静了。','When the trumpet rises in "Qinhuangdao," the whole north of China goes quiet.','万能青年旅店 · 中国'],
+ ['《爱是昂贵的》：慢得几乎不动的摇滚，把一句“爱是昂贵的”唱成一声叹气。','"Love Is Expensive" moves so slowly it hardly moves at all, turning its one line into a long exhale.','声音玩具 · 中国'],
+ ['《一个短篇》：歌词像一份潦草的调查报告，唱完你才知道写的是自己。','"A Short Story" reads like a carelessly filed report; only when it ends do you realise it was about you.','腰乐队 · 中国'],
+ ['《道山靓仔》：用海丰话唱街头青年，土得很骄傲，好听得很没道理。','"Daoshan Handsome Boy" sings Haifeng dialect street kids — proudly provincial, and lovely for no good reason.','五条人 · 中国'],
+ ['《My Jinji》：梦幻流行的吉他铺开，像夏天傍晚的风，吹得人想谈恋爱。','"My Jinji" spreads dream-pop guitar like an evening breeze in summer, the kind that makes you want to fall in love.','落日飞车 · 中国台湾'],
+ ['《山河水》：几乎没有歌词，古琴、电子、雨声混在一起，像走进一幅旧画。','"Mountains and Rivers" has almost no words: guqin, electronics and rain, like stepping into an old painting.','窦唯 · 中国'],
+ ['《Spiegel im Spiegel》：钢琴一个音一个音地走，小提琴长音托着，像两个人慢慢呼吸。','"Spiegel im Spiegel" walks the piano note by note while the violin holds a long tone — two people breathing slowly together.','Arvo Pärt · 爱沙尼亚'],
+ ['《La valse d\'Amélie》：手风琴转起来，整条街都变成了电影里的蒙马特。','The accordion of "La valse d\'Amélie" starts turning, and the whole street becomes Montmartre in a film.','Yann Tiersen · 法国'],
+ ['《月光の雲海》：钢琴像云在山谷里流动，是《天空之城》里最安静的一段。','"Sea of Clouds under the Moon" lets the piano drift through a valley — the quietest passage in "Castle in the Sky."','久石让 · 日本'],
 ],
 E:[
  ['春日游，杏花吹满头。','A spring day out wandering — apricot blossoms blow and settle all over my hair.','韦庄《思帝乡》'],
@@ -477,22 +596,58 @@ E:[
  ['竹外疏花，香冷入瑶席。','Beyond the bamboo, a few sparse blossoms send their cold fragrance drifting into the jade feast.','姜夔《暗香》'],
  ['花径不曾缘客扫，蓬门今始为君开。','The flowered path was never swept for guests — yet today my humble gate opens just for you.','杜甫《客至》'],
  ['杨柳丝丝弄轻柔，烟缕织成愁。','Willow strands tease their softness in the air; threads of mist weave a gentle sorrow.','王雱《眼儿媚》'],
+ ['落花人独立，微雨燕双飞。','I stand alone among falling petals; a pair of swallows crosses the fine rain.','晏几道《临江仙》'],
+ ['雾失楼台，月迷津渡。','Mist swallows the towers; moonlight blurs the ford.','秦观《踏莎行》'],
+ ['叶上初阳干宿雨，水面清圆，一一风荷举。','Morning sun dries the night rain on the leaves; on the clear round water each lotus lifts in the wind.','周邦彦《苏幕遮》'],
+ ['缺月挂疏桐，漏断人初静。','A waning moon hangs in the sparse paulownia; the water clock has stopped, and the night is finally still.','苏轼《卜算子》'],
+ ['我见青山多妩媚，料青山见我应如是。','I find the green hills lovely; I imagine they find me much the same.','辛弃疾《贺新郎》'],
+ ['小楼一夜听春雨，深巷明朝卖杏花。','All night in the small tower I listened to spring rain; tomorrow morning apricot blossoms will be sold in the alley.','陆游《临安春雨初霁》'],
+ ['桃李春风一杯酒，江湖夜雨十年灯。','One cup of wine among peach and plum in spring wind; ten years of lamplight and night rain on the road.','黄庭坚《寄黄几复》'],
+ ['一川烟草，满城风絮，梅子黄时雨。','A river of grass, a city of drifting catkins, and rain in the season when plums turn yellow.','贺铸《青玉案》'],
+ ['流光容易把人抛，红了樱桃，绿了芭蕉。','Time tosses us aside so easily: the cherries redden, the banana leaves turn green.','蒋捷《一剪梅》'],
+ ['荆溪白石出，天寒红叶稀。','White stones show through the Jing stream; the air is cold and red leaves are few.','王维《山中》'],
+ ['野旷天低树，江清月近人。','The plain is wide, the sky drops below the trees; the river is clear and the moon comes close.','孟浩然《宿建德江》'],
+ ['春潮带雨晚来急，野渡无人舟自横。','Spring tide and rain come fast at dusk; no one at the wild crossing, and the boat lies across the water by itself.','韦应物《滁州西涧》'],
+ ['秋阴不散霜飞晚，留得枯荷听雨声。','Autumn cloud will not clear and the frost comes late; the withered lotus is left to listen to the rain.','李商隐《宿骆氏亭》'],
+ ['鸡声茅店月，人迹板桥霜。','A cock crows, the moon over a thatched inn; footprints on the frosted plank bridge.','温庭筠《商山早行》'],
+ ['碧云天，黄叶地。','Blue clouds in the sky, yellow leaves on the ground.','范仲淹《苏幕遮》'],
+ ['知否，知否，应是绿肥红瘦。','Do you know, do you know — the green should be heavy and the red grown thin.','李清照《如梦令》'],
+ ['一水护田将绿绕，两山排闼送青来。','A stream wraps the fields in green; two hills push open the door and bring the blue inside.','王安石《书湖阴先生壁》'],
+ ['书当快意读易尽，客有可人期不来。','A book that delights you is finished too soon; a guest you would love never turns up.','陈师道《绝句》'],
 ]
 };
 function dayOfYearNum(){return Math.floor((new Date()-new Date(new Date().getFullYear(),0,0))/86400000);}
 function dailyState(){
   D.quotes=D.quotes||{};D.quotes.daily=D.quotes.daily||{};return D.quotes.daily;
 }
-// 当天确定性挑选：日期 → 一类 + 一条（保证同一天固定）
-function dailyPick(){const doy=dayOfYearNum();const t=DAILY_TYPES[doy%DAILY_TYPES.length][0];const pool=DAILY_POOL[t];return {t:t,i:doy%pool.length};}
+/* ---- 防重复：记住最近 3 条展示过的内容 ---- */
+function recentList(){D.quotes=D.quotes||{};D.quotes.recent=D.quotes.recent||[];return D.quotes.recent;}
+function dailyKey(t,item){return t+'|'+String(item&&item[0]||'').slice(0,20);}
+function noteShown(t,item){
+  const key=dailyKey(t,item),r=recentList();
+  if(r[0]===key)return;
+  r.unshift(key);if(r.length>3)r.length=3;
+  save();
+}
+// 当天确定性挑选：日期 → 一类 + 一条（同一天固定），并避开最近 3 条
+function dailyPick(){
+  const doy=dayOfYearNum();
+  const t=DAILY_TYPES[doy%DAILY_TYPES.length][0];
+  const pool=DAILY_POOL[t];
+  const r=recentList();
+  let i=doy%pool.length,tries=0;
+  while(tries<pool.length&&r.indexOf(dailyKey(t,pool[i]))>-1){i=(i+1)%pool.length;tries++;}
+  return {t:t,i:i};
+}
 function currentDaily(){
   const st=dailyState();
-  if(st.date!==today()||!st.t||!DAILY_POOL[st.t]){const p=dailyPick();st.date=today();st.t=p.t;st.i=p.i;save();}
+  if(st.date!==today()||!st.t||!DAILY_POOL[st.t]||!Number.isInteger(+st.i)){const p=dailyPick();st.date=today();st.t=p.t;st.i=p.i;st.ai=null;save();}
   const pool=DAILY_POOL[st.t];return pool[(+st.i||0)%pool.length];
 }
 function dailyLabel(t){const x=DAILY_TYPES.find(x=>x[0]===t);return x?x[1]:'今日推荐';}
 function dailyCardHTML(){
-  const st=dailyState(),d=currentDaily(),total=Object.values(DAILY_POOL).reduce((s,p)=>s+p.length,0);
+  const st=dailyState(),d=currentDaily();
+  noteShown(st.t,d);
   return `<div class="dtag">${dailyLabel(st.t)}</div>
   <div class="cn">🌷 ${esc(d[0])}</div>
   ${d[1]?`<div class="en">${esc(d[1])}</div>`:''}
@@ -501,17 +656,90 @@ function dailyCardHTML(){
     <button class="btn ghost mini" onclick="changeDaily()">换一条 ✨</button>
     <button class="btn ghost mini" onclick="favDaily()">📌 收藏到随想</button>
   </div>
-  <div style="font-size:10.5px;color:#CDB7BF;margin-top:8px">本地内容库 ${total} 条 · 每天自动轮换一类</div>`;
+  <div style="font-size:10.5px;color:#CDB7BF;margin-top:8px">🌿 每日灵感 · 每天自动轮换一类 · 内容持续更新</div>`;
 }
 function renderDailyCard(){const c=document.querySelector('.quote');if(c)c.innerHTML=dailyCardHTML();}
-// 手动刷新：一半概率换类型，一半概率同类换一条；状态存本地，刷新页面不丢失
+// 手动刷新：纯本地随机换一条，避开最近 3 条
 function changeDaily(){
   const st=dailyState();
   let t=(Math.random()<0.5)?DAILY_TYPES[Math.floor(Math.random()*DAILY_TYPES.length)][0]:st.t;
-  const pool=DAILY_POOL[t];
-  let i=Math.floor(Math.random()*pool.length);
-  if(t===st.t&&pool.length>1&&i===(+st.i||0))i=(i+1)%pool.length;
-  st.t=t;st.i=i;save();renderDailyCard();toast('换好啦 ✨');
+  const pool=DAILY_POOL[t],r=recentList();
+  let i=Math.floor(Math.random()*pool.length),tries=0;
+  while(tries<pool.length&&(r.indexOf(dailyKey(t,pool[i]))>-1||(t===st.t&&i===(+st.i||0)))){i=(i+1)%pool.length;tries++;}
+  st.t=t;st.i=i;st.ai=null;save();renderDailyCard();toast('换好啦 ✨');
+}
+/* ---------- AI 实时生成（已关闭：素材全部内置，不联网） ---------- */
+const DAILY_AI_ENABLED=false;
+const DAILY_AI_SPEC={
+ A:{name:'书摘',rule:'一句真实书中的摘句，25～70字，必须出自真实存在的出版物，署名写成「作者《书名》」。严禁出现"佚名""匿名""网络""网友""未知"这类署名，严禁鸡汤口号和网络流行语。作者优先级从高到低：①诺贝尔文学奖得主（莫言、川端康成、加缪、黑塞、马尔克斯、石黑一雄、辛波斯卡、海明威、泰戈尔、艾丽丝·门罗、纪德、福克纳）②日本名家（村上春树、夏目漱石、三岛由纪夫、谷崎润一郎、吉本芭娜娜）③欧洲名家（卡尔维诺、茨威格、里尔克、伍尔夫、普鲁斯特、昆德拉）④中文名家（余华、王小波、汪曾祺、苏童、迟子建、李娟、阿城、格非、毕飞宇）。'},
+ B:{name:'冷知识',rule:'一条真实、反直觉、没有争议的冷知识，30～70字，署名写成「领域 · 来源或机构」，数字必须有依据，不要编造。'},
+ C:{name:'影片',rule:'一部真实存在但冷门的电影（避开院线大片和热门榜单），一句话说清它的气质，30～70字，署名写成「导演 · 年份」。'},
+ D:{name:'音乐',rule:'一首真实存在但冷门的乐曲（避开热歌榜），一句话描述听感，30～70字，署名写成「音乐人 · 国家或年份」。'},
+ E:{name:'诗词',rule:'一段真实存在的中文古典诗词（避开中小学课本里的常见篇目），署名写成「作者《篇名》」，严禁"佚名"、严禁网络伪古风。'}
+};
+let _dailyAIbusy=false;
+function parseDailyJSON(txt){
+  const s=String(txt||'').replace(/```json/gi,'').replace(/```/g,'').trim();
+  const m=s.match(/\{[\s\S]*\}/);
+  if(!m)return null;
+  try{
+    const o=JSON.parse(m[0]);
+    const cn=String(o.cn||o.zh||o.text||'').trim();
+    const en=String(o.en||o.english||'').trim();
+    const by=String(o.by||o.author||o.source||'').trim();
+    if(!cn||!by)return null;
+    if(/佚名|匿名|网络|网友|未知|unknown|anonymous/i.test(by))return null;  // 红线：不接受无出处
+    return [cn,en,by];
+  }catch(e){return null;}
+}
+async function askDailyAI(t){
+  const spec=DAILY_AI_SPEC[t];if(!spec)return null;
+  const sys='你是一位中文内容编辑，为个人生活手账挑选每日一句，品味安静、具体、不煽情。只输出一个 JSON 对象，不要解释，不要 Markdown 代码块。';
+  const user='请生成一条「'+spec.name+'」。\n要求：'+spec.rule+'\n另外给出一句自然、地道的英文翻译（不是直译腔）。\n不要与常见名句重复，也不要推荐已经烂大街的句子。\n输出格式严格为：{"cn":"中文内容","en":"English translation","by":"署名"}';
+  const r=await aiChat([{role:'system',content:sys},{role:'user',content:user}],{max:500});
+  const item=parseDailyJSON(r);
+  if(!item)return null;
+  const pool=DAILY_POOL[t]||[];
+  const lib=(D.quotes&&D.quotes.lib&&D.quotes.lib[t])||[];
+  if(pool.some(x=>x[0]===item[0])||lib.some(x=>x[0]===item[0]))return null;   // 撞了已有的就别换
+  return item;
+}
+/* 生成过的内容进个人内容库：越用越大，理论上没有上限 */
+function addToLib(t,item){
+  D.quotes=D.quotes||{};D.quotes.lib=D.quotes.lib||{};
+  const arr=D.quotes.lib[t]=D.quotes.lib[t]||[];
+  if(!arr.some(x=>x[0]===item[0]))arr.push(item);
+  if(arr.length>120)arr.splice(0,arr.length-120);
+}
+function libCount(){const l=(D.quotes&&D.quotes.lib)||{};return Object.values(l).reduce((s,a)=>s+a.length,0);}
+async function genDailyAI(t,silent){
+  if(!DAILY_AI_ENABLED)return;
+  if(typeof aiOK!=='function'||!aiOK()||_dailyAIbusy)return;
+  _dailyAIbusy=true;
+  try{
+    const item=await askDailyAI(t);
+    if(!item)return;
+    const st=dailyState();
+    if(st.t!==t)return;                          // 期间又换了类型，丢弃这次结果
+    st.ai={t:t,item:item,at:Date.now()};
+    addToLib(t,item);
+    save();
+    renderDailyCard();
+    if(!silent)toast('✨ 新的一条生成好了');
+  }catch(e){
+    console.warn('每日内容 AI 生成失败，已保留本地内容：',e&&e.message);
+  }finally{_dailyAIbusy=false;}
+}
+/* 打开首页时自动补一条：每天一次，静默进行，失败不打扰 */
+let _dailyAIauto=false;
+function maybeAutoDailyAI(){
+  if(!DAILY_AI_ENABLED)return;
+  if(_dailyAIauto)return;
+  if(typeof aiOK!=='function'||!aiOK())return;
+  const st=dailyState();
+  if(st.ai&&st.ai.at)return;                     // 今天已经有一条 AI 生成的了
+  _dailyAIauto=true;
+  setTimeout(()=>{ if(page==='home') genDailyAI(st.t,true); },1500);
 }
 // 一键收藏：写入【随想】模块
 function favDaily(){
@@ -569,7 +797,7 @@ function renderHome(){
   <div class="card clock"><div class="t" id="liveClock"></div><div class="d" id="liveDate"></div></div>
   <div class="card quote">${dailyCardHTML()}</div>
   <div class="card"><h3>✅ 今日打卡</h3>
-    <div class="habits">${habits.map(h=>`<div class="habit ${logs[h.id]?'on':''}" onclick="toggleHabit('${h.id}')">${logs[h.id]?'💚':'🤍'} ${esc(h.name)}</div>`).join('')||'<div class="empty">还没有打卡习惯，添加一个吧～</div>'}</div>
+    <div class="habits">${habits.map(h=>`<div class="habit ${logs[h.id]?'on':''}" data-hid="${h.id}" onclick="habitTap(event,'${h.id}')">${logs[h.id]?'💚':'🤍'} <span class="hb-name">${esc(h.name)}</span><button class="hb-del" onclick="event.stopPropagation();askDelHabit('${h.id}')" title="删除这条打卡" aria-label="删除这条打卡">×</button></div>`).join('')||'<div class="empty">还没有打卡习惯，添加一个吧～</div>'}</div>
     <div class="formrow" style="margin:12px 0 0"><input id="newHabit" placeholder="新增打卡习惯，如：喝够8杯水" style="flex:1;min-width:180px"><button class="btn mini" onclick="addHabit()">＋添加</button>
     <span class="tag">今日完成 ${hDone}/${habits.length}</span></div></div>
   <div class="grid3">
@@ -590,10 +818,80 @@ function renderHome(){
       <button class="btn ghost mini" style="margin-top:8px" onclick="go('diet')">去记录 →</button></div>
   </div>`;
   tickClock();
+  bindHabitLongPress();
+  maybeAutoDailyAI();
 }
 function tickClock(){const el=document.getElementById('liveClock');if(!el)return;const d=new Date();el.textContent=`${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;document.getElementById('liveDate').textContent=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 · ${'日一二三四五六'[d.getDay()]}曜日 · ${['🌙 深夜好梦','🌅 早上好','☀️ 上午好','🍽 中午好','🌤 下午好','🌆 傍晚好','🌃 晚上好'][d.getHours()<6?0:d.getHours()<9?1:d.getHours()<12?2:d.getHours()<14?3:d.getHours()<18?4:d.getHours()<20?5:6]}`;setTimeout(tickClock,1000);}
 function addHabit(){const i=document.getElementById('newHabit');if(!i.value.trim())return;D.checkin.habits.push({id:uid(),name:i.value.trim()});i.value='';save();renderHome();}
 function toggleHabit(id){const k=today();D.checkin.logs[k]=D.checkin.logs[k]||{};D.checkin.logs[k][id]=!D.checkin.logs[k][id];save();renderHome();}
+/* ---- 打卡：点按切换（长按后不触发）+ 长按唤起删除 ---- */
+function habitTap(e,id){
+  const el=e.currentTarget;
+  if(el&&el._lp){el._lp=false;return;}
+  if(e.target.closest('.hb-del'))return;
+  toggleHabit(id);
+}
+function bindHabitLongPress(){
+  document.querySelectorAll('.habit[data-hid]').forEach(el=>{
+    let timer=null,sx=0,sy=0;
+    const cancel=()=>{if(timer){clearTimeout(timer);timer=null;}el.classList.remove('longpress');};
+    const start=(x,y)=>{
+      cancel();sx=x;sy=y;el.classList.add('longpress');
+      timer=setTimeout(()=>{
+        timer=null;el.classList.remove('longpress');el._lp=true;
+        if(navigator.vibrate)try{navigator.vibrate(15);}catch(_){}
+        askDelHabit(el.dataset.hid);
+        setTimeout(()=>{el._lp=false;},900);
+      },550);
+    };
+    if(window.PointerEvent){
+      el.addEventListener('pointerdown',ev=>{
+        if(ev.target.closest('.hb-del'))return;
+        if(ev.pointerType==='mouse'&&ev.button!==0)return;
+        start(ev.clientX,ev.clientY);
+      });
+      el.addEventListener('pointermove',ev=>{if(Math.abs(ev.clientX-sx)>10||Math.abs(ev.clientY-sy)>10)cancel();});
+      el.addEventListener('pointerup',cancel);
+      el.addEventListener('pointercancel',cancel);
+      el.addEventListener('pointerleave',cancel);
+    }else{
+      el.addEventListener('touchstart',ev=>{if(ev.target.closest('.hb-del'))return;const t=ev.touches[0];start(t.clientX,t.clientY);},{passive:true});
+      el.addEventListener('touchmove',ev=>{const t=ev.touches[0];if(!timer||Math.abs(t.clientX-sx)>10||Math.abs(t.clientY-sy)>10)cancel();},{passive:true});
+      el.addEventListener('touchend',cancel);
+      el.addEventListener('touchcancel',cancel);
+    }
+    /* 长按不弹出系统菜单 / 不选中文字 */
+    el.addEventListener('contextmenu',ev=>ev.preventDefault());
+  });
+}
+function askDelHabit(id){
+  const h=(D.checkin.habits||[]).find(x=>x.id===id);
+  if(!h)return;
+  let m=document.getElementById('habitDelMask');
+  if(!m){m=document.createElement('div');m.id='habitDelMask';m.className='mask';document.body.appendChild(m);}
+  m.innerHTML=`<div class="modal">
+    <div class="hd-emoji">🥺</div>
+    <h3 style="margin-bottom:8px">确定删除这条打卡吗？</h3>
+    <div class="hd-name">${esc(h.name)}</div>
+    <div class="hd-tip">删除后，它不再出现在打卡列表里<br>历史打卡记录也会一并清理</div>
+    <div class="mactions">
+      <button class="btn ghost mini" onclick="closeHabitDel()">再想想</button>
+      <button class="btn mini warn" onclick="delHabit('${id}')">删除</button>
+    </div>
+  </div>`;
+  m.classList.add('show');
+  m.onclick=e=>{if(e.target===m)closeHabitDel();};
+}
+function closeHabitDel(){const m=document.getElementById('habitDelMask');if(m)m.classList.remove('show');}
+function delHabit(id){
+  const h=(D.checkin.habits||[]).find(x=>x.id===id);
+  D.checkin.habits=(D.checkin.habits||[]).filter(x=>x.id!==id);
+  Object.keys(D.checkin.logs||{}).forEach(k=>{if(D.checkin.logs[k])delete D.checkin.logs[k][id];});
+  save();
+  closeHabitDel();
+  renderHome();
+  toast('已删除「'+(h?h.name:'')+'」🗑️');
+}
 
 /* ================= 待办 ================= */
 let todoTab='todo',todoDate=today(),todoFilter='all';
